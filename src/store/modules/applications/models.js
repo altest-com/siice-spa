@@ -109,7 +109,7 @@ class ApplicationFilter extends Model {
 
     props = {
         orderBy: {
-            writable: false,
+            writable: true,
             api: 'order_by',
             type: String,
             choices: this.order.map(c => c.value)
@@ -130,12 +130,12 @@ class ApplicationFilter extends Model {
             type: String
         },
         minCreatedAt: {
-            writable: false,
+            writable: true,
             api: 'min_created_at',
             type: Date
         },
         maxCreatedAt: {
-            writable: false,
+            writable: true,
             api: 'max_created_at',
             type: Date
         },

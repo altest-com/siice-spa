@@ -23,6 +23,11 @@ class EvalSectionModel extends Model {
             api: 'id',
             type: Number
         },
+        evaluation: {
+            writable: false,
+            api: 'evaluation',
+            type: Number
+        },
         status: {
             writable: true,
             api: 'status',
@@ -71,6 +76,8 @@ class EvalSectionModel extends Model {
         }
     }
 }
+
+const evalSectionModel = new EvalSectionModel();
 
 class EvaluationModel extends Model {
     TYPE_ORDINARY = 'ordinary'
@@ -164,7 +171,7 @@ class EvaluationFilter extends Model {
 
     props = Object.assign({}, applicationFilter.props, {
         orderBy: {
-            writable: false,
+            writable: true,
             api: 'order_by',
             type: String,
             choices: this.order.map(c => c.value)
@@ -175,12 +182,12 @@ class EvaluationFilter extends Model {
             type: Number
         },
         minScheduledAt: {
-            writable: false,
+            writable: true,
             api: 'min_scheduled_at',
             type: Date
         },
         maxScheduledAt: {
-            writable: false,
+            writable: true,
             api: 'max_scheduled_at',
             type: Date
         }
@@ -191,6 +198,7 @@ const evaluationFilter = new EvaluationFilter();
 
 export {
     EvalSectionModel,
+    evalSectionModel,
     evaluationModel,
     evaluationFilter
 };
