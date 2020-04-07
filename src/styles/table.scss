@@ -1,0 +1,35 @@
+table.items-table {
+    border-collapse: collapse;
+    width: 100%;
+    th, td {
+        text-align: left;
+        border-bottom: 1px solid #ebeef5;
+        padding: 12px 0;
+        min-width: 0;
+        box-sizing: border-box;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+        position: relative;
+        text-align: left;
+    }
+    td {
+        transition: background-color .25s ease;
+    }
+    tr.row:hover {
+        background-color:#f5f7fa;
+        cursor: pointer;
+    }
+    tr.row.focus {
+        background-color:#ecf5ff;
+    }
+    .cell {
+        box-sizing: border-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-break: break-all;
+        line-height: 23px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
