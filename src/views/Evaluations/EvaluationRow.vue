@@ -1,6 +1,6 @@
 <template>
 
-<tr v-if="evaluation" :class="{'focus': focus}" @click="$emit('click')">
+<tr v-if="evaluation && application" :class="{'focus': focus}" @click="$emit('click')">
     <td v-for="header in headers" :key="header">
         <div class="cell">
             {{ rowData[header] }}
@@ -89,7 +89,7 @@ export default {
         },
 
         position() {
-            const positionId = this.evaluation.position;
+            const positionId = this.application.position;
             this.$store.dispatch('positions/getItem', positionId);
             return this.$store.state.positions.items[positionId];
         },
@@ -103,25 +103,25 @@ export default {
         medical() {
             const medicalId = this.evaluation.medical;
             this.$store.dispatch('medicals/getItem', medicalId);
-            return this.$store.state.candidates.items[medicalId];
+            return this.$store.state.medicals.items[medicalId];
         },
 
         polygraphic() {
             const polygraphicId = this.evaluation.polygraphic;
             this.$store.dispatch('polygraphics/getItem', polygraphicId);
-            return this.$store.state.candidates.items[polygraphicId];
+            return this.$store.state.polygraphics.items[polygraphicId];
         },
 
         socioeconomic() {
             const socioeconomicId = this.evaluation.socioeconomic;
             this.$store.dispatch('socioeconomics/getItem', socioeconomicId);
-            return this.$store.state.candidates.items[socioeconomicId];
+            return this.$store.state.socioeconomics.items[socioeconomicId];
         },
 
         psychological() {
             const psychologicalId = this.evaluation.psychological;
             this.$store.dispatch('psychologicals/getItem', psychologicalId);
-            return this.$store.state.candidates.items[psychologicalId];
+            return this.$store.state.psychologicals.items[psychologicalId];
         }
     },
 

@@ -62,9 +62,15 @@ export const constantRoutes = [{
         path: '/evaluations',
         component: Layout,
         children: [{
-            path: 'index',
+            path: ':section',
             name: 'EvaluationsIndex',
-            component: () => import('@/views/Evaluations/index')
+            component: () => import('@/views/Evaluations/index'),
+            props: true
+        }, {
+            path: 'socioeconomics/:evaluationId',
+            name: 'Socioeconomics',
+            component: () => import('@/views/Socioeconomics/index'),
+            props: true
         }]
     }, { 
         /* 404 page must be placed at the end !!! */

@@ -55,6 +55,7 @@ export default {
     .main {
         height: 100%;
         flex: auto;
+        min-width: 0;
         .el-scrollbar {
             height: 100%;
         }

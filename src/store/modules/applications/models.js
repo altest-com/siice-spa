@@ -1,4 +1,4 @@
-import { Model } from '../abstract/models';
+import { Model, yearReader, yearWriter } from '../abstract/models';
 
 class ApplicationModel extends Model {
     STATUS_CREATED = 'created'
@@ -61,6 +61,13 @@ class ApplicationModel extends Model {
             writable: true,
             api: 'document',
             type: String
+        },
+        year: {
+            writable: true,
+            api: 'year',
+            type: Date,
+            reader: yearReader,
+            writer: yearWriter
         },
         createdAt: {
             writable: false,

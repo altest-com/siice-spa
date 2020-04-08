@@ -30,6 +30,7 @@
 
         <el-form-item label="Corporación" prop="corporation">
             <query-select
+                :multiple="false"
                 store="corporations"
                 :value="application.corporation"
                 @change="val => onParamChange({corporation: val})"
@@ -38,6 +39,7 @@
 
         <el-form-item label="Dependencia" prop="dependency">
             <query-select
+                :multiple="false"
                 store="dependencies"
                 :value="application.dependency"
                 @change="val => onParamChange({dependency: val})"
@@ -46,6 +48,7 @@
 
         <el-form-item label="Adscripción" prop="secondment">
             <query-select
+                :multiple="false"
                 store="secondments"
                 :value="application.secondment"
                 @change="val => onParamChange({secondment: val})"
@@ -59,7 +62,7 @@
             ></el-input>
         </el-form-item>
 
-        <el-form-item label="Documento origen" prop="year">
+        <el-form-item label="Año del oficio" prop="year">
             <el-date-picker
                 type="year"
                 :value="application.year"                    
@@ -69,6 +72,7 @@
 
         <el-form-item label="Puesto" prop="position">
             <query-select
+                :multiple="false"
                 store="positions"
                 :value="application.position"
                 @change="val => onParamChange({position: val})"

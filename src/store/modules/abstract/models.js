@@ -33,7 +33,7 @@ class Model {
             const type = prop.type;
             switch (type) {
                 case Number:
-                    val = undefined;
+                    val = null;
                     break;
                 case Date:
                     val = null;
@@ -45,7 +45,7 @@ class Model {
                     val = {};
                     break;
                 case Boolean:
-                    val = undefined;
+                    val = null;
                     break;
                 default:
                     Vue.$log.warn(`Unknown prop type "${type}".`);
@@ -57,6 +57,8 @@ class Model {
 
     apiGet(apiData = {}) {
         const data = {};
+        const model = this.constructor.name;
+
         Object.keys(this.props).forEach(key => {
             const prop = this.props[key];
             if (prop.api) { 
@@ -83,7 +85,8 @@ class Model {
                                     }                                    
                                 });
                             } else {
-                                Vue.$log.warn(`Data for API key ${prop.api} is not an array.`);
+                                Vue.$log.warn(
+                                    `Data for API key ${prop.api} is not an array for model ${model}.`);
                             }                            
                         } else {
                             if (prop.reader) {
@@ -95,7 +98,9 @@ class Model {
                     }
                 } else {
                     if (!prop.optional) {
-                        Vue.$log.warn(`Missed API key ${prop.api} in API data.`);
+                        Vue.$log.warn(
+                            `Missed API key ${prop.api} for model ${model}.`
+                        );
                     }  
                 }
             } else {
@@ -108,6 +113,7 @@ class Model {
 
     apiPost(data = {}, empty = true) {
         const apiData = {};
+
         for (const key in data) {
             const prop = this.props[key];
             if (hasOwnProperty.call(this.props, key) && prop.writable) {
@@ -127,17 +133,19 @@ class Model {
     }
 
     checkChoice(value, prop, key) {
+        const model = this.constructor.name;
+
         if (prop.choices && prop.choices.length) {
             if (prop.many) {
                 for (let i = 0; i < value.length; i++) {
                     if (prop.choices.indexOf(value[i]) === -1) {
-                        Vue.$log.warn(`Value "${value[i]}" for key "${key}" not in choices.`);
+                        Vue.$log.warn(`Value "${value[i]}" for key "${key}" not in choices for model ${model}.`);
                         return false;
                     }                
                 }
             } else {
                 if (prop.choices.indexOf(value) === -1) {
-                    Vue.$log.warn(`Value "${value}" for key "${key}" not in choices.`);
+                    Vue.$log.warn(`Value "${value}" for key "${key}" not in choices for model ${model}.`);
                     return false;
                 }
             }
@@ -178,6 +186,22 @@ const dateWriter = function(date) {
     return isNaN(d) ? date : d.toISOString().substring(0, 10);
 };
 
+const yearReader = function(year) {
+    if (!year) {
+        return year;
+    }
+    const date_ = new Date(`${year}-01-01T00:00:00`);
+    return isNaN(date_) ? year : date_;
+};
+
+const yearWriter = function(date) {
+    if (!date) {
+        return date;
+    }
+    const date_ = new Date(date);
+    return isNaN(date_) ? date_ : date_.getFullYear();
+};
+
 const numberReader = function(val) {
     if (val === null) {
         return undefined;
@@ -191,5 +215,7 @@ export {
     dateWriter,
     timeReader,
     timeWriter,
+    yearReader,
+    yearWriter,
     numberReader 
 };

@@ -33,7 +33,7 @@
                 @change="val => onParamChange({digiEntry: val})"
             >
                 <el-option
-                    v-for="choice in digiscanChoices"
+                    v-for="choice in entryChoices"
                     :key="choice.value"
                     :label="choice.label"
                     :value="choice.value"
@@ -89,6 +89,7 @@
 <script>
 
 import ImageViewUploader from '@/components/ImageViewUploader';
+import { socioeconomicModel } from '@/store/modules/socioeconomics/models';
 
 const rules = {
     digiEntry: [{
@@ -118,6 +119,20 @@ const rules = {
     }]
 };
 
+const entryChoices = Object.keys(
+    socioeconomicModel.DIGI_ENTRY_CHOICES
+).map(value => ({
+    value: value,
+    label: socioeconomicModel.DIGI_ENTRY_CHOICES[value]
+}));
+
+const idTypeChoices = Object.keys(
+    socioeconomicModel.ID_TYPE_CHOICES
+).map(value => ({
+    value: value,
+    label: socioeconomicModel.ID_TYPE_CHOICES[value]
+}));
+
 export default {
     name: 'DigiscanEditor',
 
@@ -136,7 +151,9 @@ export default {
         return {
             loading: false,
             alert: null,
-            rules: rules
+            rules: rules,
+            entryChoices: entryChoices,
+            idTypeChoices: idTypeChoices
         };
     },
 

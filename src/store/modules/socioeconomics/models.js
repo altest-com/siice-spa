@@ -2,21 +2,23 @@ import { Model, dateReader, dateWriter } from '../abstract/models';
 import { evalSectionModel } from '../evaluations/models';
 
 class SocioeconomicModel extends Model {
-    DIGI_ENTRY_EMPTY = 'empty'
+    DIGI_ENTRY_EMPTY = ''
 
     DIGI_ENTRY_CHOICES = {
         [this.DIGI_ENTRY_EMPTY]: 'No definido'
     }
 
+    ID_TYPE_EMPTY = ''
     ID_TYPE_INE = 'ine'
     ID_TYPE_PASSPORT = 'passport'
 
     ID_TYPE_CHOICES = {
+        [this.ID_TYPE_EMPTY]: 'No definido',
         [this.ID_TYPE_INE]: 'INE',
         [this.ID_TYPE_PASSPORT]: 'Pasaporte'
     }
 
-    props = Object.assign({}, evalSectionModel, {
+    props = Object.assign({}, evalSectionModel.props, {
         digiEntry: {
             writable: true,
             api: 'digi_entry',

@@ -19,13 +19,56 @@ const staticRoutes = [{
             icon: 'dashboard'
         }
     }, {
-        route: { name: 'EvaluationsIndex' },
+        route: { 
+            name: 'EvaluationsIndex', 
+            params: { section: 'scheduling' }  
+        },
         key: 'EvaluationsIndex',
         meta: {
             title: 'Evaluaciones',
             icon: 'dashboard'
         }
     }]
+}, {
+    key: 'Socioeconomic',
+    meta: {
+        title: 'Socioeconómico',
+        icon: 'socioeconomic'
+    },
+    route: { 
+        name: 'EvaluationsIndex', 
+        params: { section: 'socioeconomic' }
+    }
+}, {
+    key: 'Medical',
+    meta: {
+        title: 'Médico',
+        icon: 'medical'
+    },
+    route: { 
+        name: 'EvaluationsIndex', 
+        params: { section: 'socioeconomic' }
+    }
+}, {
+    key: 'Psychological',
+    meta: {
+        title: 'Psicológico',
+        icon: 'psychological'
+    },
+    route: { 
+        name: 'EvaluationsIndex', 
+        params: { section: 'socioeconomic' }
+    }
+}, {
+    key: 'Polygraphic',
+    meta: {
+        title: 'Poligráfico',
+        icon: 'polygraphic'
+    },
+    route: { 
+        name: 'EvaluationsIndex', 
+        params: { section: 'socioeconomic' }
+    }
 }];
 
 const state = {

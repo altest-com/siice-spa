@@ -90,6 +90,8 @@
         <application-details
             v-else-if="panel === 'details'"
             :application-id="curApplicationId"
+            @reject="onRejected"
+            @accept="onAccepted"
         ></application-details>
 
         <application-editor
@@ -214,6 +216,22 @@ export default {
                     this.showDeleteDialog = false;
                     this.$store.dispatch('applications/fetchItems');
                 });
+            }
+        },
+
+        onRejected() {
+            if (this.curApplicationId !== null && this.panel === 'details') {
+                this.curApplicationId = null;
+                this.panel = 'search';
+                this.$store.dispatch('applications/fetchItems');
+            }
+        },
+
+        onAccepted() {
+            if (this.curApplicationId !== null && this.panel === 'details') {
+                this.curApplicationId = null;
+                this.panel = 'search';
+                this.$store.dispatch('applications/fetchItems');
             }
         }
     }

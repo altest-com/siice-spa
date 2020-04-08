@@ -34,7 +34,7 @@ export default {
         },
         value: {
             type: null,
-            default: () => []
+            default: () => this.multiple ? [] : null
         },        
         placeholder: {
             type: String,

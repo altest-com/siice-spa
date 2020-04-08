@@ -6,16 +6,11 @@ class EvalSectionModel extends Model {
     STATUS_STARTED = 'started'
     STATUS_FINISHED = 'finished'
 
-    STATUS_CHOICES = [{
-        label: 'Creada',
-        value: 'created'
-    }, {
-        label: 'Iniciada',
-        value: 'started'
-    }, {
-        label: 'Finalizada',
-        value: 'finished'
-    }]
+    STATUS_CHOICES = {
+        created: 'Creada',
+        started: 'Iniciada',
+        finished: 'Finalizada'
+    }
 
     props = {
         id: {
@@ -32,11 +27,11 @@ class EvalSectionModel extends Model {
             writable: true,
             api: 'status',
             type: String,
-            choices: this.STATUS_CHOICES.map(c => c.value)
+            choices: Object.keys(this.STATUS_CHOICES)
         },
         result: {
             writable: true,
-            api: 'type',
+            api: 'result',
             type: String
         },
         passed: {
@@ -84,16 +79,11 @@ class EvaluationModel extends Model {
     TYPE_EXTRA = 'extra'
     TYPE_REPEAT = 'repeat'
 
-    TYPE_CHOICES = [{
-        label: 'Ordinaria',
-        value: 'ordinary'
-    }, {
-        label: 'Extraordinaria',
-        value: 'extra'
-    }, {
-        label: 'Reevaluación',
-        value: 'repeat'
-    }]
+    TYPE_CHOICES = {
+        ordinary: 'Ordinaria',
+        extra: 'Extraordinaria',
+        repeat: 'Reevaluación'
+    }
 
     props = {
         id: {
@@ -105,7 +95,7 @@ class EvaluationModel extends Model {
             writable: true,
             api: 'type',
             type: String,
-            choices: this.TYPE_CHOICES.map(c => c.value)
+            choices: Object.keys(this.TYPE_CHOICES)
         },
         application: {
             writable: true,
@@ -113,27 +103,27 @@ class EvaluationModel extends Model {
             type: Number
         },
         socioeconomic: {
-            writable: true,
+            writable: false,
             api: 'socioeconomic',
             type: Number
         },
         medical: {
-            writable: true,
-            api: 'dependency',
+            writable: false,
+            api: 'medical',
             type: Number
         },
         toxicological: {
-            writable: true,
+            writable: false,
             api: 'toxicological',
             type: Number
         },
         psychological: {
-            writable: true,
+            writable: false,
             api: 'psychological',
             type: Number
         },
         polygraphic: {
-            writable: true,
+            writable: false,
             api: 'polygraphic',
             type: Number
         },
@@ -179,7 +169,8 @@ class EvaluationFilter extends Model {
         type: {
             writable: true,
             api: 'type',
-            type: Number
+            type: String,
+            choices: Object.keys(evaluationModel.TYPE_CHOICES)
         },
         minScheduledAt: {
             writable: true,

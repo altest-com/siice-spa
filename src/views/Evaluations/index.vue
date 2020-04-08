@@ -6,8 +6,7 @@
             class="mb-4"
             :show-count="evaluations.length"
             :total-count="evaluationsCount"
-            add-text="Nueva Evaluación"
-            @create="onCreateEvaluation"
+            :add-button="false"
         ></list-header>
 
         <evaluations-list
@@ -128,6 +127,13 @@ export default {
         EvaluationsFilter,        
         EvaluationEditor,
         EvaluationDetails        
+    },
+
+    props: {
+        section: {
+            type: String,
+            default: ''
+        }
     },
 
     data() {

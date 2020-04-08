@@ -133,7 +133,17 @@
 
 import OrderSelect from '@/components/OrderSelect';
 import QuerySelect from '@/components/QuerySelect';
-import { evaluationFilter, evaluationModel } from '@/store/modules/evaluations/models';
+import { 
+    evaluationFilter, 
+    evaluationModel 
+} from '@/store/modules/evaluations/models';
+
+const typeChoices = Object.keys(
+    evaluationModel.TYPE_CHOICES
+).map(value => ({
+    value: value,
+    label: evaluationModel.TYPE_CHOICES[value]
+}));
 
 export default {
     name: 'EvaluationsFilter',
@@ -154,7 +164,7 @@ export default {
         return {
             loading: false,
             orderChoices: evaluationFilter.order,
-            typeChoices: evaluationModel.TYPE_CHOICES
+            typeChoices: typeChoices
         };
     },
 
