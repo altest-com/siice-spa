@@ -1,15 +1,15 @@
 import * as actions from './actions';
 import * as mutations from './mutations';
-import { imageModel } from './models';
+import { fileModel } from './models';
 import { Api } from '@/api';
 
 const PAGE_SIZE = 24;
 
-const imagesApi = new Api('images/');
+const filesApi = new Api('files/');
 
 const state = {
-    MODEL: imageModel,
-    API: imagesApi,
+    MODEL: fileModel,
+    API: filesApi,
     FILTER: null,
     items: {},
     count: 0,

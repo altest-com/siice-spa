@@ -10,6 +10,7 @@ import candidates from './modules/candidates';
 import corporations from './modules/corporations';
 import dependencies from './modules/dependencies';
 import evaluations from './modules/evaluations';
+import files from './modules/files';
 import images from './modules/images';
 import medicals from './modules/medicals';
 import polygraphics from './modules/polygraphics';
@@ -32,6 +33,7 @@ const store = new Vuex.Store({
         corporations,
         dependencies,
         evaluations,
+        files,
         images,
         medicals,
         polygraphics,

@@ -1,21 +1,28 @@
 <template>
 
-<tr v-if="evaluation && application" :class="{'focus': focus}" @click="$emit('click')">
-    <td v-for="header in headers" :key="header">
-        <div class="cell">
-            {{ rowData[header] }}
-        </div>
-    </td>
+<tr v-if="isReady" :class="{'focus': focus}" @click="$emit('click')">
+    <table-cell 
+        v-for="header in headers" 
+        :key="header"
+        :type="rowData[header].type"
+        :value="rowData[header].value"
+        :styles="rowData[header].styles"
+        :route="rowData[header].route"
+    ></table-cell>
 </tr>
 
 </template>
 
 <script>
 
-import filters from '@/filters';
+import TableCell from '@/components/TableCell';
 
 export default {
     name: 'EvaluationRow',
+
+    components: {
+        TableCell
+    },
 
     props: {
         evaluationId: {
@@ -40,23 +47,82 @@ export default {
     computed: {
 
         rowData() {
-            return {
-                id: this.evaluation.id,
-                name: this.candidate ? this.candidate.name : '',
-                curp: this.candidate ? this.candidate.curp : '',
-                document: this.application.document,
-                year: this.application.year,
-                position: this.position ? this.position.name : '',
-                corporation: this.corporation ? this.corporation.name : '',
-                dependency: this.dependency ? this.dependency.name : '',
-                secondment: this.secondment ? this.secondment.name : '',
-                type: this.evaluation.type,
-                scheduledAt: filters.dateFilter(this.evaluation.scheduledAt),
-                medical: this.medical ? this.medical.status : '',
-                socioeconomic: this.socioeconomic ? this.socioeconomic.status : '',
-                psychological: this.polygraphic ? this.polygraphic.status : '',
-                polygraphic: this.psychological ? this.psychological.status : ''          
+            const data = {
+                name: {
+                    type: 'text',
+                    value: this.candidate.name
+                },
+                curp: {
+                    type: 'text',
+                    value: this.candidate.curp
+                },
+                status: {
+                    type: 'text',
+                    value: this.application.status
+                },
+                document: {
+                    type: 'text',
+                    value: this.application.document
+                },
+                year: {
+                    type: 'year',
+                    value: this.application.year
+                },
+                position: {
+                    type: 'text',
+                    value: this.position.name
+                },
+                corporation: {
+                    type: 'text',
+                    value: this.corporation.name
+                },
+                dependency: {
+                    type: 'text',
+                    value: this.dependency.name
+                },
+                secondment: {
+                    type: 'text',
+                    value: this.secondment.name
+                },
+                type: {
+                    type: 'text',
+                    value: this.evaluation.type
+                },
+                scheduledAt: {
+                    type: 'date',
+                    value: this.evaluation.scheduledAt
+                },
+                medical: {
+                    type: 'text',
+                    value: this.medical ? this.medical.status : ''
+                },
+                socioeconomic: {
+                    type: 'text',
+                    value: this.socioeconomic ? this.socioeconomic.status : ''
+                },
+                psychological: {
+                    type: 'text',
+                    value: this.polygraphic ? this.polygraphic.status : ''
+                },
+                polygraphic: {
+                    type: 'text',
+                    value: this.polygraphic ? this.polygraphic.status : ''
+                }         
             };
+
+            return data;
+        },
+
+        isReady() {
+            return !!(
+                this.application && 
+                this.dependency && 
+                this.corporation && 
+                this.secondment && 
+                this.position && 
+                this.candidate && 
+                this.evaluation
+            );
         },
 
         evaluation() {
@@ -68,6 +134,12 @@ export default {
             const applicationId = this.evaluation.application;
             this.$store.dispatch('applications/getItem', applicationId);
             return this.$store.state.applications.items[applicationId];
+        },
+
+        candidate() {
+            const candidateId = this.application.candidate;
+            this.$store.dispatch('candidates/getItem', candidateId);
+            return this.$store.state.candidates.items[candidateId];
         },
 
         dependency() {
@@ -94,31 +166,37 @@ export default {
             return this.$store.state.positions.items[positionId];
         },
 
-        candidate() {
-            const candidateId = this.application.candidate;
-            this.$store.dispatch('candidates/getItem', candidateId);
-            return this.$store.state.candidates.items[candidateId];
-        },
-
         medical() {
+            if (!this.headers.includes('medical')) {
+                return null;
+            }
             const medicalId = this.evaluation.medical;
             this.$store.dispatch('medicals/getItem', medicalId);
             return this.$store.state.medicals.items[medicalId];
         },
 
         polygraphic() {
+            if (!this.headers.includes('polygraphic')) {
+                return null;
+            }
             const polygraphicId = this.evaluation.polygraphic;
             this.$store.dispatch('polygraphics/getItem', polygraphicId);
             return this.$store.state.polygraphics.items[polygraphicId];
         },
 
         socioeconomic() {
+            if (!this.headers.includes('socioeconomic')) {
+                return null;
+            }
             const socioeconomicId = this.evaluation.socioeconomic;
             this.$store.dispatch('socioeconomics/getItem', socioeconomicId);
             return this.$store.state.socioeconomics.items[socioeconomicId];
         },
 
         psychological() {
+            if (!this.headers.includes('psychological')) {
+                return null;
+            }
             const psychologicalId = this.evaluation.psychological;
             this.$store.dispatch('psychologicals/getItem', psychologicalId);
             return this.$store.state.psychologicals.items[psychologicalId];

@@ -1,21 +1,28 @@
 <template>
 
-<tr v-if="application" :class="{'focus': focus}" @click="$emit('click')">
-    <td v-for="header in headers" :key="header">
-        <div class="cell">
-            {{ rowData[header] }}
-        </div>
-    </td>
+<tr v-if="isReady" :class="{'focus': focus}" @click="$emit('click')">
+    <table-cell 
+        v-for="header in headers" 
+        :key="header"
+        :type="rowData[header].type"
+        :value="rowData[header].value"
+        :styles="rowData[header].styles"
+        :route="rowData[header].route"
+    ></table-cell>
 </tr>
 
 </template>
 
 <script>
 
-import filters from '@/filters';
+import TableCell from '@/components/TableCell';
 
 export default {
     name: 'ApplicationRow',
+
+    components: {
+        TableCell
+    },
 
     props: {
         applicationId: {
@@ -41,18 +48,58 @@ export default {
 
         rowData() {
             return {
-                id: this.application.id,
-                name: this.candidate ? this.candidate.name : '',
-                curp: this.candidate ? this.candidate.curp : '',
-                status: this.application.status,
-                document: this.application.document,
-                year: this.application.year,
-                position: this.position ? this.position.name : '',
-                createdAt: filters.dateFilter(this.application.createdAt),
-                corporation: this.corporation ? this.corporation.name : '',
-                dependency: this.dependency ? this.dependency.name : '',
-                secondment: this.secondment ? this.secondment.name : ''
+                name: {
+                    type: 'text',
+                    value: this.candidate.name
+                },
+                curp: {
+                    type: 'text',
+                    value: this.candidate.curp
+                },
+                status: {
+                    type: 'text',
+                    value: this.application.status
+                },
+                document: {
+                    type: 'text',
+                    value: this.application.document
+                },
+                year: {
+                    type: 'year',
+                    value: this.application.year
+                },
+                createdAt: {
+                    type: 'date',
+                    value: this.application.createdAt
+                },
+                corporation: {
+                    type: 'text',
+                    value: this.corporation.name
+                },
+                dependency: {
+                    type: 'text',
+                    value: this.dependency.name
+                },
+                secondment: {
+                    type: 'text',
+                    value: this.secondment.name
+                },
+                position: {
+                    type: 'text',
+                    value: this.position.name
+                }
             };
+        },
+
+        isReady() {
+            return !!(
+                this.application && 
+                this.dependency && 
+                this.corporation && 
+                this.secondment && 
+                this.position && 
+                this.candidate
+            );
         },
 
         application() {

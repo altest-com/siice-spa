@@ -1,38 +1,28 @@
 import { Model } from '../abstract/models';
 
-class ImageModel extends Model {
+class FileModel extends Model {
     props = {
         id: {
             writable: false,
             api: 'id',
             type: Number
         },
-        image: {
+        file: {
             writable: false,
-            api: 'image',
+            api: 'file',
             type: String
         },
         sizeBytes: {
             writable: false,
             api: 'size_bytes',
             type: Number
-        },
-        width: {
-            writable: false,
-            api: 'width',
-            type: Number
-        },
-        height: {
-            writable: false,
-            api: 'height',
-            type: Number
         }
     }
 }
 
-const imageModel = new ImageModel();
+const fileModel = new FileModel();
 
 export {
-    ImageModel,
-    imageModel
+    FileModel,
+    fileModel
 };

@@ -1,24 +1,37 @@
+const locale = 'es-MX';
+const dateOptions = { timeZone: 'America/Mexico_City' };
+
 export default {
-    timeFilter: function(value) {
-        return value ? 
-            new Date(value).toLocaleTimeString(
-                'es-MX', { 
-                    timeZone: 'America/Mexico_City'
-                }) : '—';
+    timeFilter: function(date) {
+        if (!date) {
+            return '';
+        }
+        const date_ = new Date(date);
+        return isNaN(date_) ? 
+            '' : date_.toLocaleTimeString(locale, dateOptions);
     },
-    dateFilter: function(value) {
-        return value ? 
-            new Date(value).toLocaleDateString(
-                'es-MX', { 
-                    timeZone: 'America/Mexico_City'
-                }) : '—';
+    dateFilter: function(date) {
+        if (!date) {
+            return '';
+        }
+        const date_ = new Date(date);
+        return isNaN(date_) ? 
+            '' : date_.toLocaleDateString(locale, dateOptions);
     },
-    dateTimeFilter: function(value) {
-        return value ? 
-            new Date(value).toLocaleString(
-                'es-MX', { 
-                    timeZone: 'America/Mexico_City'
-                }) : '—';
+    dateTimeFilter: function(date) {
+        if (!date) {
+            return '';
+        }
+        const date_ = new Date(date);
+        return isNaN(date_) ? 
+            '' : date_.toLocaleString(locale, dateOptions);
+    },
+    yearFilter(date) {
+        if (!date) {
+            return '';
+        }
+        const date_ = new Date(date);
+        return isNaN(date_) ? '' : date_.getFullYear();
     },
     ageFilter: function(value) {
         return value ? (value + ' años') : 'Desconocida';

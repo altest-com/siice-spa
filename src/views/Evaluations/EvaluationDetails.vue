@@ -5,7 +5,9 @@
     <router-link :to="route">
         <el-button 
             type="primary" 
-            class="block"
+            class="block mt-4"
+            size="small"
+            icon="el-icon-document"
         >
             Registrar Resultados
         </el-button>

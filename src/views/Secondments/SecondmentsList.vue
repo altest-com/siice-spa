@@ -1,23 +1,25 @@
 <template>
 
-<div class="evaluations-list">
+<div class="secondments-list">
 
-    <el-card v-if="evaluations.length" shadow="never" class="mt-5">
+    <el-card v-if="secondments.length" shadow="never" class="mt-5">
         <table class="items-table">
             <tr class="header">                
                 <th v-for="header in headersData" :key="header.key">
                     <div class="cell"> {{ header.label }} </div>
                 </th>
+                <th></th>
             </tr>
-            <evaluation-row 
-                v-for="evaluation in evaluations" 
-                :key="evaluation.id"
-                class="row"
+            <secondment-row 
+                v-for="secondment in secondments" 
+                :key="secondment.id"
                 :headers="headers"
-                :evaluation-id="evaluation.id"
-                :focus="evaluation.id === focusId"
-                @click="onItemClick(evaluation.id)"
-            ></evaluation-row>
+                :secondment-id="secondment.id"
+                :focus="secondment.id === focusId"
+                @click="onItemClick(secondment.id)"
+                @edit="$emit('edit', secondment.id)"
+                @remove="$emit('remove', secondment.id)"
+            ></secondment-row>
         </table>
     </el-card>
 
@@ -38,7 +40,7 @@
         :page-size="pageSize" 
         :background="true"
         :current-page="pageNumber"
-        :total="evaluationsCount"
+        :total="secondmentsCount"
         @current-change="updatePage"
     ></el-pagination>       
 </div>
@@ -49,36 +51,21 @@
 
 import { mapGetters } from 'vuex';
 import Empty from '@/components/Empty';
-import EvaluationRow from './EvaluationRow';
+import SecondmentRow from './SecondmentRow';
 
 const headers = {
-    /* Candidate fields */
     name: 'Nombre',
-    curp: 'CURP',
-    /* Application fields */
-    document: 'Documento',
-    year: 'Año Oficio',
-    position: 'Puesto',
-    corporation: 'Corporación',
     dependency: 'Dependencia',
-    secondment: 'Adscripción',
-    /* Evualtion fields */
-    type: 'Tipo de evaluación',
-    scheduledAt: 'Fecha programada',
-    medical: 'Médico',
-    socioeconomic: 'Socieconómico',
-    psychological: 'Psicológico',
-    polygraphic: 'Poligráfico'
+    corporation: 'Corporación',
+    createdAt: 'Fecha de creación'
 };
 
-const allowHeaders = Object.keys(headers);
-
 export default {
-    name: 'EvaluationsList',
+    name: 'SecondmentsList',
 
     components: {
         Empty,
-        EvaluationRow
+        SecondmentRow
     },
 
     props: {
@@ -90,17 +77,10 @@ export default {
             type: Array,
             default: () => [
                 'name',
-                'curp',
-                'type',
-                'scheduledAt',
-                'medical',
-                'socioeconomic',
-                'psychological',
-                'polygraphic'
-            ],
-            validator: values => values.every(
-                val => allowHeaders.includes(val)
-            )
+                'dependency',
+                'corporation',
+                'createdAt'
+            ]
         }
     },
 
@@ -111,16 +91,16 @@ export default {
 
     computed: {
         ...mapGetters({
-            evaluations: 'evaluations/sortedItems'
+            secondments: 'secondments/sortedItems'
         }),
-        evaluationsCount() {
-            return this.$store.state.evaluations.count;
+        secondmentsCount() {
+            return this.$store.state.secondments.count;
         },
         pageNumber: function() {
-            return this.$store.state.evaluations.pageNumber + 1;
+            return this.$store.state.secondments.pageNumber + 1;
         },
         pageSize() {
-            return this.$store.state.evaluations.pageSize;
+            return this.$store.state.secondments.pageSize;
         },
         headersData() {
             return this.headers.map(key => {
@@ -134,11 +114,11 @@ export default {
 
     methods: {         
         updatePage: function(number) {
-            this.$store.dispatch('evaluations/setPage', number - 1);
+            this.$store.dispatch('secondments/setPage', number - 1);
             this.updateList();
         },
         updateList: function() {
-            this.$store.dispatch('evaluations/fetchItems');
+            this.$store.dispatch('secondments/fetchItems');
         },
         onItemClick(itemId) {
             const focusId = itemId === this.focusId ? null : itemId;

@@ -1,13 +1,13 @@
 <template>
 
-<div v-if="evaluation" class="evaluation-editor">
+<div v-if="corporation" class="corporation-editor">
     <el-form
         ref="form"
         size="small"
         label-position="top"
         :rules="rules"
         :show-message="false"
-        :model="evaluation"            
+        :model="corporation"            
         :disabled="loading"
         @validate="validate"
     >
@@ -17,29 +17,14 @@
             :type="alert.type"
             show-icon
             class="mb-3"
-        ></el-alert>        
+        ></el-alert>
 
-        <el-form-item label="Tipo de evaluación" prop="type">
-            <el-select
-                :value="evaluation.type"
-                @change="val => onParamChange({type: val})"
-            >
-                <el-option
-                    v-for="choice in typeChoices"
-                    :key="choice.value"
-                    :label="choice.label"
-                    :value="choice.value"
-                ></el-option>
-            </el-select>
-        </el-form-item>
-
-        <el-form-item label="Fecha y hora programada">
-            <el-date-picker
-                type="datetime"
-                :value="evaluation.scheduledAt"
-                @input="val => onParamChange({scheduledAt: val})"  
-            ></el-date-picker>
-        </el-form-item>     
+        <el-form-item label="Nombre" prop="name">
+            <el-input
+                :value="corporation.name"                    
+                @input="val => onParamChange({name: val})"                    
+            ></el-input>
+        </el-form-item>      
     </el-form>
 
     <div class="buttons mt-4 flex-row je ac">
@@ -59,26 +44,22 @@
 
 <script>
 
-import { evaluationModel } from '@/store/modules/evaluations/models';
-
-const typeChoices = Object.keys(
-    evaluationModel.TYPE_CHOICES
-).map(value => ({
-    value: value,
-    label: evaluationModel.TYPE_CHOICES[value]
-}));
-
 const rules = {
+    name: [{
+        required: true,
+        message: 'Por favor ingresa el nombre de la corporación',
+        trigger: 'blur'
+    }]
 };
 
 export default {
-    name: 'EvaluationEditor',
+    name: 'CorporationEditor',
 
     components: {
     },
 
     props: {
-        evaluationId: {
+        corporationId: {
             type: [Number, String],
             required: true
         },
@@ -92,27 +73,22 @@ export default {
         return {
             loading: false,
             alert: null,
-            rules: rules,
-            typeChoices: typeChoices
+            rules: rules
         };
     },
 
     computed: {
-        evaluation() {
-            this.$store.dispatch('evaluations/getItem', this.evaluationId);
-            return this.$store.state.evaluations.items[this.evaluationId];
-        },
-        application() {
-            const applicationId = this.evaluation.application;
-            this.$store.dispatch('applications/getItem', applicationId);
-            return this.$store.state.applications.items[applicationId];
+        corporation() {
+            const id = this.corporationId;
+            this.$store.dispatch('corporations/getItem', id);
+            return this.$store.state.corporations.items[id];
         }
     },
 
     methods: {
         onParamChange(data) {
-            this.$store.dispatch('evaluations/updateItem', {
-                item: { id: this.evaluationId, ...data }, 
+            this.$store.dispatch('corporations/updateItem', {
+                item: { id: this.corporationId, ...data }, 
                 persist: false
             });
         },
@@ -130,13 +106,13 @@ export default {
 
         submit() {
             const action = this.edit ? 
-                'evaluations/updateItem' : 'evaluations/createItem';
+                'corporations/updateItem' : 'corporations/createItem';
             this.$store.dispatch(action, {
-                item: this.evaluation,
+                item: this.corporation,
                 persist: true
-            }).then(evaluation => {                
+            }).then(corporation => {                
                 this.loading = false;
-                this.$emit('confirm', evaluation.id);
+                this.$emit('confirm', corporation.id);
             }).catch((error) => {                
                 this.$log.error(error);
                 this.loading = false;

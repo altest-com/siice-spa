@@ -3,8 +3,8 @@
 <div v-if="candidate" class="candidate-info">
     <div class="flex-row js as">
         <img :src="image" alt="">
-        <div>
-            <div>{{ fullName }}</div>
+        <div class="ml-2">
+            <div class="text-w6 mb-1">{{ fullName }}</div>
             <div>{{ candidate.curp }}</div>
         </div>
     </div>
@@ -65,7 +65,7 @@ export default {
 .candidate-info {
     img {
         height: 96px;
-        border-radius: 8px;
+        border-radius: 4px;
     }
 }
 

@@ -6,8 +6,8 @@
             <el-tabs v-model="section">
                 <el-tab-pane label="Digiscan" name="digiscan">
                     <digiscan
-                        class="main-form" 
                         v-if="socioeconomic" 
+                        class="main-form" 
                         :record-id="socioeconomic.id"
                     ></digiscan>
                 </el-tab-pane>
@@ -23,8 +23,56 @@
         <candidate-info 
             v-if="application"  
             :candidate-id="application.candidate"
+            class="mb-4"
         ></candidate-info>
+        <div class="flex-row">
+            <el-button 
+                class="block mr-2" 
+                type="primary"
+                size="small"
+                icon="el-icon-right"
+                @click="onRegisterAttend"
+            >
+                Registrar asistencia
+            </el-button>
+            <el-button 
+                class="block"
+                size="small"
+                icon="el-icon-back"
+                @click="onRegisterFinish"
+            >
+                Registrar salida
+            </el-button>
+        </div>        
     </template>
+
+    <el-dialog
+        title="Confirmar "
+        :visible.sync="showConfirmDialog"
+        width="400px"
+        center
+    >
+        <p v-if="confirm === 'attend'">
+            Por favor haga click en el botón "Aceptar" para confirmar la 
+            asistencia del candidato a la evaluación.
+        </p>
+        <p v-else-if="confirm === 'finish'">
+            Por favor haga click en el botón "Aceptar" para confirmar la 
+            salida del candidato a la evaluación.
+        </p>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="showConfirmDialog = false">
+                Cancelar
+            </el-button>
+            <el-button 
+                type="primary" 
+                :disabled="loading"
+                @click="onConfirm"
+            >
+                Confirmar
+            </el-button>
+        </span>
+    </el-dialog>
 </split-view>
 
 </template>
@@ -54,7 +102,10 @@ export default {
 
     data() {
         return {
-            section: 'digiscan'
+            section: 'digiscan',
+            showConfirmDialog: false,
+            confirm: '',
+            loading: false
         };
     },
 
@@ -79,6 +130,18 @@ export default {
     },
 
     methods: {
+        onRegisterAttend() {
+            this.confirm = 'attend';
+            this.showConfirmDialog = true;
+        },
+        onRegisterFinish() {
+            this.confirm = 'finish';
+            this.showConfirmDialog = true;
+        },
+        onConfirm() {
+            this.confirm = '';
+            this.showConfirmDialog = false;
+        }
     }
 };
 </script>

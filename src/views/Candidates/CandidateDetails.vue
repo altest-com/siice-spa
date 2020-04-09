@@ -1,13 +1,10 @@
 <template>
 
 <div v-if="candidate" class="candidate-details">
-    <div class="candidate flex-row js as">
-        <img :src="image" alt="">
-        <div>
-            <div>{{ fullName }}</div>
-            <div>{{ candidate.curp }}</div>
-        </div>
-    </div>
+     <candidate-info 
+        :candidate-id="candidateId"
+        class="mb-4"
+    ></candidate-info>
 </div>
 
 </template>
@@ -15,11 +12,13 @@
 <script>
 
 const defaultImage = require('@/assets/images/user.png');
+import CandidateInfo from '@/components/CandidateInfo';
 
 export default {
     name: 'CandidateDetails',
 
     components: {
+        CandidateInfo
     },
     
     props: {

@@ -249,6 +249,10 @@ label {
     width: 100%;
 }
 
+.el-button+.el-button {
+    margin-left: 0px;
+}
+
 .el-form-item.switch {
     display: flex;
     flex-flow: row nowrap;

@@ -1,46 +1,77 @@
 const staticRoutes = [{
-    key: 'Programming',
+    key: 'scheduling',
     meta: {
         title: 'Programación',
-        icon: 'dashboard'
+        icon: 'scheduling'
     },
     children: [{
-        route: { name: 'CandidatesIndex' },
-        key: 'CandidatesIndex',
+        key: '/candidates/index',
+        route: { 
+            name: 'CandidatesIndex' 
+        },        
         meta: {
-            title: 'Candidatos',
-            icon: 'dashboard'
+            title: 'Candidatos'
         }
     }, {
-        route: { name: 'ApplicationsIndex' },
-        key: 'ApplicationsIndex',
+        key: '/applications/index',
+        route: { 
+            name: 'ApplicationsIndex' 
+        },        
         meta: {
-            title: 'Solicitudes',
-            icon: 'dashboard'
+            title: 'Solicitudes'
         }
     }, {
+        key: '/evaluations/scheduling',
         route: { 
             name: 'EvaluationsIndex', 
             params: { section: 'scheduling' }  
-        },
-        key: 'EvaluationsIndex',
+        },        
         meta: {
-            title: 'Evaluaciones',
-            icon: 'dashboard'
+            title: 'Evaluaciones'
         }
+    }, {
+        key: '/scheduling/entities',       
+        meta: {
+            title: 'Entidades'
+        },
+        children: [{
+            key: '/corporations/index',
+            route: { 
+                name: 'CorporationsIndex' 
+            },        
+            meta: {
+                title: 'Corporaciones'
+            }
+        }, {
+            key: '/dependencies/index',
+            route: { 
+                name: 'DependenciesIndex' 
+            },        
+            meta: {
+                title: 'Dependencias'
+            }
+        }, {
+            key: '/secondments/index',
+            route: { 
+                name: 'SecondmentsIndex' 
+            },        
+            meta: {
+                title: 'Adscripciones'
+            }
+        }]
     }]
 }, {
-    key: 'Socioeconomic',
-    meta: {
-        title: 'Socioeconómico',
-        icon: 'socioeconomic'
-    },
     route: { 
         name: 'EvaluationsIndex', 
         params: { section: 'socioeconomic' }
+    },
+    key: '/evaluations/socioeconomic',
+    meta: {
+        title: 'Socioeconómico',
+        icon: 'socioeconomic'
     }
 }, {
-    key: 'Medical',
+    key: '/evaluations/medical',
     meta: {
         title: 'Médico',
         icon: 'medical'
@@ -50,7 +81,7 @@ const staticRoutes = [{
         params: { section: 'socioeconomic' }
     }
 }, {
-    key: 'Psychological',
+    key: '/evaluations/psychological',
     meta: {
         title: 'Psicológico',
         icon: 'psychological'
@@ -60,7 +91,7 @@ const staticRoutes = [{
         params: { section: 'socioeconomic' }
     }
 }, {
-    key: 'Polygraphic',
+    key: '/evaluations/polygraphic',
     meta: {
         title: 'Poligráfico',
         icon: 'polygraphic'

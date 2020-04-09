@@ -1,6 +1,11 @@
 <template>
 
-<tr v-if="candidate" :class="{'focus': focus}" @click="$emit('click')">
+<tr 
+    v-if="isReady" 
+    class="row" 
+    :class="{'focus': focus}" 
+    @click="$emit('click')"
+>
     <table-cell 
         v-for="header in headers" 
         :key="header"
@@ -8,6 +13,11 @@
         :value="rowData[header].value"
         :styles="rowData[header].styles"
         :route="rowData[header].route"
+    ></table-cell>
+    <table-cell
+        type="actions"
+        @edit="$emit('edit')"
+        @remove="$emit('remove')"
     ></table-cell>
 </tr>
 
@@ -18,14 +28,14 @@
 import TableCell from '@/components/TableCell';
 
 export default {
-    name: 'CandidateRow',
+    name: 'DependencyRow',
 
     components: {
         TableCell
     },
 
     props: {
-        candidateId: {
+        dependencyId: {
             type: [Number, String],
             required: true
         },
@@ -47,30 +57,35 @@ export default {
     computed: {
 
         rowData() {
-            const candidate = this.candidate;
             return {
                 name: {
                     type: 'text',
-                    value: candidate.name
+                    value: this.dependency.name
                 },
-                lastName: {
+                corporation: {
                     type: 'text',
-                    value: candidate.lastName
-                },
-                curp: {
-                    type: 'text',
-                    value: candidate.curp
+                    value: this.corporation.name
                 },
                 createdAt: {
                     type: 'date',
-                    value: candidate.createdAt
+                    value: this.dependency.createdAt
                 }
             };
         },
 
-        candidate() {
-            this.$store.dispatch('candidates/getItem', this.candidateId);
-            return this.$store.state.candidates.items[this.candidateId];
+        isReady() {
+            return !!(this.dependency && this.corporation);
+        },
+
+        dependency() {
+            this.$store.dispatch('dependencies/getItem', this.dependencyId);
+            return this.$store.state.dependencies.items[this.dependencyId];
+        },
+
+        corporation() {
+            const corporationId = this.dependency.corporation;
+            this.$store.dispatch('corporations/getItem', corporationId);
+            return this.$store.state.corporations.items[corporationId];
         }
     },
 

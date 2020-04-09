@@ -1,6 +1,11 @@
 <template>
 
-<tr v-if="candidate" :class="{'focus': focus}" @click="$emit('click')">
+<tr 
+    v-if="isReady" 
+    class="row" 
+    :class="{'focus': focus}" 
+    @click="$emit('click')"
+>
     <table-cell 
         v-for="header in headers" 
         :key="header"
@@ -8,6 +13,11 @@
         :value="rowData[header].value"
         :styles="rowData[header].styles"
         :route="rowData[header].route"
+    ></table-cell>
+    <table-cell
+        type="actions"
+        @edit="$emit('edit')"
+        @remove="$emit('remove')"
     ></table-cell>
 </tr>
 
@@ -18,14 +28,14 @@
 import TableCell from '@/components/TableCell';
 
 export default {
-    name: 'CandidateRow',
+    name: 'CorporationRow',
 
     components: {
         TableCell
     },
 
     props: {
-        candidateId: {
+        corporationId: {
             type: [Number, String],
             required: true
         },
@@ -47,30 +57,25 @@ export default {
     computed: {
 
         rowData() {
-            const candidate = this.candidate;
             return {
                 name: {
                     type: 'text',
-                    value: candidate.name
-                },
-                lastName: {
-                    type: 'text',
-                    value: candidate.lastName
-                },
-                curp: {
-                    type: 'text',
-                    value: candidate.curp
+                    value: this.corporation.name
                 },
                 createdAt: {
                     type: 'date',
-                    value: candidate.createdAt
+                    value: this.corporation.createdAt
                 }
             };
         },
 
-        candidate() {
-            this.$store.dispatch('candidates/getItem', this.candidateId);
-            return this.$store.state.candidates.items[this.candidateId];
+        isReady() {
+            return !!this.corporation;
+        },
+
+        corporation() {
+            this.$store.dispatch('corporations/getItem', this.corporationId);
+            return this.$store.state.corporations.items[this.corporationId];
         }
     },
 

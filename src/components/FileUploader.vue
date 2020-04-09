@@ -1,18 +1,18 @@
 <template>
 
-<div v-if="image" class="image-upload">
-    <div class="image mr-2 px-2" @click="onImagePreview">
+<div v-if="file" class="file-uploader">
+    <div class="file mr-2 px-2">
         <i class="el-icon-paperclip"></i>
         <div class="name"> {{ name }} </div>
     </div>
     <el-upload
         class="upload-demo"
-        :name="imageUploadName"
-        :action="imageUploadUrl"
-        :headers="imageUploadHeader"
-        :before-upload="onBeforeUploadImage"
-        :on-success="onSuccessImageUpload"
-        :on-error="onImageUploadOnError"
+        :name="fileUploadName"
+        :action="fileUploadUrl"
+        :headers="fileUploadHeader"
+        :before-upload="onBeforeUploadFile"
+        :on-success="onSuccessFileUpload"
+        :on-error="onFileUploadOnError"
         :multiple="false"
         :show-file-list="false"
     >
@@ -24,13 +24,9 @@
         size="small" 
         type="info" 
         icon="el-icon-close"
-        @click="onRemoveImage"
+        @click="onRemoveFile"
     >
-    </el-button>
-    
-    <el-dialog :visible.sync="showImageDialog">
-        <img class="dialog-image" :src="image.image" alt="">
-    </el-dialog>       
+    </el-button>      
 </div>
 
 </template>
@@ -38,12 +34,12 @@
 <script>
 
 import {API_URL, getHeader} from '@/api';
-import { imageModel } from '@/store/modules/images/models';
+import { fileModel } from '@/store/modules/files/models';
 
-const image = imageModel.create();
+const file = fileModel.create();
 
 export default {
-    name: 'ImageUpload',
+    name: 'FileUpload',
     
     props: {
         value: {
@@ -54,18 +50,16 @@ export default {
 
     data() {
         return {
-            imageUploadName: 'image',
-            imageUploadUrl: API_URL + 'images/',
-            imageUploadHeader: getHeader(),            
-            loading: false,
-            showImageDialog: false,
-            imageDialogUrl: ''
+            fileUploadName: 'file',
+            fileUploadUrl: API_URL + 'files/',
+            fileUploadHeader: getHeader(),            
+            loading: false
         };
     },
 
     computed: {
         name() {
-            const url = this.image.image;
+            const url = this.file.file;
             if (url) {
                 const parts = new URL(url).pathname.split('/');
                 for (let i = parts.length - 1; i >= 0; i--) {
@@ -77,47 +71,41 @@ export default {
             return url;            
         },
 
-        image() {
+        file() {
             if (this.value !== null) {
-                this.$store.dispatch('images/getItem', this.value);        
-                return this.$store.state.images.items[this.value] || image;
+                this.$store.dispatch('files/getItem', this.value);        
+                return this.$store.state.files.items[this.value] || file;
             }
-            return image;
+            return file;
         }
     },
 
     created() {
         if (this.value !== null) {
-            this.$store.dispatch('images/getItem', this.value);
+            this.$store.dispatch('files/getItem', this.value);
         }        
     },
 
     methods: {
 
-        onBeforeUploadImage(file) {
+        onBeforeUploadFile(file) {
             this.loading = true;
         },
 
-        onSuccessImageUpload(response, file) {
+        onSuccessFileUpload(response, file) {
             this.loading = false;
             this.$emit('input', response.id);                   
         },
 
-        onImageUploadOnError(error, file, fileList) {
+        onFileUploadOnError(error, file, fileList) {
             this.loading = false;
             this.$log.error(error);
         },
 
-        onImagePreview() {
-            if (this.image.image) {
-                this.showImageDialog = true;
-            }            
-        },
-
-        onRemoveImage() {
+        onRemoveFile() {
             this.loading = true;
             this.$store.dispatch(
-                'images/destroyItem', this.image.id
+                'files/destroyItem', this.file.id
             ).then(() => {
                 this.loading = false;              
                 this.$emit('input', null);
@@ -129,7 +117,7 @@ export default {
 
 <style lang="scss">
 
-.image-upload {
+.file-uploader {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
@@ -137,7 +125,7 @@ export default {
     .el-upload {
         margin: 0;
     }
-    .image {
+    .file {
         display: flex;
         align-items: center;
         flex: 1;
@@ -161,7 +149,7 @@ export default {
             text-overflow: ellipsis;
         }
     }
-    .dialog-image {
+    .dialog-file {
         max-height: 750px;
         display: block;
         margin-left: auto;
