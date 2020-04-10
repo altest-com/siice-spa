@@ -15,6 +15,7 @@
         :on-error="onImageUploadOnError"
         :multiple="false"
         :show-file-list="false"
+        accept="image/png, image/jpeg"
     >
         <el-button size="small" type="primary" icon="el-icon-upload">
         </el-button>

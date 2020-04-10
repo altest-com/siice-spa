@@ -75,6 +75,14 @@ export const constantRoutes = [{
             component: () => import('@/views/Secondments/index')
         }]
     }, {
+        path: '/positions',
+        component: Layout,
+        children: [{
+            path: 'index',
+            name: 'PositionsIndex',
+            component: () => import('@/views/Positions/index')
+        }]
+    }, {
         path: '/applications',
         component: Layout,
         children: [{

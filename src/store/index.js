@@ -19,6 +19,7 @@ import psychologicals from './modules/psychologicals';
 import secondments from './modules/secondments';
 import socioeconomics from './modules/socioeconomics';
 import toxicologicals from './modules/toxicologicals';
+import alerts from './modules/alerts';
 
 Vue.use(Vuex);
 
@@ -41,7 +42,8 @@ const store = new Vuex.Store({
         psychologicals,
         secondments,
         socioeconomics,
-        toxicologicals
+        toxicologicals,
+        alerts
     },
     getters
 });

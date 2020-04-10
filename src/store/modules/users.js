@@ -83,6 +83,7 @@ const actions = {
             userApi.login(credentials)
                 .then(({ data }) => {
                     context.commit('SET_AUTH', data);
+                    setHeader();
                     resolve(data);
                 })
                 .catch(() => {

@@ -58,6 +58,14 @@ const staticRoutes = [{
             meta: {
                 title: 'Adscripciones'
             }
+        }, {
+            key: '/positions/index',
+            route: { 
+                name: 'PositionsIndex' 
+            },        
+            meta: {
+                title: 'Puestos'
+            }
         }]
     }]
 }, {

@@ -39,11 +39,6 @@ class EvalSectionModel extends Model {
             api: 'passed',
             type: Boolean
         },
-        alert: {
-            writable: true,
-            api: 'alert',
-            type: String
-        },
         startedAt: {
             writable: true,
             api: 'started_at',
@@ -52,11 +47,6 @@ class EvalSectionModel extends Model {
         finishedAt: {
             writable: true,
             api: 'finished_at',
-            type: Date
-        },
-        alertedAt: {
-            writable: true,
-            api: 'alerted_at',
             type: Date
         },
         createdAt: {

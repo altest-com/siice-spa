@@ -11,6 +11,12 @@
                         :record-id="socioeconomic.id"
                     ></digiscan>
                 </el-tab-pane>
+                <el-tab-pane label="Alertas de Riesgo" name="alerts">
+                    <alerts-timeline 
+                        :evaluation-id="evaluationId"
+                        section="socioeconomic"
+                    ></alerts-timeline>
+                </el-tab-pane>
             </el-tabs> 
         </el-card>               
     </template>
@@ -81,6 +87,7 @@
 
 import { mapGetters } from 'vuex';
 import CandidateInfo from '@/components/CandidateInfo';
+import AlertsTimeline from '@/components/AlertsTimeline';
 import Digiscan from './Digiscan';
 import SplitView from '@/layout/components/SplitView';
 
@@ -90,6 +97,7 @@ export default {
     components: {
         SplitView,
         CandidateInfo,
+        AlertsTimeline,
         Digiscan
     },
 

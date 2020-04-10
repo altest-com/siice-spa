@@ -64,7 +64,7 @@
         :on-error="onImageUploadOnError"
         :disabled="loading"
         :show-file-list="false"
-        accept="image/png, image/jpg"
+        accept="image/png, image/jpeg"
     >
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">

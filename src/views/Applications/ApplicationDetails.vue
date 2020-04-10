@@ -27,7 +27,7 @@
     <div v-if="!checked" class="flex-row mt-4">
         <el-button
             :disabled="loading || !evalType"
-            class="block"
+            class="block mr-2"
             type="primary"
             icon="el-icon-check"
             size="small"
