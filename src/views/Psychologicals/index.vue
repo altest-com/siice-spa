@@ -1,26 +1,19 @@
 <template>
 
-<split-view v-if="evaluation" class="socioeconomics-index">
+<split-view v-if="evaluation" class="psychologicals-index">
     <template v-slot:main>
         <el-card shadow="never">
             <el-tabs v-model="section">
-                <el-tab-pane label="Digiscan" name="digiscan">
-                    <digiscan
-                        v-if="socioeconomic" 
-                        class="main-form" 
-                        :record-id="socioeconomic.id"
-                    ></digiscan>
-                </el-tab-pane>
                 <el-tab-pane label="Alertas de Riesgo" name="alerts">
                     <alerts-timeline 
                         :evaluation-id="evaluationId"
-                        section="socioeconomic"
+                        section="psychological"
                     ></alerts-timeline>
                 </el-tab-pane>
                 <el-tab-pane label="Resultado" name="results">
                     <eval-result 
                         :evaluation-id="evaluationId"
-                        section="socioeconomic"
+                        section="psychological"
                     ></eval-result>                    
                 </el-tab-pane>
             </el-tabs> 
@@ -94,18 +87,16 @@
 import CandidateInfo from '@/components/CandidateInfo';
 import AlertsTimeline from '@/components/AlertsTimeline';
 import EvalResult from '@/components/EvalResult';
-import Digiscan from './Digiscan';
 import SplitView from '@/layout/components/SplitView';
 
 export default {
-    name: 'SocioeconomicsIndex',
+    name: 'PsychologicalsIndex',
 
     components: {
         SplitView,
         CandidateInfo,
         AlertsTimeline,
-        EvalResult,
-        Digiscan
+        EvalResult
     },
 
     props: {
@@ -129,10 +120,10 @@ export default {
             this.$store.dispatch('evaluations/getItem', this.evaluationId);
             return this.$store.state.evaluations.items[this.evaluationId];
         },
-        socioeconomic() {
-            const socioeconomicId = this.evaluation.socioeconomic;
-            this.$store.dispatch('socioeconomics/getItem', socioeconomicId);
-            return this.$store.state.socioeconomics.items[socioeconomicId];
+        psychological() {
+            const psychologicalId = this.evaluation.psychological;
+            this.$store.dispatch('psychologicals/getItem', psychologicalId);
+            return this.$store.state.psychologicals.items[psychologicalId];
         }, 
         application() {
             const applicationId = this.evaluation.application;
@@ -160,7 +151,7 @@ export default {
 
 <style lang="scss">
 
-.socioeconomics-index {
+.psychologicals-index {
     .main-form {
         max-width: 450px;
     }

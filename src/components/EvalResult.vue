@@ -1,6 +1,6 @@
 <template>
 
-<div v-if="evalSection" class="evaluation-editor">
+<div v-if="evalSection" class="eval-result">
     <el-form
         ref="form"
         size="small"
@@ -17,31 +17,46 @@
             :type="alert.type"
             show-icon
             class="mb-3"
-        ></el-alert>        
+        ></el-alert>
+        
+        <el-form-item label="Resultado" prop="passed">
+            <div class="flex-row je ae">
+                <el-select 
+                    :value="evalSection.passed"
+                    @input="val => onParamChange({passed: val})"
+                >
+                    <el-option
+                        label="Aprobado"
+                        :value="true"
+                    ></el-option>
+                    <el-option
+                        label="No aprobado"
+                        :value="false"
+                    ></el-option>
+                </el-select>
+
+                <el-button
+                    type="primary"
+                    size="small"
+                    icon="el-icon-check"
+                    :disabled="loading"
+                    class="ml-2"
+                    @click.prevent="onConfirm"          
+                >
+                    Confirmar
+                </el-button>
+            </div>
+        </el-form-item> 
 
         <el-form-item label="Resumen de evaluación" prop="result">
             <el-input           
                 type="textarea"
-                :rows="4"
+                :rows="10"
                 :value="evalSection.result"
                 @input="val => onParamChange({result: val})"                           
             ></el-input>
         </el-form-item>
-
-
     </el-form>
-
-    <div class="buttons mt-4 flex-row je ac">
-        <el-button
-            type="primary"
-            size="small"
-            icon="el-icon-check"
-            :disabled="loading"
-            @click.prevent="onConfirm"            
-        >
-            Confirmar
-        </el-button>
-    </div> 
 </div>
 
 </template>
@@ -49,6 +64,17 @@
 <script>
 
 const rules = {
+    result: [{
+        required: true,
+        message: 'Por favor completa el resumen de la evaluación',
+        trigger: 'blur'
+    }],
+    passed: [{
+        type: 'boolean',
+        required: true,
+        message: 'Por selecciona el resultado de la evaluación',
+        trigger: 'blur'
+    }]
 };
 
 const stores = {
@@ -60,7 +86,7 @@ const stores = {
 };
 
 export default {
-    name: 'EvaluationEditor',
+    name: 'EvalResult',
 
     components: {
     },
@@ -122,7 +148,8 @@ export default {
             const store = stores[this.section];
 
             this.$store.dispatch(`${store}/updateItem`, {
-                item: { 
+                item: {
+                    id: this.evalSection.id,
                     result: this.evalSection.result,
                     passed: this.evalSection.passed
                 },
