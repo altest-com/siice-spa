@@ -43,6 +43,24 @@ export const constantRoutes = [{
         component: Layout,
         redirect: '/evaluations'
     }, {
+        path: '/schemas',
+        component: Layout,
+        children: [{
+            path: 'index',
+            name: 'SchemasIndex',
+            component: () => import('@/views/Schemas/SchemasIndex'),
+            meta: {
+                title: 'Formularios',
+                icon: 'dashboard'
+            }
+        }, {
+            path: 'editor/:schemaId',
+            name: 'SchemaEditor',
+            component: () => import('@/views/Schemas/SchemaEditor'),            
+            hidden: true,
+            props: true
+        }]
+    }, {
         path: '/candidates',
         component: Layout,
         children: [{

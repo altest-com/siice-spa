@@ -60,6 +60,7 @@ class Api {
 
 export {
     Api,
+    axios,
     getHeader,
     setHeader,
     API_URL

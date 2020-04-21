@@ -1,33 +1,27 @@
 import Vue from 'vue';
-import axios from 'axios';
-import VueAxios from 'vue-axios';
 import VueLogger from 'vuejs-logger';
-
-import 'normalize.css/normalize.css'; // A modern alternative to CSS resets
-
+import VueSchemas from 'vue-schemas';
+import 'normalize.css/normalize.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';
-import locale from 'element-ui/lib/locale/lang/es'; // lang i18n
-
-import 'plyr/dist/plyr.css';
-
+import locale from 'element-ui/lib/locale/lang/es';
 import '@/styles/index.scss'; // global css
-
 import App from './App';
 import store from './store';
 import router from './router';
 import filters from './filters';
-
-import '@/icons'; // icon
-import '@/permission'; // permission control
-
-// set ElementUI lang to EN
-Vue.use(ElementUI, { locale });
-
-Vue.use(VueAxios, axios);
+import '@/icons';
+import '@/permission';
+import { axios } from './api';
 
 Vue.config.productionTip = false;
+Vue.use(ElementUI, { locale });
+Vue.use(VueSchemas, {
+    store: store,
+    axios: axios,
+    apiPath: 'eval-data/'
+});
 
 const logLevel = process.env.NODE_ENV === 'development' ? 'debug' : 'error';
 

@@ -23,6 +23,11 @@ class EvalSectionModel extends Model {
             api: 'evaluation',
             type: Number
         },
+        evalData: {
+            writable: false,
+            api: 'eval_data',
+            type: Number
+        },
         status: {
             writable: true,
             api: 'status',

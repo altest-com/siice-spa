@@ -108,6 +108,15 @@ const staticRoutes = [{
         name: 'EvaluationsIndex', 
         params: { section: 'socioeconomic' }
     }
+}, {
+    key: '/schemas/index',
+    meta: {
+        title: 'Formularios',
+        icon: 'forms'
+    },
+    route: { 
+        name: 'SchemasIndex'
+    }
 }];
 
 const state = {

@@ -1,18 +1,9 @@
-node_modules/
+.git/
+.vscode/
+.yalc/
 dist/
-designs/
-recycle/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-package-lock.json
+node_modules/
 tests/**/coverage/
 gitpush.sh
-
-# Editor directories and files
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
+package-lock.json
+yalc.lock

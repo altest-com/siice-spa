@@ -4,12 +4,11 @@
     <template v-slot:main>
         <el-card shadow="never">
             <el-tabs v-model="section">
-                <el-tab-pane label="Digiscan" name="digiscan">
-                    <digiscan
-                        v-if="socioeconomic" 
-                        class="main-form" 
-                        :record-id="socioeconomic.id"
-                    ></digiscan>
+                <el-tab-pane v-if="hasEvalData" label="Evaluación" name="eval">
+                    <item-editor 
+                        :item-id="evalSection.evalData" 
+                        form-width="450px"
+                    ></item-editor>
                 </el-tab-pane>
                 <el-tab-pane label="Alertas de Riesgo" name="alerts">
                     <alerts-timeline 
@@ -94,7 +93,6 @@
 import CandidateInfo from '@/components/CandidateInfo';
 import AlertsTimeline from '@/components/AlertsTimeline';
 import EvalResult from '@/components/EvalResult';
-import Digiscan from './Digiscan';
 import SplitView from '@/layout/components/SplitView';
 
 export default {
@@ -104,8 +102,7 @@ export default {
         SplitView,
         CandidateInfo,
         AlertsTimeline,
-        EvalResult,
-        Digiscan
+        EvalResult
     },
 
     props: {
@@ -117,7 +114,7 @@ export default {
 
     data() {
         return {
-            section: 'digiscan',
+            section: 'eval',
             showConfirmDialog: false,
             confirm: '',
             loading: false
@@ -129,15 +126,21 @@ export default {
             this.$store.dispatch('evaluations/getItem', this.evaluationId);
             return this.$store.state.evaluations.items[this.evaluationId];
         },
-        socioeconomic() {
-            const socioeconomicId = this.evaluation.socioeconomic;
-            this.$store.dispatch('socioeconomics/getItem', socioeconomicId);
-            return this.$store.state.socioeconomics.items[socioeconomicId];
+        evalSection() {
+            const evalSectionId = this.evaluation.socioeconomic;
+            this.$store.dispatch('socioeconomics/getItem', evalSectionId);
+            return this.$store.state.socioeconomics.items[evalSectionId];
         }, 
         application() {
             const applicationId = this.evaluation.application;
             this.$store.dispatch('applications/getItem', applicationId);
             return this.$store.state.applications.items[applicationId];
+        },
+        hasEvalData() {
+            return this.evalSection && (
+                this.evalSection.evalData || 
+                this.evalSection.evalData === 0
+            );
         }
     },
 
