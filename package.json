@@ -1,6 +1,6 @@
 {
     "name": "prodmas-spa",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A web interface for the SIICE project",
     "author": "Raikel Bordón López <raikelbl@gmail.com>",
     "license": "MIT",
@@ -32,7 +32,7 @@
         "vue-axios": "^2.1.5",
         "vue-count-to": "^1.0.13",
         "vue-router": "3.1.5",
-        "vue-schemas": "1.0.2",
+        "vue-schemas": "1.0.3",
         "vuejs-logger": "^1.5.4",
         "vuex": "3.1.2"
     },
