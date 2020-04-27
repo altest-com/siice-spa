@@ -2,6 +2,7 @@
 .vscode/
 .yalc/
 dist/
+recycle/
 node_modules/
 tests/**/coverage/
 gitpush.sh

@@ -117,9 +117,9 @@ export const constantRoutes = [{
             component: () => import('@/views/Evaluations/index'),
             props: true
         }, {
-            path: 'socioeconomics/:evaluationId',
-            name: 'Socioeconomics',
-            component: () => import('@/views/Socioeconomics/index'),
+            path: ':evaluationId/:section/',
+            name: 'EvalSectionIndex',
+            component: () => import('@/views/EvalSection/EvalSectionIndex'),
             props: true
         }]
     }, { 

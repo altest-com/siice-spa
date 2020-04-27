@@ -31,6 +31,10 @@ export default {
         evaluationId: {
             type: [Number, String],
             required: true
+        },
+        section: {
+            type: String,
+            required: true
         }
     },
 
@@ -51,8 +55,11 @@ export default {
         },
         route() {
             return { 
-                name: 'Socioeconomics', 
-                params: { evaluationId: this.evaluationId }
+                name: 'EvalSectionIndex', 
+                params: { 
+                    evaluationId: this.evaluationId,
+                    section: this.section
+                }
             };
         }
     }, 

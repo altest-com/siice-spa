@@ -69,53 +69,53 @@ const staticRoutes = [{
         }]
     }]
 }, {
+    key: '/evaluations/socioeconomic',
     route: { 
         name: 'EvaluationsIndex', 
         params: { section: 'socioeconomic' }
-    },
-    key: '/evaluations/socioeconomic',
+    },    
     meta: {
         title: 'Socioeconómico',
         icon: 'socioeconomic'
     }
 }, {
     key: '/evaluations/medical',
+    route: { 
+        name: 'EvaluationsIndex', 
+        params: { section: 'medical' }
+    },
     meta: {
         title: 'Médico',
         icon: 'medical'
-    },
-    route: { 
-        name: 'EvaluationsIndex', 
-        params: { section: 'socioeconomic' }
     }
 }, {
     key: '/evaluations/psychological',
+    route: { 
+        name: 'EvaluationsIndex', 
+        params: { section: 'psychological' }
+    },
     meta: {
         title: 'Psicológico',
         icon: 'psychological'
-    },
-    route: { 
-        name: 'EvaluationsIndex', 
-        params: { section: 'socioeconomic' }
     }
 }, {
     key: '/evaluations/polygraphic',
+    route: { 
+        name: 'EvaluationsIndex', 
+        params: { section: 'polygraphic' }
+    },
     meta: {
         title: 'Poligráfico',
         icon: 'polygraphic'
-    },
-    route: { 
-        name: 'EvaluationsIndex', 
-        params: { section: 'socioeconomic' }
     }
 }, {
     key: '/schemas/index',
+    route: { 
+        name: 'SchemasIndex'
+    },
     meta: {
         title: 'Formularios',
         icon: 'forms'
-    },
-    route: { 
-        name: 'SchemasIndex'
     }
 }];
 

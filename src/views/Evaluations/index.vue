@@ -89,6 +89,7 @@
         <evaluation-details
             v-else-if="panel === 'details'"
             :evaluation-id="curEvaluationId"
+            :section="section"
         ></evaluation-details>
 
         <evaluation-editor
