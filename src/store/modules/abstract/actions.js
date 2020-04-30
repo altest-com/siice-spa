@@ -148,10 +148,6 @@ function resetFilter({ commit }) {
     commit(mutTypes.RESET_FILTER);
 }
 
-function setOrder({ commit }, order) {
-    commit(mutTypes.SET_ORDER, order);
-}
-
 function setPage({ commit }, number) {
     commit(mutTypes.SET_PAGE, number);
 }
@@ -169,7 +165,6 @@ export {
     destroyItem,
     setFilter,
     resetFilter,
-    setOrder,
     setPage,
     setPageSize
 };

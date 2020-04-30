@@ -7,6 +7,5 @@ export {
     destroyItem,
     setFilter,
     resetFilter,
-    setOrder,
     setPage
 } from '../abstract/actions';

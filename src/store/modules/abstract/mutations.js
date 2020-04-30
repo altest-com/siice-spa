@@ -45,10 +45,6 @@ const RESET_FILTER = (state) => {
     state.filter = state.FILTER.create();
 };
 
-const SET_ORDER = (state, order) => {
-    state.orderBy = order;
-};
-
 const SET_PAGE = (state, number) => {
     state.pageNumber = number;
 };
@@ -70,7 +66,6 @@ export {
     SET_LOADING,
     SET_FILTER,
     RESET_FILTER,
-    SET_ORDER,
     SET_PAGE,
     SET_PAGE_SIZE,
     SET_GETTING

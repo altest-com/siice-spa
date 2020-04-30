@@ -17,7 +17,6 @@ const state = {
     count: 0,
     pageNumber: 0,
     filter: candidateFilter.create(),
-    orderBy: 'last_name',
     pageSize: PAGE_SIZE,
     loading: false,
     getting: {}

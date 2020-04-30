@@ -17,7 +17,6 @@ const state = {
     count: 0,
     pageNumber: 0,
     filter: alertFilter.create(),
-    orderBy: '-created_at',
     pageSize: PAGE_SIZE,
     loading: false,
     getting: {}

@@ -6,7 +6,6 @@ export {
     SET_LOADING,
     SET_FILTER,
     RESET_FILTER,
-    SET_ORDER,
     SET_PAGE,
     SET_GETTING
 } from '../abstract/mutations';
