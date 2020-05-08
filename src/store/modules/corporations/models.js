@@ -1,4 +1,4 @@
-import { Model, dateReader, dateWriter } from '../abstract/models';
+import { Model } from '../abstract/models';
 
 class CorporationModel extends Model {
     props = {
@@ -38,26 +38,22 @@ class CorporationFilter extends Model {
             writable: true,
             api: 'order_by',
             type: String,
-            choices: Object.keys(this.ORDER_CHOICES)
+            default: '-created_at'
         },
         name: {
             writable: true,
-            api: 'name',
+            api: 'name__icontains',
             type: String
         },
         minCreatedAt: {
             writable: false,
-            api: 'min_created_at',
-            type: Date,
-            reader: dateReader,
-            writer: dateWriter
+            api: 'created_at__gte',
+            type: Date
         },
         maxCreatedAt: {
             writable: false,
-            api: 'max_created_at',
-            type: Date,
-            reader: dateReader,
-            writer: dateWriter
+            api: 'created_at__lte',
+            type: Date
         }
     }
 }

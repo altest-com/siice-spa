@@ -41,18 +41,19 @@ export const constantRoutes = [{
     }, {
         path: '/',
         component: Layout,
-        redirect: '/evaluations'
+        redirect: '/dashboard',
+        children: [{
+            path: 'dashboard',
+            name: 'DashboardIndex',
+            component: () => import('@/views/Dashboard/DashboardIndex')
+        }]
     }, {
         path: '/schemas',
         component: Layout,
         children: [{
             path: 'index',
             name: 'SchemasIndex',
-            component: () => import('@/views/Schemas/SchemasIndex'),
-            meta: {
-                title: 'Formularios',
-                icon: 'dashboard'
-            }
+            component: () => import('@/views/Schemas/SchemasIndex')
         }, {
             path: 'editor/:schemaId',
             name: 'SchemaEditor',
@@ -122,6 +123,11 @@ export const constantRoutes = [{
             component: () => import('@/views/EvalSection/EvalSectionIndex'),
             props: true
         }]
+    }, {
+        path: '/reports/:evaluationId/:section/',
+        name: 'ReportsIndex',
+        component: () => import('@/views/Reports/ReportsIndex'),
+        props: true
     }, { 
         /* 404 page must be placed at the end !!! */
         path: '*',

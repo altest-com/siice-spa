@@ -22,6 +22,30 @@
             ></el-input>
         </el-form-item>
 
+        <el-form-item label="Corporaciones">
+            <ab-query-select
+                store="corporations"
+                :value="filter.corporations"
+                @change="val => onParamChange({corporations: val})"
+            ></ab-query-select>
+        </el-form-item>
+
+        <el-form-item label="Dependencias">
+            <ab-query-select
+                store="dependencies"
+                :value="filter.dependencies"
+                @change="val => onParamChange({dependencies: val})"
+            ></ab-query-select>
+        </el-form-item>
+
+        <el-form-item label="Adscripciones">
+            <ab-query-select
+                store="secondments"
+                :value="filter.secondments"
+                @change="val => onParamChange({secondments: val})"
+            ></ab-query-select>
+        </el-form-item>
+
         <el-form-item label="Fecha de creación" class="range">
             <el-date-picker
                 type="date"

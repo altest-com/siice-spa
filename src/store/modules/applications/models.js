@@ -6,19 +6,12 @@ class ApplicationModel extends Model {
     STATUS_REJECTED = 'rejected'
     STATUS_ARCHIVED = 'archived'
 
-    STATUS_CHOICES = [{
-        label: 'Creada',
-        value: 'created'
-    }, {
-        label: 'Aceptada',
-        value: 'accepted'
-    }, {
-        label: 'Rechazada',
-        value: 'rejected'
-    }, {
-        label: 'Archivada',
-        value: 'archived'
-    }]
+    STATUS_CHOICES = {
+        [this.STATUS_CREATED]: 'Creada',
+        [this.STATUS_ACCEPTED]: 'Aceptada',
+        [this.STATUS_REJECTED]: 'Rechazada',
+        [this.STATUS_ARCHIVED]: 'Archivada'
+    }
 
     props = {
         id: {
@@ -30,7 +23,7 @@ class ApplicationModel extends Model {
             writable: true,
             api: 'status',
             type: String,
-            choices: this.STATUS_CHOICES.map(c => c.value)
+            choices: Object.keys(this.STATUS_CHOICES)
         },
         candidate: {
             writable: true,
@@ -38,17 +31,17 @@ class ApplicationModel extends Model {
             type: Number
         },
         corporation: {
-            writable: true,
+            writable: false,
             api: 'corporation',
             type: Number
         },
         dependency: {
-            writable: true,
+            writable: false,
             api: 'dependency',
             type: Number
         },
         secondment: {
-            writable: true,
+            writable: false,
             api: 'secondment',
             type: Number
         },
@@ -100,80 +93,99 @@ class ApplicationModel extends Model {
 const applicationModel = new ApplicationModel();
 
 class ApplicationFilter extends Model {
-    order = [{
-        label: 'Nombre', 
-        value: 'candidate__name'
-    }, {
-        label: 'Apellidos', 
-        value: 'candidate__last_name'
-    }, {
-        label: 'Documento origen', 
-        value: 'document'
-    }, {
-        label: 'Fecha de solicitud', 
-        value: 'created_at'
-    }];
+    ORDER_CHOICES = {
+        'candidate__last_name': 'Candidato',
+        'document': 'Documento',
+        'year': 'Año de oficio',
+        'status': 'Estado',        
+        'position__secondment__dependency__corporation__name': 'Corporación',
+        'position__secondment__dependency__name': 'Dependencia',
+        'position__secondment__name': 'Adscripción',
+        'position__name': 'Puesto',
+        'created_at': 'Fecha de creación'
+    }
 
     props = {
         orderBy: {
             writable: true,
             api: 'order_by',
             type: String,
-            choices: this.order.map(c => c.value)
+            choices: Object.keys(this.ORDER_CHOICES)
         },
         name: {
             writable: true,
-            api: 'name',
+            api: 'candidate__name__icontains',
             type: String
         },
         lastName: {
             writable: true,
-            api: 'last_name',
+            api: 'candidate__last_name__icontains',
             type: String
         },
         curp: {
             writable: true,
-            api: 'curp',
+            api: 'candidate__curp__icontains',
             type: String
-        },
-        minCreatedAt: {
-            writable: true,
-            api: 'min_created_at',
-            type: Date
-        },
-        maxCreatedAt: {
-            writable: true,
-            api: 'max_created_at',
-            type: Date
         },
         document: {
             writable: true,
-            api: 'document',
+            api: 'document__icontains',
             type: String
+        },
+        minYear: {
+            writable: true,
+            api: 'year__gte',
+            type: Number,
+            reader: yearReader,
+            writer: yearWriter
+        },
+        maxYear: {
+            writable: true,
+            api: 'year__lte',
+            type: Number,
+            reader: yearReader,
+            writer: yearWriter
+        },
+        status: {
+            writable: true,
+            api: 'status__in',
+            type: String,
+            choices: Object.keys(applicationModel.STATUS_CHOICES),
+            many: true
         },
         corporations: {
             writable: true,
-            api: 'corporations',
+            api: 'position__secondment__dependency__corporation_id__in',
             type: Number,
             many: true
         },
         dependencies: {
             writable: true,
-            api: 'dependency',
+            api: 'position__secondment__dependency_id__in',
             type: Number,
             many: true
         },
         secondments: {
             writable: true,
-            api: 'secondments',
+            api: 'position__secondment_id__in',
             type: Number,
             many: true
         },
         positions: {
             writable: true,
-            api: 'positions',
+            api: 'position_id__in',
             type: Number,
             many: true
+        },
+        minCreatedAt: {
+            writable: true,
+            api: 'created_at__gte',
+            type: Date
+        },
+        maxCreatedAt: {
+            writable: true,
+            api: 'created_at__lte',
+            type: Date
         }
     }
 }

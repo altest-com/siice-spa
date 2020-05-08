@@ -23,12 +23,19 @@
         </el-form-item>
 
         <el-form-item label="Corporaciones">
-            <query-select
-                :multiple="true"
+            <ab-query-select
+                store="corporations"
+                :value="filter.corporations"
+                @change="val => onParamChange({corporations: val})"
+            ></ab-query-select>
+        </el-form-item>
+
+        <el-form-item label="Dependencias">
+            <ab-query-select
                 store="dependencies"
                 :value="filter.dependencies"
                 @change="val => onParamChange({dependencies: val})"
-            ></query-select>
+            ></ab-query-select>
         </el-form-item>
 
         <el-form-item label="Fecha de creación" class="range">
@@ -54,7 +61,6 @@
 <script>
 
 import OrderSelect from '@/components/OrderSelect';
-import QuerySelect from '@/components/QuerySelect';
 import { secondmentFilter } from '@/store/modules/secondments/models';
 
 const orderChoices = Object.keys(
@@ -68,8 +74,7 @@ export default {
     name: 'SecondmentsFilter',
 
     components: {
-        OrderSelect,
-        QuerySelect
+        OrderSelect
     },
 
     props: {

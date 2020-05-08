@@ -16,6 +16,7 @@
 
         <el-form-item label="Nombre" prop="name">
             <el-input
+                clearable
                 :value="filter.name"                    
                 @input="val => onParamChange({name: val})"                    
             ></el-input>
@@ -23,6 +24,7 @@
 
         <el-form-item label="Apellidos" prop="lastName">
             <el-input
+                clearable
                 :value="filter.lastName"                    
                 @input="val => onParamChange({lastName: val})"                    
             ></el-input>
@@ -30,6 +32,7 @@
 
         <el-form-item label="CURP" prop="curp">
             <el-input
+                clearable
                 :value="filter.curp"                    
                 @input="val => onParamChange({curp: val})"                    
             ></el-input>
@@ -38,6 +41,7 @@
         <el-form-item label="Fecha de creación" class="range">
             <el-date-picker
                 type="date"
+                clearable
                 placeholder="Desde"
                 :value="filter.minCreatedAt"
                 @input="val => onParamChange({minCreatedAt: val})"  
@@ -45,6 +49,7 @@
             <span class="px-2">—</span>
             <el-date-picker
                 type="date"
+                clearable
                 placeholder="Hasta"
                 :value="filter.maxCreatedAt"
                 @input="val => onParamChange({maxCreatedAt: val})"  
@@ -58,7 +63,14 @@
 <script>
 
 import OrderSelect from '@/components/OrderSelect';
-import { candidateFilter } from '@/store/modules/candidates/models';
+import { candidateFilter as filter } from '@/store/modules/candidates/models';
+
+const orderChoices = Object.keys(
+    filter.ORDER_CHOICES
+).map(value => ({
+    value: value,
+    label: filter.ORDER_CHOICES[value]
+}));
 
 export default {
     name: 'CandidatesFilter',
@@ -77,7 +89,7 @@ export default {
     data() {
         return {
             loading: false,
-            orderChoices: candidateFilter.order
+            orderChoices: orderChoices
         };
     },
 

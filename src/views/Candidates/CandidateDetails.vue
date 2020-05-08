@@ -1,10 +1,7 @@
 <template>
 
 <div v-if="candidate" class="candidate-details">
-     <candidate-info 
-        :candidate-id="candidateId"
-        class="mb-4"
-    ></candidate-info>
+     <info-list :items="infoItems"></info-list>
 </div>
 
 </template>
@@ -12,13 +9,13 @@
 <script>
 
 const defaultImage = require('@/assets/images/user.png');
-import CandidateInfo from '@/components/CandidateInfo';
+import InfoList from '../components/InfoList';
 
 export default {
     name: 'CandidateDetails',
 
     components: {
-        CandidateInfo
+        InfoList
     },
     
     props: {
@@ -49,8 +46,25 @@ export default {
             }
             return defaultImage;
         },
-        fullName() {
-            return `${this.candidate.lastName} ${this.candidate.name}`;
+        infoItems() {
+            const item = this.candidate;
+            return [{
+                value: this.image,
+                type: 'image',
+                class: 'candidate-image'
+            }, {
+                label: 'Nombre completo',
+                value: `${item.lastName} ${item.name}`,
+                type: 'text'
+            }, {
+                label: 'CURP',
+                value: item.curp,
+                type: 'text'
+            }, {
+                label: 'Fecha de registro',
+                value: item.createdAt,
+                type: 'date'
+            }];
         }
     }, 
 
@@ -62,11 +76,8 @@ export default {
 <style lang="scss">
 
 .candidate-details {
-    .candidate {
-        img {
-            height: 96px;
-            border-radius: 8px;
-        }
+    .candidate-image {
+        margin-bottom: 24px;
     }
 }
 

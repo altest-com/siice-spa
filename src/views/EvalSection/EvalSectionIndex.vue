@@ -54,7 +54,18 @@
             >
                 Registrar salida
             </el-button>
-        </div>        
+        </div>
+
+        <router-link :to="printRoute">
+            <el-button 
+                type="primary" 
+                class="block mt-4"
+                size="small"
+                icon="el-icon-document"
+            >
+                Imprimir reporte
+            </el-button>
+        </router-link>      
     </template>
 
     <el-dialog
@@ -148,6 +159,15 @@ export default {
                 this.evalSection.evalData || 
                 this.evalSection.evalData === 0
             );
+        },
+        printRoute() {
+            return { 
+                name: 'ReportsIndex', 
+                params: { 
+                    evaluationId: this.evaluationId,
+                    section: this.section
+                }
+            };
         }
     },
 

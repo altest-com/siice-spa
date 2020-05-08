@@ -1,0 +1,30 @@
+@media screen {
+    .reports-index {
+        background-color: #606266;
+        padding: 16px 0;
+        .download-button {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+        }
+        .pages {
+            width: 8.5in;
+            margin: 0px auto;
+            background-color: #fff;
+            padding: 0.5in;
+        }
+    }
+}
+
+@page {
+    size: letter;
+    margin:  1cm 1.5cm;
+}
+
+@media print {
+    .reports-index {
+        .download-button {
+            display: none;
+        }
+    }
+}

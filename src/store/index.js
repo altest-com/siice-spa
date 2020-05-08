@@ -20,6 +20,7 @@ import secondments from './modules/secondments';
 import socioeconomics from './modules/socioeconomics';
 import toxicologicals from './modules/toxicologicals';
 import alerts from './modules/alerts';
+import reports from './modules/reports';
 
 Vue.use(Vuex);
 
@@ -43,7 +44,8 @@ const store = new Vuex.Store({
         secondments,
         socioeconomics,
         toxicologicals,
-        alerts
+        alerts,
+        reports
     },
     getters
 });

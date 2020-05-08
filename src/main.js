@@ -15,12 +15,23 @@ import '@/icons';
 import '@/permission';
 import { axios } from './api';
 
+/* import sty from '!!raw-loader!./styles/reports.css';
+
+console.log(JSON.stringify(sty)); */
+
 Vue.config.productionTip = false;
 Vue.use(ElementUI, { locale });
 Vue.use(VueSchemas, {
     store: store,
     axios: axios,
-    apiPath: 'eval-data/'
+    apiPath: 'eval-data/',
+    components: [
+        'SchemasIndex',
+        'SchemaEditor',
+        'ItemEditor',
+        'ItemPrint',
+        'AbQuerySelect'
+    ]
 });
 
 const logLevel = process.env.NODE_ENV === 'development' ? 'debug' : 'error';

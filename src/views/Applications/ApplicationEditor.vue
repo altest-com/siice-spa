@@ -19,41 +19,44 @@
             class="mb-3"
         ></el-alert>
 
-        <el-form-item label="Candidato" prop="candidate">
-            <query-select
-                :multiple="false"
-                store="candidates"
-                :value="application.candidate"
-                @change="val => onParamChange({candidate: val})"
-            ></query-select>
-        </el-form-item>
-
         <el-form-item label="Corporación" prop="corporation">
-            <query-select
-                :multiple="false"
+            <ab-query-select
                 store="corporations"
-                :value="application.corporation"
-                @change="val => onParamChange({corporation: val})"
-            ></query-select>
+                :clearable="false"       
+                :value="corporation_ || application.corporation"
+                @change="val => corporation_ = val"
+            ></ab-query-select>
         </el-form-item>
 
         <el-form-item label="Dependencia" prop="dependency">
-            <query-select
-                :multiple="false"
+            <ab-query-select
                 store="dependencies"
-                :value="application.dependency"
-                @change="val => onParamChange({dependency: val})"
-            ></query-select>
+                :clearable="false"            
+                :params="dependencyQueryParams"
+                :value="dependency_ || application.dependency"
+                @change="val => dependency_ = val"
+            ></ab-query-select>
         </el-form-item>
 
         <el-form-item label="Adscripción" prop="secondment">
-            <query-select
-                :multiple="false"
+            <ab-query-select
                 store="secondments"
-                :value="application.secondment"
-                @change="val => onParamChange({secondment: val})"
-            ></query-select>
+                :clearable="false"
+                :params="secondmentQueryParams"
+                :value="secondment_ || application.secondment"
+                @change="val => secondment_ = val"
+            ></ab-query-select>
         </el-form-item>
+
+        <el-form-item label="Puesto" prop="position">
+            <ab-query-select
+                store="positions"
+                :clearable="false"
+                :params="positionQueryParams"
+                :value="application.position"
+                @change="val => onParamChange({position: val})"
+            ></ab-query-select>
+        </el-form-item>  
 
         <el-form-item label="Documento origen" prop="document">
             <el-input
@@ -70,14 +73,28 @@
             ></el-date-picker>
         </el-form-item>
 
-        <el-form-item label="Puesto" prop="position">
-            <query-select
-                :multiple="false"
-                store="positions"
-                :value="application.position"
-                @change="val => onParamChange({position: val})"
-            ></query-select>
-        </el-form-item>        
+        <el-form-item label="Candidato" prop="candidate">
+            <ab-query-select
+                store="candidates"
+                query="curp__icontains"
+                popper-class="candidate-query"                
+                :clearable="false"
+                :preload="0"
+                :fields="['name', 'last_name', 'curp']"
+                :labels="['last_name', 'name']"
+                :value="application.candidate"
+                @change="val => onParamChange({candidate: val})"
+            >
+                <template v-slot="{ choice }">
+                    <div class="query-name">
+                        {{ `${choice.last_name} ${choice.name}` }}
+                    </div>
+                    <div class="query-curp">
+                        {{ choice.curp }}
+                    </div>
+                </template>
+            </ab-query-select>
+        </el-form-item>
     </el-form>
 
     <div class="buttons mt-4 flex-row je ac">
@@ -97,27 +114,10 @@
 
 <script>
 
-import QuerySelect from '@/components/QuerySelect';
-
 const rules = {
     candidate: [{
         required: true,
         message: 'Por favor selecciona un candidato',
-        trigger: 'blur'
-    }],
-    corporation: [{
-        required: true,
-        message: 'Por favor selecciona una corporación',
-        trigger: 'blur'
-    }],
-    dependency: [{
-        required: true,
-        message: 'Por favor selecciona una dependencia',
-        trigger: 'blur'
-    }],
-    secondment: [{
-        required: true,
-        message: 'Por favor selecciona una adscripción',
         trigger: 'blur'
     }],
     document: [{
@@ -146,7 +146,6 @@ export default {
     name: 'ApplicationEditor',
 
     components: {
-        QuerySelect
     },
 
     props: {
@@ -164,7 +163,11 @@ export default {
         return {
             loading: false,
             alert: null,
-            rules: rules
+            rules: rules,
+            bulk: false,
+            corporation_: null,
+            dependency_: null,
+            secondment_: null
         };
     },
 
@@ -173,6 +176,21 @@ export default {
             const id = this.applicationId;
             this.$store.dispatch('applications/getItem', id);
             return this.$store.state.applications.items[id];
+        },
+
+        positionQueryParams() {
+            const id = this.secondment_ || this.application.secondment;
+            return id ? { 'secondment_id__in': [id] } : {};
+        },
+
+        secondmentQueryParams() {
+            const id = this.dependency_ || this.application.dependency;
+            return id ? { 'dependency_id__in': [id] } : {};
+        },
+
+        dependencyQueryParams() {
+            const id = this.corporation_ || this.application.corporation;
+            return id ? { 'corporation_id__in': [id] } : {};
         }
     },
 
@@ -201,12 +219,10 @@ export default {
             this.$store.dispatch(action, {
                 item: this.application,
                 persist: true
-            }).then(application => {                
-                this.loading = false;
-                this.$emit('confirm', application.id);
+            }).then(application => {
+                this.$emit('confirm', application);
             }).catch((error) => {                
                 this.$log.error(error);
-                this.loading = false;
             });
         },
 
@@ -226,4 +242,20 @@ export default {
 </script>
 
 <style lang="scss">
+
+.candidate-query {
+    .el-select-dropdown__item {
+        height: auto;
+        font-size: 14px;
+        line-height: 24px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+    }
+    .query-curp {
+        font-size: 12px;
+        color: rgb(61, 61, 61);
+        font-weight: 600;
+    }
+}
+
 </style>

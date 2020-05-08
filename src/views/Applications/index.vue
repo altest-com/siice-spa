@@ -58,7 +58,7 @@
                     class="ml-1"
                     tooltip="Editar application" 
                     icon="el-icon-edit"
-                    @click="onApplicationEdit"
+                    @click="onShowEditor"
                 ></tool-button>
                 <tool-button
                     class="ml-1"
@@ -76,7 +76,7 @@
                     class="mx-1"
                     tooltip="Cancelar edición" 
                     icon="el-icon-close"
-                    @click="onCancelApplicationEdit"
+                    @click="onEditorCancel"
                 ></tool-button>
             </div>                    
         </template>
@@ -94,12 +94,22 @@
             @accept="onAccepted"
         ></application-details>
 
-        <application-editor
-            v-else-if="panel === 'editor'"
-            :edit="curApplicationId !== newApplicationId" 
-            :application-id="curApplicationId"
-            @confirm="onApplicationEditorConfirm"
-        ></application-editor>
+        <template v-else-if="panel === 'editor'">
+            <template v-if="curApplicationId === newApplicationId">
+                <el-form size="small">
+                    <el-form-item label="Múltiples" class="switch">
+                        <el-switch v-model="multiEdit"></el-switch>
+                    </el-form-item>
+                </el-form>
+                <el-divider class="mt-2 mb-3"></el-divider>
+            </template>
+
+            <application-editor
+                :edit="curApplicationId !== newApplicationId" 
+                :application-id="curApplicationId"
+                @confirm="onEditorConfirm"
+            ></application-editor>
+        </template>
     </template>
 </split-view>
 
@@ -138,7 +148,8 @@ export default {
             curApplicationId: null,
             showDeleteDialog: false,
             loading: false,
-            newApplicationId: newApplicationId
+            newApplicationId: newApplicationId,
+            multiEdit: false
         };
     },
 
@@ -157,15 +168,17 @@ export default {
 
     methods: {
 
-        onApplicationEdit() {
+        onShowEditor() {
             if (this.curApplicationId !== null) {
                 this.panel = 'editor';
             }            
         },
 
-        onCreateApplication() {
+        onCreateApplication(data = {}) {
             const application = applicationModel.create();
             application.id = newApplicationId;
+            Object.assign(application, data);
+
             this.$store.dispatch('applications/createItem', {
                 item: application,
                 persist: false
@@ -175,15 +188,25 @@ export default {
             });          
         },
 
-        onApplicationEditorConfirm(applicationId) {
-            if (this.panel === 'editor' && this.curApplicationId !== null) {
-                this.curApplicationId = applicationId;
-                this.panel = 'details';            
+        onEditorConfirm(application) {
+            if (this.panel === 'editor') {
                 this.$store.dispatch('applications/fetchItems');
+                if (this.multiEdit && 
+                    this.curApplicationId === newApplicationId
+                ) {
+                    this.onCreateApplication({
+                        position: application.position,
+                        document: application.document,
+                        year: application.year
+                    });
+                } else {
+                    this.curApplicationId = application.id;
+                    this.panel = 'details';                    
+                }
             }            
         },
 
-        onCancelApplicationEdit() {
+        onEditorCancel() {
             if (this.panel === 'editor' && this.curApplicationId !== null) {                
                 if (this.curApplicationId === newApplicationId) {
                     this.curApplicationId = null;

@@ -43,47 +43,44 @@ class CandidateModel extends Model {
 const candidateModel = new CandidateModel();
 
 class CandidateFilter extends Model {
-    order = [{
-        label: 'Nombre', 
-        value: 'name'
-    }, {
-        label: 'Apellidos', 
-        value: 'last_name'
-    }, {
-        label: 'Fecha de creación', 
-        value: 'created_at'
-    }];
+
+    ORDER_CHOICES = {
+        'name': 'Nombre',
+        'last_name': 'Apellidos',
+        'curp': 'CURP',
+        'created_at': 'Fecha de creación'        
+    }
 
     props = {
         orderBy: {
             writable: true,
             api: 'order_by',
             type: String,
-            choices: this.order.map(c => c.value)
+            default: '-created_at'
         },
         name: {
             writable: true,
-            api: 'name',
+            api: 'name__icontains',
             type: String
         },
         lastName: {
             writable: true,
-            api: 'last_name',
+            api: 'last_name__icontains',
             type: String
         },
         curp: {
             writable: true,
-            api: 'curp',
+            api: 'curp__icontains',
             type: String
         },
         minCreatedAt: {
             writable: true,
-            api: 'min_created_at',
+            api: 'created_at__gte',
             type: Date
         },
         maxCreatedAt: {
             writable: true,
-            api: 'max_created_at',
+            api: 'created_at__lte',
             type: Date
         }
     }

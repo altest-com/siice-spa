@@ -56,6 +56,19 @@ class Api {
     destroy(id) {
         return Vue.axios.delete(this.path + id + '/');
     }
+
+    download(params = {}, method = 'get') {
+        if (method === 'get') {
+            return Vue.axios.get(this.path, {
+                responseType: 'blob',
+                params: params
+            });
+        } else if (method === 'post') {
+            return Vue.axios.post(this.path, params, {
+                responseType: 'blob'
+            });
+        }
+    }
 }
 
 export {

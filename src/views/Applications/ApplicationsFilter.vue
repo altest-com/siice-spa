@@ -46,20 +46,38 @@
             ></el-input>
         </el-form-item>
 
-        <el-form-item label="Fecha de creación" class="range">
+        <el-form-item label="Año del oficio" class="range">
             <el-date-picker
-                type="date"
+                type="year"
+                clearable
                 placeholder="Desde"
-                :value="filter.minCreatedAt"
-                @input="val => onParamChange({minCreatedAt: val})"  
+                :value="filter.minYear"
+                @input="val => onParamChange({minYear: val})"  
             ></el-date-picker>
             <span class="px-2">—</span>
             <el-date-picker
-                type="date"
+                type="year"
+                clearable
                 placeholder="Hasta"
-                :value="filter.maxCreatedAt"
-                @input="val => onParamChange({maxCreatedAt: val})"  
+                :value="filter.maxYear"
+                @input="val => onParamChange({maxYear: val})"  
             ></el-date-picker>
+        </el-form-item>
+
+        <el-form-item label="Estado de la solicitud">
+            <el-select
+                multiple
+                clearable
+                :value="filter.status"
+                @input="val => onParamChange({status: val})"
+            >
+                <el-option
+                    v-for="choice in statusChoices"
+                    :key="choice.value"
+                    :label="choice.label"
+                    :value="choice.value"
+                ></el-option>
+            </el-select>
         </el-form-item>
 
         <el-form-item label="Corporaciones">
@@ -93,6 +111,22 @@
                 @change="val => onParamChange({positions: val})"
             ></query-select>
         </el-form-item>
+
+        <el-form-item label="Fecha de creación" class="range">
+            <el-date-picker
+                type="date"
+                placeholder="Desde"
+                :value="filter.minCreatedAt"
+                @input="val => onParamChange({minCreatedAt: val})"  
+            ></el-date-picker>
+            <span class="px-2">—</span>
+            <el-date-picker
+                type="date"
+                placeholder="Hasta"
+                :value="filter.maxCreatedAt"
+                @input="val => onParamChange({maxCreatedAt: val})"  
+            ></el-date-picker>
+        </el-form-item>
     </el-form>
 </div>
 
@@ -102,7 +136,24 @@
 
 import OrderSelect from '@/components/OrderSelect';
 import QuerySelect from '@/components/QuerySelect';
-import { applicationFilter } from '@/store/modules/applications/models';
+import { 
+    applicationFilter, 
+    applicationModel 
+} from '@/store/modules/applications/models';
+
+const orderChoices = Object.keys(
+    applicationFilter.ORDER_CHOICES
+).map(value => ({
+    value: value,
+    label: applicationFilter.ORDER_CHOICES[value]
+}));
+
+const statusChoices = Object.keys(
+    applicationModel.STATUS_CHOICES
+).map(value => ({
+    value: value,
+    label: applicationModel.STATUS_CHOICES[value]
+}));
 
 export default {
     name: 'ApplicationsFilter',
@@ -122,7 +173,8 @@ export default {
     data() {
         return {
             loading: false,
-            orderChoices: applicationFilter.order
+            orderChoices: orderChoices,
+            statusChoices: statusChoices
         };
     },
 

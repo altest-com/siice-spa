@@ -1,4 +1,13 @@
 const staticRoutes = [{
+    key: '/dashboard',
+    route: { 
+        name: 'DashboardIndex'
+    },    
+    meta: {
+        title: 'Estadísticas',
+        icon: 'dashboard'
+    }
+}, {
     key: 'scheduling',
     meta: {
         title: 'Programación',

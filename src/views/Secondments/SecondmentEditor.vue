@@ -26,13 +26,23 @@
             ></el-input>
         </el-form-item>
 
+        <el-form-item label="Corporación" prop="corporation">
+            <ab-query-select
+                store="corporations"                
+                :clearable="false"
+                :value="corporation_ || secondment.corporation"
+                @change="val => corporation_ = val"
+            ></ab-query-select>
+        </el-form-item>
+
         <el-form-item label="Dependencia" prop="dependency">
-            <query-select
-                :multiple="false"
+            <ab-query-select
                 store="dependencies"
+                :clearable="false"
+                :params="queryParams"
                 :value="secondment.dependency"
                 @change="val => onParamChange({dependency: val})"
-            ></query-select>
+            ></ab-query-select>
         </el-form-item>
     </el-form>
 
@@ -53,8 +63,6 @@
 
 <script>
 
-import QuerySelect from '@/components/QuerySelect';
-
 const rules = {
     name: [{
         required: true,
@@ -72,7 +80,6 @@ export default {
     name: 'SecondmentEditor',
 
     components: {
-        QuerySelect
     },
 
     props: {
@@ -90,7 +97,8 @@ export default {
         return {
             loading: false,
             alert: null,
-            rules: rules
+            rules: rules,
+            corporation_: null
         };
     },
 
@@ -99,6 +107,10 @@ export default {
             const id = this.secondmentId;
             this.$store.dispatch('secondments/getItem', id);
             return this.$store.state.secondments.items[id];
+        },
+        queryParams() {
+            const id = this.corporation_ || this.secondment.corporation;
+            return id ? { 'corporation_id__in': [id] } : {};
         }
     },
 

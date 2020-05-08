@@ -1,4 +1,4 @@
-import { Model, dateReader, dateWriter } from '../abstract/models';
+import { Model } from '../abstract/models';
 
 class DependencyModel extends Model {
     props = {
@@ -35,7 +35,8 @@ const dependencyModel = new DependencyModel();
 class DependencyFilter extends Model {
     ORDER_CHOICES = {
         'name': 'Nombre',
-        'created_at': 'Fecha de creación'
+        'created_at': 'Fecha de creación',
+        'corporation__name': 'Corporación'
     }
 
     props = {
@@ -43,32 +44,28 @@ class DependencyFilter extends Model {
             writable: true,
             api: 'order_by',
             type: String,
-            choices: Object.keys(this.ORDER_CHOICES)
+            default: '-created_at'
         },
         name: {
             writable: true,
-            api: 'name',
+            api: 'name__icontains',
             type: String
         },
         corporations: {
             writable: true,
-            api: 'corporations',
+            api: 'corporation_id__in',
             type: Number,
             many: true
         },
         minCreatedAt: {
             writable: false,
-            api: 'min_created_at',
-            type: Date,
-            reader: dateReader,
-            writer: dateWriter
+            api: 'created_at__gte',
+            type: Date
         },
         maxCreatedAt: {
             writable: false,
-            api: 'max_created_at',
-            type: Date,
-            reader: dateReader,
-            writer: dateWriter
+            api: 'created_at__gte',
+            type: Date
         }
     }
 }

@@ -27,12 +27,12 @@
         </el-form-item>
 
         <el-form-item label="Corporación" prop="corporation">
-            <query-select
-                :multiple="false"
+            <ab-query-select
                 store="corporations"
+                :clearable="false"
                 :value="dependency.corporation"
                 @change="val => onParamChange({corporation: val})"
-            ></query-select>
+            ></ab-query-select>
         </el-form-item>
     </el-form>
 
@@ -53,8 +53,6 @@
 
 <script>
 
-import QuerySelect from '@/components/QuerySelect';
-
 const rules = {
     name: [{
         required: true,
@@ -70,10 +68,6 @@ const rules = {
 
 export default {
     name: 'DependencyEditor',
-
-    components: {
-        QuerySelect
-    },
 
     props: {
         dependencyId: {
