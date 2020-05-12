@@ -57,6 +57,12 @@ div:focus {
     }
 }
 
+.flow {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 body {
     font-family: 'Lato', sans-serif !important;
     height: 100%;
@@ -170,6 +176,10 @@ body {
 
 .v-expand {
     height: 100%;
+}
+
+.block {
+    display: block;
 }
 
 //==============================================================================
@@ -413,4 +423,17 @@ p {
     background-color: #eee;
     border-radius: 6px;
     padding: 8px;
+}
+
+.select-columns-popper {
+    padding: 16px;
+    .el-popover__title {
+        font-weight: 700;
+    }
+    .el-checkbox {
+        margin-bottom: 4px;
+    }
+    .el-checkbox__label {
+        font-size: 14px;
+    }
 }

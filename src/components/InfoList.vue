@@ -11,7 +11,7 @@
         <div class="value" :class="item.type">
             <img v-if="item.type === 'image'" :src="item.value" alt="">
             <template v-else> {{ item.value }} </template>
-        </div>                
+        </div>
     </div>
 </div>
 
@@ -61,13 +61,16 @@ export default {
 
 .info-list {
     .info-item {
-        margin-bottom: 14px;
+        border-bottom: 1px solid #ebeef5;
+        padding: 8px 16px;
+        &:first-child {
+            border-top: 1px solid #ebeef5;
+        }
     }
     .label {
-        font-weight: 700;
+        font-weight: 300;
         color: rgb(78, 78, 78);
-        font-size: 16px;
-        margin-bottom: 4px;;
+        font-size: 14px;
     }
     .value {
         font-weight: 400;
@@ -77,7 +80,7 @@ export default {
     .value.image {
         width: 100%;
         height: 256px;
-        background-color: #ecf5ff;
+        background-color: #000;
         img {
             display: block;
             height: 100%;

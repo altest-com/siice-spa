@@ -17,6 +17,7 @@
         <el-form-item label="Tipo de evaluación" prop="type">
             <el-select
                 clearable
+                multiple
                 :value="filter.type"
                 @change="val => onParamChange({type: val})"
             >
@@ -27,54 +28,6 @@
                     :value="choice.value"
                 ></el-option>
             </el-select>
-        </el-form-item>
-
-        <el-form-item label="Fecha y hora programada" class="range">
-            <el-date-picker
-                type="datetime"
-                placeholder="Desde"
-                :value="filter.minScheduledAt"
-                @input="val => onParamChange({minScheduledAt: val})"  
-            ></el-date-picker>
-            <span class="px-2">—</span>
-            <el-date-picker
-                type="datetime"
-                placeholder="Hasta"
-                :value="filter.maxScheduledAt"
-                @input="val => onParamChange({maxScheduledAt: val})"  
-            ></el-date-picker>
-        </el-form-item>
-
-        <el-form-item label="Nombre">
-            <el-input
-                clearable
-                :value="filter.name"                    
-                @input="val => onParamChange({name: val})"
-            ></el-input>
-        </el-form-item>
-
-        <el-form-item label="Apellidos">
-            <el-input
-                clearable
-                :value="filter.lastName"                    
-                @input="val => onParamChange({lastName: val})"
-            ></el-input>
-        </el-form-item>
-
-        <el-form-item label="CURP">
-            <el-input
-                clearable
-                :value="filter.curp"                    
-                @input="val => onParamChange({curp: val})"
-            ></el-input>
-        </el-form-item>
-
-        <el-form-item label="Documento origen">
-            <el-input
-                clearable
-                :value="filter.document"                    
-                @input="val => onParamChange({document: val})"
-            ></el-input>
         </el-form-item>
 
         <el-form-item label="Fecha de creación" class="range">
@@ -93,36 +46,91 @@
             ></el-date-picker>
         </el-form-item>
 
+        <el-form-item label="Candidatos">
+            <ab-query-select
+                store="candidates"
+                query="curp__icontains"
+                popper-class="candidate-query"                
+                :clearable="true"
+                :preload="0"
+                :fields="['name', 'last_name', 'curp']"
+                :labels="['last_name', 'name']"
+                :value="filter.candidates"
+                @change="val => onParamChange({candidates: val})"
+            >
+                <template v-slot="{ choice }">
+                    <div class="query-name">
+                        {{ `${choice.last_name} ${choice.name}` }}
+                    </div>
+                    <div class="query-curp">
+                        {{ choice.curp }}
+                    </div>
+                </template>
+            </ab-query-select>
+        </el-form-item>
+
+        <el-form-item label="Nombre">
+            <el-input
+                clearable
+                :value="filter.candidateName"                    
+                @input="val => onParamChange({candidateName: val})"
+            ></el-input>
+        </el-form-item>
+
+        <el-form-item label="Apellidos">
+            <el-input
+                clearable
+                :value="filter.candidateLastName"                    
+                @input="val => onParamChange({candidateLastName: val})"
+            ></el-input>
+        </el-form-item>
+
+        <el-form-item label="CURP">
+            <el-input
+                clearable
+                :value="filter.candidateCurp"                    
+                @input="val => onParamChange({candidateCurp: val})"
+            ></el-input>
+        </el-form-item>
+
+        <el-form-item label="Documento origen">
+            <el-input
+                clearable
+                :value="filter.candidateDocument"                    
+                @input="val => onParamChange({candidateDocument: val})"
+            ></el-input>
+        </el-form-item>
+
         <el-form-item label="Corporaciones">
-            <query-select
+            <ab-query-select
                 store="corporations"
-                :value="filter.corporations"
-                @change="val => onParamChange({corporations: val})"
-            ></query-select>
+                :value="filter.applicationCorporations"
+                @change="val => onParamChange({applicationCorporations: val})"
+            ></ab-query-select>
         </el-form-item>
 
         <el-form-item label="Dependencias">
-            <query-select
+            <ab-query-select
                 store="dependencies"
-                :value="filter.dependencies"
-                @change="val => onParamChange({dependencies: val})"
-            ></query-select>
+                :value="filter.applicationDependencies"
+                @change="val => onParamChange({applicationDependencies: val})"
+            ></ab-query-select>
         </el-form-item>
 
         <el-form-item label="Adscripciones">
-            <query-select
+            <ab-query-select
                 store="secondments"
-                :value="filter.secondments"
-                @change="val => onParamChange({secondments: val})"
-            ></query-select>
+                :value="filter.applicationSecondments"
+                @change="val => onParamChange({applicationSecondments: val})"
+            ></ab-query-select>
         </el-form-item>
 
         <el-form-item label="Puestos">
-            <query-select
+            <ab-query-select
                 store="positions"
-                :value="filter.positions"
-                @change="val => onParamChange({positions: val})"
-            ></query-select>
+                :value="filter.applicationPositions"
+                @change="val => onParamChange({applicationPositions: val})"
+            ></ab-query-select>
         </el-form-item>
     </el-form>
 </div>
@@ -132,11 +140,17 @@
 <script>
 
 import OrderSelect from '@/components/OrderSelect';
-import QuerySelect from '@/components/QuerySelect';
 import { 
     evaluationFilter, 
     evaluationModel 
 } from '@/store/modules/evaluations/models';
+
+const orderChoices = Object.keys(
+    evaluationFilter.ORDER_CHOICES
+).map(value => ({
+    value: value,
+    label: evaluationFilter.ORDER_CHOICES[value]
+}));
 
 const typeChoices = Object.keys(
     evaluationModel.TYPE_CHOICES
@@ -149,8 +163,7 @@ export default {
     name: 'EvaluationsFilter',
 
     components: {
-        OrderSelect,
-        QuerySelect
+        OrderSelect
     },
 
     props: {
@@ -163,7 +176,7 @@ export default {
     data() {
         return {
             loading: false,
-            orderChoices: evaluationFilter.order,
+            orderChoices: orderChoices,
             typeChoices: typeChoices
         };
     },
@@ -190,4 +203,7 @@ export default {
 </script>
 
 <style lang="scss">
+
+@import '@/styles/components.scss';
+
 </style>

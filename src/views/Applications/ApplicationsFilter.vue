@@ -46,21 +46,21 @@
             ></el-input>
         </el-form-item>
 
-        <el-form-item label="Año del oficio" class="range">
+        <el-form-item label="Fecha del oficio" class="range">
             <el-date-picker
-                type="year"
+                type="date"
                 clearable
                 placeholder="Desde"
-                :value="filter.minYear"
-                @input="val => onParamChange({minYear: val})"  
+                :value="filter.minDate"
+                @input="val => onParamChange({minDate: val})"  
             ></el-date-picker>
             <span class="px-2">—</span>
             <el-date-picker
-                type="year"
+                type="date"
                 clearable
                 placeholder="Hasta"
-                :value="filter.maxYear"
-                @input="val => onParamChange({maxYear: val})"  
+                :value="filter.maxDate"
+                @input="val => onParamChange({maxDate: val})"  
             ></el-date-picker>
         </el-form-item>
 
@@ -81,35 +81,35 @@
         </el-form-item>
 
         <el-form-item label="Corporaciones">
-            <query-select
+            <ab-query-select
                 store="corporations"
                 :value="filter.corporations"
                 @change="val => onParamChange({corporations: val})"
-            ></query-select>
+            ></ab-query-select>
         </el-form-item>
 
         <el-form-item label="Dependencias">
-            <query-select
+            <ab-query-select
                 store="dependencies"
                 :value="filter.dependencies"
                 @change="val => onParamChange({dependencies: val})"
-            ></query-select>
+            ></ab-query-select>
         </el-form-item>
 
         <el-form-item label="Adscripciones">
-            <query-select
+            <ab-query-select
                 store="secondments"
                 :value="filter.secondments"
                 @change="val => onParamChange({secondments: val})"
-            ></query-select>
+            ></ab-query-select>
         </el-form-item>
 
         <el-form-item label="Puestos">
-            <query-select
+            <ab-query-select
                 store="positions"
                 :value="filter.positions"
                 @change="val => onParamChange({positions: val})"
-            ></query-select>
+            ></ab-query-select>
         </el-form-item>
 
         <el-form-item label="Fecha de creación" class="range">
@@ -135,7 +135,6 @@
 <script>
 
 import OrderSelect from '@/components/OrderSelect';
-import QuerySelect from '@/components/QuerySelect';
 import { 
     applicationFilter, 
     applicationModel 
@@ -159,8 +158,7 @@ export default {
     name: 'ApplicationsFilter',
 
     components: {
-        OrderSelect,
-        QuerySelect
+        OrderSelect
     },
 
     props: {

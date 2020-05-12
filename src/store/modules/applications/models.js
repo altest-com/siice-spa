@@ -1,4 +1,4 @@
-import { Model, yearReader, yearWriter } from '../abstract/models';
+import { Model, dateReader, dateWriter } from '../abstract/models';
 
 class ApplicationModel extends Model {
     STATUS_CREATED = 'created'
@@ -7,7 +7,7 @@ class ApplicationModel extends Model {
     STATUS_ARCHIVED = 'archived'
 
     STATUS_CHOICES = {
-        [this.STATUS_CREATED]: 'Creada',
+        [this.STATUS_CREATED]: 'Pendiente',
         [this.STATUS_ACCEPTED]: 'Aceptada',
         [this.STATUS_REJECTED]: 'Rechazada',
         [this.STATUS_ARCHIVED]: 'Archivada'
@@ -55,12 +55,12 @@ class ApplicationModel extends Model {
             api: 'document',
             type: String
         },
-        year: {
+        date: {
             writable: true,
-            api: 'year',
+            api: 'date',
             type: Date,
-            reader: yearReader,
-            writer: yearWriter
+            reader: dateReader,
+            writer: dateWriter
         },
         createdAt: {
             writable: false,
@@ -96,7 +96,7 @@ class ApplicationFilter extends Model {
     ORDER_CHOICES = {
         'candidate__last_name': 'Candidato',
         'document': 'Documento',
-        'year': 'Año de oficio',
+        'date': 'Fecha de oficio',
         'status': 'Estado',        
         'position__secondment__dependency__corporation__name': 'Corporación',
         'position__secondment__dependency__name': 'Dependencia',
@@ -110,7 +110,7 @@ class ApplicationFilter extends Model {
             writable: true,
             api: 'order_by',
             type: String,
-            choices: Object.keys(this.ORDER_CHOICES)
+            default: '-created_at'
         },
         name: {
             writable: true,
@@ -132,19 +132,19 @@ class ApplicationFilter extends Model {
             api: 'document__icontains',
             type: String
         },
-        minYear: {
+        minDate: {
             writable: true,
-            api: 'year__gte',
+            api: 'date__gte',
             type: Number,
-            reader: yearReader,
-            writer: yearWriter
+            reader: dateReader,
+            writer: dateWriter
         },
-        maxYear: {
+        maxDate: {
             writable: true,
-            api: 'year__lte',
+            api: 'date__lte',
             type: Number,
-            reader: yearReader,
-            writer: yearWriter
+            reader: dateReader,
+            writer: dateWriter
         },
         status: {
             writable: true,

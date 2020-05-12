@@ -1,25 +1,46 @@
 <template>
 
 <div class="applications-list">
+    <template v-if="applications.length">
+        <el-card v-if="view === 'table'" shadow="never" class="mt-5">
+            <table class="items-table">
+                <tr class="header">                
+                    <th v-for="header in headersData" :key="header.key">
+                        <div class="cell"> {{ header.label }} </div>
+                    </th>
+                </tr>
+                <application-row 
+                    v-for="application in applications" 
+                    :key="application.id"
+                    class="row"
+                    :headers="headers"
+                    :application-id="application.id"
+                    :focus="application.id === focusId"
+                    @click="onItemClick(application.id)"
+                ></application-row>
+            </table>
+        </el-card>
 
-    <el-card v-if="applications.length" shadow="never" class="mt-5">
-        <table class="items-table">
-            <tr class="header">                
-                <th v-for="header in headersData" :key="header.key">
-                    <div class="cell"> {{ header.label }} </div>
-                </th>
-            </tr>
-            <application-row 
-                v-for="application in applications" 
+        <el-row v-else-if="view === 'grid'" :gutter="8" class="mt-5">
+            <el-col
+                v-for="application in applications"
                 :key="application.id"
-                class="row"
-                :headers="headers"
-                :application-id="application.id"
-                :focus="application.id === focusId"
-                @click="onItemClick(application.id)"
-            ></application-row>
-        </table>
-    </el-card>
+                :xs="24" 
+                :sm="12" 
+                :md="8" 
+                :lg="8" 
+                :xl="4"                
+            >
+                <application-card
+                    class="mb-2"
+                    :application-id="application.id"
+                    :focus="application.id === focusId"
+                    @click="onItemClick(application.id)"                
+                ></application-card>
+            </el-col>
+        </el-row>
+
+    </template>
 
     <empty
         v-else
@@ -50,26 +71,16 @@
 import { mapGetters } from 'vuex';
 import Empty from '@/components/Empty';
 import ApplicationRow from './ApplicationRow';
-
-const headers = {
-    name: 'Nombre',
-    curp: 'CURP',
-    status: 'Estado',
-    document: 'Documento',
-    year: 'Año Oficio',
-    position: 'Puesto',
-    createdAt: 'Fecha',
-    corporation: 'Corporación',
-    dependency: 'Dependencia',
-    secondment: 'Adscripción'
-};
+import ApplicationCard from './ApplicationCard';
+import headers from './headers';
 
 export default {
     name: 'ApplicationsList',
 
     components: {
         Empty,
-        ApplicationRow
+        ApplicationRow,
+        ApplicationCard
     },
 
     props: {
@@ -80,14 +91,17 @@ export default {
         headers: {
             type: Array,
             default: () => [
+                'lastName',
                 'name',
                 'curp',
-                'status',
                 'document',
-                'year',
-                'position',
-                'createdAt'
+                'date',
+                'position'
             ]
+        },
+        view: {
+            type: String,
+            default: 'table'
         }
     },
 

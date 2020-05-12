@@ -6,23 +6,23 @@
     :class="{'focus': focus}" 
     @click="$emit('click')"
 >
-    <el-card>
+    <el-card shadow="never">
         <div class="flex-row js as mb-2">
-            <img class="image mr-2" :src="image" alt="">                   
+            <img class="image mr-3" :src="image" alt="">                   
             <div class="header">
-                <div class="text-w7 text-lg title">
+                <div class="text-w7 title mb-1">
                     {{ fullName }}
                 </div>
                 <div class="text-sm text-w3">
-                    {{ candidate.curp }}
+                    <span class="text-w7">CURP:</span>  {{ candidate.curp }}
                 </div>                    
             </div>                
         </div>
 
         <div class="mb-2">
             <div class="text-w3 text-sm mb-1">
-                Creada el <span class="text-w4 pl-1">
-                    {{ candidate.createdAt | dateFilter }}
+                Registrado el <span class="text-w4 pl-1">
+                    {{ candidate.createdAt | dateTimeFilter }}
                 </span>
             </div>
         </div>
@@ -84,12 +84,16 @@ export default {
 
 .candidate-card {
 
+    .el-card__body {
+        padding: 16px;
+    }
+
     &:hover {
         cursor: pointer;
     }
 
     &.focus .el-card {
-        background-color: #ecf6ed;
+        box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
     }
 
     .image {

@@ -17,15 +17,15 @@
             :type="alert.type"
             show-icon
             class="mb-3"
-        ></el-alert>        
+        />
 
-        <el-form-item label="Tipo de evaluación" prop="type">
-            <el-select
-                :value="evaluation.type"
-                @change="val => onParamChange({type: val})"
+        <el-form-item label="Origen de recursos">
+            <el-select 
+                :value="evaluation.resources" 
+                @change="val => onParamChange({resources: val})"
             >
                 <el-option
-                    v-for="choice in typeChoices"
+                    v-for="choice in resourcesChoices"
                     :key="choice.value"
                     :label="choice.label"
                     :value="choice.value"
@@ -33,16 +33,40 @@
             </el-select>
         </el-form-item>
 
-        <el-form-item label="Fecha y hora programada">
-            <el-date-picker
-                type="datetime"
-                :value="evaluation.scheduledAt"
-                @input="val => onParamChange({scheduledAt: val})"  
-            ></el-date-picker>
-        </el-form-item>     
+        <el-form-item label="Esquema de evaluación">
+            <el-select 
+                :value="evaluation.schema" 
+                @change="val => onParamChange({schema: val})"
+            >
+                <el-option
+                    v-for="choice in schemaChoices"
+                    :key="choice.value"
+                    :label="choice.label"
+                    :value="choice.value"
+                ></el-option>
+            </el-select>
+        </el-form-item>
+
+        <el-form-item label="Motivo de evaluación">
+            <el-select 
+                :value="evaluation.reason" 
+                @change="val => onParamChange({reason: val})"
+            >
+                <el-option
+                    v-for="choice in reasonChoices"
+                    :key="choice.value"
+                    :label="choice.label"
+                    :value="choice.value"
+                ></el-option>
+            </el-select>
+        </el-form-item>
+
+        <div v-for="section in sections" :key="section.key">
+            <eval-scheduler :section-id="section.id" :section="section.key" />
+        </div>
     </el-form>
 
-    <div class="buttons mt-4 flex-row je ac">
+    <div class="buttons mt-4">
         <el-button
             type="primary"
             size="small"
@@ -51,7 +75,7 @@
             @click.prevent="onConfirm"            
         >
             Confirmar
-        </el-button>
+        </el-button>      
     </div> 
 </div>
 
@@ -60,6 +84,8 @@
 <script>
 
 import { evaluationModel } from '@/store/modules/evaluations/models';
+import EvalScheduler from './EvalScheduler';
+import params from '../params';
 
 const typeChoices = Object.keys(
     evaluationModel.TYPE_CHOICES
@@ -68,13 +94,53 @@ const typeChoices = Object.keys(
     label: evaluationModel.TYPE_CHOICES[value]
 }));
 
+const resourcesChoices = Object.keys(
+    evaluationModel.RESOURCES_CHOICES
+).map(value => ({
+    value: value,
+    label: evaluationModel.RESOURCES_CHOICES[value]
+}));
+
+const schemaChoices = Object.keys(
+    evaluationModel.SCHEMA_CHOICES
+).map(value => ({
+    value: value,
+    label: evaluationModel.SCHEMA_CHOICES[value]
+}));
+
+const reasonChoices = Object.keys(
+    evaluationModel.REASON_CHOICES
+).map(value => ({
+    value: value,
+    label: evaluationModel.REASON_CHOICES[value]
+}));
+
 const rules = {
 };
+
+const slots = [{
+    lower: '09:00',
+    upper: '10:00',
+    count: 2
+}, {
+    lower: '10:00',
+    upper: '11:00',
+    count: 1
+}, {
+    lower: '11:00',
+    upper: '12:00',
+    count: 3
+}, {
+    lower: '02:00',
+    upper: '03:00',
+    count: 10
+}];
 
 export default {
     name: 'EvaluationEditor',
 
     components: {
+        EvalScheduler
     },
 
     props: {
@@ -93,7 +159,12 @@ export default {
             loading: false,
             alert: null,
             rules: rules,
-            typeChoices: typeChoices
+            typeChoices: typeChoices,
+            resourcesChoices: resourcesChoices,
+            schemaChoices: schemaChoices,
+            reasonChoices: reasonChoices,
+            showCalendar: false,
+            currSection: null
         };
     },
 
@@ -102,11 +173,23 @@ export default {
             this.$store.dispatch('evaluations/getItem', this.evaluationId);
             return this.$store.state.evaluations.items[this.evaluationId];
         },
+
         application() {
             const applicationId = this.evaluation.application;
             this.$store.dispatch('applications/getItem', applicationId);
             return this.$store.state.applications.items[applicationId];
+        },
+
+        sections() {
+            return Object.keys(params).map(key => ({
+                key: key,
+                id: this.evaluation[key]
+            }));
         }
+    },
+
+    created() {
+        this.$options.slots = slots;
     },
 
     methods: {

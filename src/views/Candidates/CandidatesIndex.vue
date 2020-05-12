@@ -11,6 +11,7 @@
         ></list-header>
 
         <candidates-list
+            :view="main"
             :focus-id="curCandidateId"
             @update:focus-id="onListFocusChange"
         ></candidates-list>
@@ -43,12 +44,20 @@
     <template v-slot:side-actions>
         <template v-if="panel === 'search'">
             <div class="text-lg text-w6">Búsqueda</div>
-            <tool-button
-                class="ml-1"
-                tooltip="Restablecer filtro" 
-                icon="el-icon-refresh"
-                @click="onClearFilter"
-            ></tool-button>
+            <div class="flex-row">
+                <tool-button
+                    class="ml-1"
+                    tooltip="Cambiar vista principal" 
+                    :icon="viewIcon"
+                    @click="onChangeView"
+                />
+                <tool-button
+                    class="ml-1"
+                    tooltip="Restablecer filtro" 
+                    icon="el-icon-refresh"
+                    @click="onClearFilter"
+                />
+            </div>
         </template>
 
         <template v-else-if="panel === 'details'">
@@ -56,16 +65,16 @@
             <div class="flex-row">
                 <tool-button
                     class="ml-1"
-                    tooltip="Editar candidate" 
+                    tooltip="Editar candidato" 
                     icon="el-icon-edit"
                     @click="onCandidateEdit"
-                ></tool-button>
+                />
                 <tool-button
                     class="ml-1"
                     tooltip="Eliminar candidate" 
                     icon="el-icon-delete"
                     @click="showDeleteDialog = true"
-                ></tool-button>
+                />
             </div>                 
         </template>
 
@@ -77,7 +86,7 @@
                     tooltip="Cancelar edición" 
                     icon="el-icon-close"
                     @click="onCancelCandidateEdit"
-                ></tool-button>
+                />
             </div>                    
         </template>
     </template>
@@ -89,6 +98,7 @@
 
         <candidate-details
             v-else-if="panel === 'details'"
+            class="px-2"
             :candidate-id="curCandidateId"
         ></candidate-details>
 
@@ -133,6 +143,7 @@ export default {
     data() {
         return {
             panel: 'search',
+            main: 'table',
             curCandidateId: null,
             showDeleteDialog: false,
             loading: false,
@@ -146,6 +157,10 @@ export default {
         }),
         candidatesCount() {
             return this.$store.state.candidates.count;
+        },
+        viewIcon() {
+            return this.main === 'grid' ? 
+                'el-icon-notebook-2' : 'el-icon-s-grid';
         }
     },
 
@@ -215,6 +230,10 @@ export default {
                     this.$store.dispatch('candidates/fetchItems');
                 });
             }
+        },
+
+        onChangeView() {
+            this.main = this.main === 'table' ? 'grid' : 'table';
         }
     }
 };

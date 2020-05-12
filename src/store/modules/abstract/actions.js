@@ -22,10 +22,10 @@ function fetchItems(context, params) {
     const api = state.API;
     const filterData = filter ? filter.apiPost(state.filter, false) : {};
 
-    params = Object.assign({}, params, filterData, {
+    params = Object.assign({}, filterData, {
         limit: state.pageSize,
         offset: state.pageNumber * state.pageSize
-    });
+    }, params);
 
     context.commit(mutTypes.SET_LOADING, true);
 

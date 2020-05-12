@@ -13,7 +13,7 @@
                 <slot name="side-actions"></slot>   
             </div>
             <el-scrollbar wrap-class="scrollbar-wrapper" :style="sideStyle">
-                <div class="pl-3 pr-4 py-4">
+                <div class="pl-4 pr-4 py-4">
                     <slot name="side-content"></slot>
                 </div>
             </el-scrollbar>
@@ -63,7 +63,7 @@ export default {
 
     .side {
         height: 100%;
-        width: 350px;
+        width: 380px;
         flex-shrink: 0;
         background-color: #fff;
     }

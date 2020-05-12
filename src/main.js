@@ -14,6 +14,7 @@ import filters from './filters';
 import '@/icons';
 import '@/permission';
 import { axios } from './api';
+import preload from './preload';
 
 /* import sty from '!!raw-loader!./styles/reports.css';
 
@@ -49,6 +50,8 @@ Vue.use(VueLogger, {
 for (const filterName of Object.keys(filters)) {
     Vue.filter(filterName, filters[filterName]);
 }
+
+preload(store);
 
 new Vue({
     el: '#app',

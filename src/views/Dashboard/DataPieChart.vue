@@ -40,11 +40,11 @@ export default {
             default: ''
         },
         total: {
-            type: String,
+            type: [String, Number],
             default: ''
         },
         chart: {
-            type: Object, 
+            type: [Object, Array], 
             required: true
         }
     },

@@ -67,7 +67,7 @@ export const constantRoutes = [{
         children: [{
             path: 'index',
             name: 'CandidatesIndex',
-            component: () => import('@/views/Candidates/index')
+            component: () => import('@/views/Candidates/CandidatesIndex')
         }]
     }, {
         path: '/corporations',
@@ -107,7 +107,7 @@ export const constantRoutes = [{
         children: [{
             path: 'index',
             name: 'ApplicationsIndex',
-            component: () => import('@/views/Applications/index')
+            component: () => import('@/views/Applications/ApplicationsIndex')
         }]
     }, {
         path: '/evaluations',
@@ -115,7 +115,7 @@ export const constantRoutes = [{
         children: [{
             path: ':section',
             name: 'EvaluationsIndex',
-            component: () => import('@/views/Evaluations/index'),
+            component: () => import('@/views/Evaluations/EvaluationsIndex'),
             props: true
         }, {
             path: ':evaluationId/:section/',

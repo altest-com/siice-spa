@@ -2,10 +2,7 @@
 
 <td class="table-cell" :style="renderStyles">
     <div v-if="type === 'image'" class="cell">
-        <router-link v-if="route" :to="route">
-            <img :src="render" alt="">
-        </router-link>
-        <img v-else :src="render" alt="">
+        <img :src="render" alt="">
     </div>
     <div v-if="type === 'actions'" class="cell">
         <el-button
@@ -48,14 +45,6 @@ export default {
         value: {
             type: null,
             default: ''
-        },
-        styles: {
-            type: Object,
-            default: null
-        },
-        route: {
-            type: [String, Object],
-            default: null
         },
         edit: {
             type: Boolean,

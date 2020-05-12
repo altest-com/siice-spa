@@ -1,25 +1,46 @@
 <template>
 
 <div class="evaluations-list">
+    <template v-if="evaluations.length">
+        <el-card v-if="view === 'table'" shadow="never" class="mt-5">
+            <table class="items-table">
+                <tr class="header">                
+                    <th v-for="header in headersData" :key="header.key">
+                        <div class="cell"> {{ header.label }} </div>
+                    </th>
+                </tr>
+                <evaluation-row 
+                    v-for="evaluation in evaluations" 
+                    :key="evaluation.id"
+                    class="row"
+                    :headers="headers"
+                    :evaluation-id="evaluation.id"
+                    :focus="evaluation.id === focusId"
+                    @click="onItemClick(evaluation.id)"
+                ></evaluation-row>
+            </table>
+        </el-card>
 
-    <el-card v-if="evaluations.length" shadow="never" class="mt-5">
-        <table class="items-table">
-            <tr class="header">                
-                <th v-for="header in headersData" :key="header.key">
-                    <div class="cell"> {{ header.label }} </div>
-                </th>
-            </tr>
-            <evaluation-row 
-                v-for="evaluation in evaluations" 
+        <el-row v-else-if="view === 'grid'" :gutter="8" class="mt-5">
+            <el-col
+                v-for="evaluation in evaluations"
                 :key="evaluation.id"
-                class="row"
-                :headers="headers"
-                :evaluation-id="evaluation.id"
-                :focus="evaluation.id === focusId"
-                @click="onItemClick(evaluation.id)"
-            ></evaluation-row>
-        </table>
-    </el-card>
+                :xs="24" 
+                :sm="12" 
+                :md="8" 
+                :lg="8" 
+                :xl="4"                
+            >
+                <evaluation-card
+                    class="mb-2"
+                    :evaluation-id="evaluation.id"
+                    :focus="evaluation.id === focusId"
+                    @click="onItemClick(evaluation.id)"                
+                ></evaluation-card>
+            </el-col>
+        </el-row>
+
+    </template>
 
     <empty
         v-else
@@ -50,35 +71,16 @@
 import { mapGetters } from 'vuex';
 import Empty from '@/components/Empty';
 import EvaluationRow from './EvaluationRow';
-
-const headers = {
-    /* Candidate fields */
-    name: 'Nombre',
-    curp: 'CURP',
-    /* Application fields */
-    document: 'Documento',
-    year: 'Año Oficio',
-    position: 'Puesto',
-    corporation: 'Corporación',
-    dependency: 'Dependencia',
-    secondment: 'Adscripción',
-    /* Evualtion fields */
-    type: 'Tipo de evaluación',
-    scheduledAt: 'Fecha programada',
-    medical: 'Médico',
-    socioeconomic: 'Socieconómico',
-    psychological: 'Psicológico',
-    polygraphic: 'Poligráfico'
-};
-
-const allowHeaders = Object.keys(headers);
+import EvaluationCard from './EvaluationCard';
+import headers from './headers';
 
 export default {
     name: 'EvaluationsList',
 
     components: {
         Empty,
-        EvaluationRow
+        EvaluationRow,
+        EvaluationCard
     },
 
     props: {
@@ -89,18 +91,16 @@ export default {
         headers: {
             type: Array,
             default: () => [
+                'lastName',
                 'name',
                 'curp',
-                'type',
-                'scheduledAt',
-                'medical',
-                'socioeconomic',
-                'psychological',
-                'polygraphic'
-            ],
-            validator: values => values.every(
-                val => allowHeaders.includes(val)
-            )
+                'status',
+                'type'
+            ]
+        },
+        view: {
+            type: String,
+            default: 'table'
         }
     },
 

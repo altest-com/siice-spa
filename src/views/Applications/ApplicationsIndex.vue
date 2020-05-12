@@ -8,47 +8,70 @@
             :total-count="applicationsCount"
             add-text="Nueva Solicitud"
             @create="onCreateApplication"
-        ></list-header>
+        />
 
         <applications-list
+            :view="mainView"
             :focus-id="curApplicationId"
+            :headers="headers"
             @update:focus-id="onListFocusChange"
-        ></applications-list>
+        />
 
-        <el-dialog
-            title="Advertencia"
+        <delete-dialog
+            message="¿Seguro deseas eliminar esta solicitud de forma 
+                permanente? Se eliminará cualquier dato asociado."
             :visible.sync="showDeleteDialog"
-            width="400px"
-            center
-        >
-            <p>
-                ¿Seguro deseas eliminar esta solicitud de forma permanente? 
-                Se eliminará cualquier dato asociado.
-            </p>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="showDeleteDialog = false">
-                    Cancelar
-                </el-button>
-                <el-button 
-                    type="primary" 
-                    :disabled="loading"
-                    @click="onConfirmDelete"
-                >
-                    Confirmar
-                </el-button>
-            </span>
-        </el-dialog>
+            :disabled="loading"
+            @confirm="onConfirmDelete"
+        />
     </template>
 
     <template v-slot:side-actions>
         <template v-if="panel === 'search'">
-            <div class="text-lg text-w6">Búsqueda</div>
-            <tool-button
-                class="ml-1"
-                tooltip="Restablecer filtro" 
-                icon="el-icon-refresh"
-                @click="onClearFilter"
-            ></tool-button>
+            <div class="text-lg text-w6">
+                Búsqueda
+            </div>
+            <div class="flex-row">
+                <el-popover
+                    v-if="mainView === 'table'"
+                    placement="bottom"
+                    title="Columnas visibles"
+                    width="200"
+                    trigger="click"
+                    popper-class="select-columns-popper"
+                >
+                    <el-checkbox-group v-model="headers">
+                        <el-checkbox 
+                            v-for="choice in headerChoices"
+                            :key="choice.value"
+                            :label="choice.value" 
+                        >
+                            {{ choice.label }}
+                        </el-checkbox>
+                    </el-checkbox-group>
+
+                    <tool-button
+                        slot="reference"
+                        :push="false"
+                        tooltip="Seleccionar columnas" 
+                        icon="el-icon-finished"
+                    />
+                </el-popover>
+
+                <tool-button
+                    class="ml-1"
+                    tooltip="Cambiar vista principal" 
+                    :icon="viewIcon"
+                    @click="onToggleMainView"
+                />
+
+                <tool-button
+                    class="ml-1"
+                    tooltip="Restablecer filtro" 
+                    icon="el-icon-refresh"
+                    @click="onClearFilter"
+                />
+            </div>            
         </template>
 
         <template v-else-if="panel === 'details'">
@@ -59,13 +82,13 @@
                     tooltip="Editar application" 
                     icon="el-icon-edit"
                     @click="onShowEditor"
-                ></tool-button>
+                />
                 <tool-button
                     class="ml-1"
                     tooltip="Eliminar application" 
                     icon="el-icon-delete"
                     @click="showDeleteDialog = true"
-                ></tool-button>
+                />
             </div>                 
         </template>
 
@@ -77,7 +100,7 @@
                     tooltip="Cancelar edición" 
                     icon="el-icon-close"
                     @click="onEditorCancel"
-                ></tool-button>
+                />
             </div>                    
         </template>
     </template>
@@ -85,14 +108,14 @@
     <template v-slot:side-content>
         <applications-filter 
             v-if="panel === 'search'"
-        ></applications-filter>
+        />
 
         <application-details
             v-else-if="panel === 'details'"
             :application-id="curApplicationId"
             @reject="onRejected"
             @accept="onAccepted"
-        ></application-details>
+        />
 
         <template v-else-if="panel === 'editor'">
             <template v-if="curApplicationId === newApplicationId">
@@ -101,14 +124,14 @@
                         <el-switch v-model="multiEdit"></el-switch>
                     </el-form-item>
                 </el-form>
-                <el-divider class="mt-2 mb-3"></el-divider>
+                <el-divider class="mt-2 mb-3" />
             </template>
 
             <application-editor
                 :edit="curApplicationId !== newApplicationId" 
                 :application-id="curApplicationId"
                 @confirm="onEditorConfirm"
-            ></application-editor>
+            />
         </template>
     </template>
 </split-view>
@@ -122,10 +145,27 @@ import { applicationModel } from '@/store/modules/applications/models';
 import ToolButton from '@/components/ToolButton';
 import ListHeader from '@/components/ListHeader';
 import SplitView from '@/layout/components/SplitView';
+import DeleteDialog from '@/components/DeleteDialog';
 import ApplicationsList from './ApplicationsList';
 import ApplicationsFilter from './ApplicationsFilter';
 import ApplicationEditor from './ApplicationEditor';
 import ApplicationDetails from './ApplicationDetails';
+
+import headers from './headers';
+
+const headerChoices = Object.keys(headers).map(value => ({
+    value: value,
+    label: headers[value]
+}));
+
+const initHeaders = [
+    'lastName',
+    'name',
+    'curp',
+    'document',
+    'date',
+    'position'
+];
 
 const newApplicationId = 'newId';
 
@@ -139,17 +179,21 @@ export default {
         ApplicationsList,
         ApplicationsFilter,        
         ApplicationEditor,
-        ApplicationDetails        
+        ApplicationDetails,
+        DeleteDialog      
     },
 
     data() {
         return {
             panel: 'search',
+            mainView: 'table',
             curApplicationId: null,
             showDeleteDialog: false,
             loading: false,
             newApplicationId: newApplicationId,
-            multiEdit: false
+            multiEdit: false,
+            headerChoices: headerChoices,
+            headers: initHeaders
         };
     },
 
@@ -159,6 +203,10 @@ export default {
         }),
         applicationsCount() {
             return this.$store.state.applications.count;
+        },
+        viewIcon() {
+            return this.mainView === 'grid' ? 
+                'el-icon-notebook-2' : 'el-icon-s-grid';
         }
     },
 
@@ -197,7 +245,7 @@ export default {
                     this.onCreateApplication({
                         position: application.position,
                         document: application.document,
-                        year: application.year
+                        date: application.date
                     });
                 } else {
                     this.curApplicationId = application.id;
@@ -256,6 +304,10 @@ export default {
                 this.panel = 'search';
                 this.$store.dispatch('applications/fetchItems');
             }
+        },
+
+        onToggleMainView() {
+            this.mainView = this.mainView === 'table' ? 'grid' : 'table';
         }
     }
 };

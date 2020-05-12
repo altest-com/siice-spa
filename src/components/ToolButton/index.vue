@@ -48,6 +48,10 @@ export default {
         disabled: {
             type: Boolean,
             default: false
+        },
+        push: {
+            type: Boolean,
+            default: true
         }
     },
 
@@ -56,7 +60,9 @@ export default {
 
     methods: {
         onButtonClick(event) {
-            event.currentTarget.blur();
+            if (this.push) {
+                event.currentTarget.blur();
+            }
             this.$emit('click');
         }
     }

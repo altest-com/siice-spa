@@ -1,18 +1,34 @@
+import { socioeconomicsApi } from '@/store/modules/socioeconomics';
+import { medicalsApi } from '@/store/modules/medicals';
+import { toxicologicalsApi } from '@/store/modules/toxicologicals';
+import { psychologicalsApi } from '@/store/modules/psychologicals';
+import { polygraphicsApi } from '@/store/modules/polygraphics';
+
 export default {
     'socioeconomic': {
-        store: 'socioeconomics'
+        name: 'Socioeconómico',
+        store: 'socioeconomics',
+        api: socioeconomicsApi
     },
     'medical': {
-        store: 'medicals'
+        name: 'Médico',
+        store: 'medicals',
+        api: medicalsApi
     },
     'toxicological': {
-        store: 'toxicologicals'
+        name: 'Toxicológico',
+        store: 'toxicologicals',
+        api: toxicologicalsApi
     },
     'psychological': {
-        store: 'psychologicals'
+        name: 'Psicológico',
+        store: 'psychologicals',
+        api: psychologicalsApi
     },
     'polygraphic': {
-        store: 'polygraphics'
+        name: 'Poligráfico',
+        store: 'polygraphics',
+        api: polygraphicsApi
     }
 };
 

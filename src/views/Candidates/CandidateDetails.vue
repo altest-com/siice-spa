@@ -1,7 +1,7 @@
 <template>
 
 <div v-if="candidate" class="candidate-details">
-     <info-list :items="infoItems"></info-list>
+    <info-list :items="infoItems" />
 </div>
 
 </template>
@@ -9,7 +9,7 @@
 <script>
 
 const defaultImage = require('@/assets/images/user.png');
-import InfoList from '../components/InfoList';
+import InfoList from '@/components/InfoList';
 
 export default {
     name: 'CandidateDetails',
@@ -61,9 +61,9 @@ export default {
                 value: item.curp,
                 type: 'text'
             }, {
-                label: 'Fecha de registro',
+                label: 'Fecha y hora de registro',
                 value: item.createdAt,
-                type: 'date'
+                type: 'datetime'
             }];
         }
     }, 
@@ -78,6 +78,9 @@ export default {
 .candidate-details {
     .candidate-image {
         margin-bottom: 24px;
+        .value.image {
+            height: 300px;
+        }
     }
 }
 

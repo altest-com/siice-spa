@@ -65,11 +65,11 @@
             ></el-input>
         </el-form-item>
 
-        <el-form-item label="Año del oficio" prop="year">
+        <el-form-item label="Fecha del oficio" prop="date">
             <el-date-picker
-                type="year"
-                :value="application.year"                    
-                @input="val => onParamChange({year: val})"                    
+                type="date"
+                :value="application.date"                    
+                @input="val => onParamChange({date: val})"                    
             ></el-date-picker>
         </el-form-item>
 
@@ -125,9 +125,9 @@ const rules = {
         message: 'Por favor ingresa un documento de origen',
         trigger: 'blur'
     }],
-    year: [{
+    date: [{
         required: true,
-        message: 'Por favor selecciona el año del oficio',
+        message: 'Por favor selecciona la fecha del oficio',
         trigger: 'blur'
     }],
     position: [{
@@ -243,19 +243,6 @@ export default {
 
 <style lang="scss">
 
-.candidate-query {
-    .el-select-dropdown__item {
-        height: auto;
-        font-size: 14px;
-        line-height: 24px;
-        padding-top: 2px;
-        padding-bottom: 2px;
-    }
-    .query-curp {
-        font-size: 12px;
-        color: rgb(61, 61, 61);
-        font-weight: 600;
-    }
-}
+@import '@/styles/components.scss';
 
 </style>

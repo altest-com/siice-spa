@@ -10,6 +10,8 @@
         ></list-header>
 
         <evaluations-list
+            :view="mainView"
+            :headers="headers"
             :focus-id="curEvaluationId"
             @update:focus-id="onListFocusChange"
         ></evaluations-list>
@@ -42,12 +44,47 @@
     <template v-slot:side-actions>
         <template v-if="panel === 'search'">
             <div class="text-lg text-w6">Búsqueda</div>
-            <tool-button
-                class="ml-1"
-                tooltip="Restablecer filtro" 
-                icon="el-icon-refresh"
-                @click="onClearFilter"
-            ></tool-button>
+            <div class="flex-row">
+                <el-popover
+                    v-if="mainView === 'table'"
+                    placement="bottom"
+                    title="Columnas visibles"
+                    width="200"
+                    trigger="click"
+                    popper-class="select-columns-popper"
+                >
+                    <el-checkbox-group v-model="headers">
+                        <el-checkbox 
+                            v-for="choice in headerChoices"
+                            :key="choice.value"
+                            :label="choice.value" 
+                        >
+                            {{ choice.label }}
+                        </el-checkbox>
+                    </el-checkbox-group>
+
+                    <tool-button
+                        slot="reference"
+                        :push="false"
+                        tooltip="Seleccionar columnas" 
+                        icon="el-icon-finished"
+                    />
+                </el-popover>
+
+                <tool-button
+                    class="ml-1"
+                    tooltip="Cambiar vista principal" 
+                    :icon="viewIcon"
+                    @click="onToggleMainView"
+                />
+
+                <tool-button
+                    class="ml-1"
+                    tooltip="Restablecer filtro" 
+                    icon="el-icon-refresh"
+                    @click="onClearFilter"
+                />
+            </div>
         </template>
 
         <template v-else-if="panel === 'details'">
@@ -58,13 +95,13 @@
                     tooltip="Editar evaluation" 
                     icon="el-icon-edit"
                     @click="onEvaluationEdit"
-                ></tool-button>
+                />
                 <tool-button
                     class="ml-1"
                     tooltip="Eliminar evaluation" 
                     icon="el-icon-delete"
                     @click="showDeleteDialog = true"
-                ></tool-button>
+                />
             </div>                 
         </template>
 
@@ -76,7 +113,7 @@
                     tooltip="Cancelar edición" 
                     icon="el-icon-close"
                     @click="onCancelEvaluationEdit"
-                ></tool-button>
+                />
             </div>                    
         </template>
     </template>
@@ -84,6 +121,7 @@
     <template v-slot:side-content>
         <evaluations-filter 
             v-if="panel === 'search'"
+            :params="filterParams"
         ></evaluations-filter>
 
         <evaluation-details
@@ -115,6 +153,23 @@ import EvaluationsFilter from './EvaluationsFilter';
 import EvaluationEditor from './EvaluationEditor';
 import EvaluationDetails from './EvaluationDetails';
 
+import headers from './headers';
+
+const headerChoices = Object.keys(headers).map(
+    value => ({
+        value: value,
+        label: headers[value]
+    })
+);
+
+const initHeaders = [
+    'lastName',
+    'name',
+    'curp',
+    'status',
+    'type'
+];
+
 const newEvaluationId = 'newId';
 
 export default {
@@ -140,10 +195,14 @@ export default {
     data() {
         return {
             panel: 'search',
+            mainView: 'table',
             curEvaluationId: null,
             showDeleteDialog: false,
             loading: false,
-            newEvaluationId: newEvaluationId
+            newEvaluationId: newEvaluationId,
+            filterParams: {},
+            headers: initHeaders,
+            headerChoices: headerChoices
         };
     },
 
@@ -153,11 +212,30 @@ export default {
         }),
         evaluationsCount() {
             return this.$store.state.evaluations.count;
+        },
+        viewIcon() {
+            return this.mainView === 'grid' ? 
+                'el-icon-notebook-2' : 'el-icon-s-grid';
         }
     },
 
     created() {
+        const filterParams = this.$route.query;
+        if (filterParams.candidates) {
+            this.$store.dispatch('evaluations/setFilter', {
+                candidates: [Number(filterParams.candidates)]
+            });
+        }
         this.$store.dispatch('evaluations/fetchItems');
+    },
+
+    beforeRouteUpdate(to, from, next) {
+        const filterParams = to.query;
+        if (Object.keys(filterParams).length) {
+            this.$store.dispatch('evaluations/setFilter', filterParams);
+            this.$store.dispatch('evaluations/fetchItems');
+        }        
+        next();
     },
 
     methods: {
@@ -222,6 +300,10 @@ export default {
                     this.$store.dispatch('evaluations/fetchItems');
                 });
             }
+        },
+
+        onToggleMainView() {
+            this.mainView = this.mainView === 'table' ? 'grid' : 'table';
         }
     }
 };

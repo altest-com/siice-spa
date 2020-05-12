@@ -51,7 +51,7 @@
                 tooltip="Restablecer filtro" 
                 icon="el-icon-refresh"
                 @click="onClearFilter"
-            ></tool-button>
+            />
         </template>
 
         <template v-else-if="panel === 'editor'">
@@ -62,7 +62,7 @@
                     tooltip="Cancelar edición" 
                     icon="el-icon-close"
                     @click="onCancelPositionEdit"
-                ></tool-button>
+                />
             </div>                    
         </template>
     </template>
