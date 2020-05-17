@@ -2,7 +2,6 @@ import Vue from 'vue';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import Jwt from '@/jwt';
-/* import settings from './settings'; */
 import Qs from 'qs';
 
 const API_URL = process.env.VUE_APP_API_URL;
@@ -29,20 +28,17 @@ class Api {
         this.path = path;
     }
 
-    fetch(params) {
-        return Vue.axios.get(
-            this.path, 
-            {
-                params: params,
-                paramsSerializer: (p) => {
-                    return Qs.stringify(p, { arrayFormat: 'repeat' });
-                }
+    fetch(params = {}) {
+        return this.axios.get(this.path, {
+            params: params,
+            paramsSerializer: (p) => {
+                return Qs.stringify(p, { arrayFormat: 'repeat' });
             }
-        );
+        });
     }
     
-    retrieve(id = '') {
-        return Vue.axios.get(this.path + id + '/');
+    retrieve(id = '', params = {}) {
+        return this.axios.get(this.path + id + '/', { params: params });
     }
     
     create(params) {

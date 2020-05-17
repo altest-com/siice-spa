@@ -6,14 +6,15 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';
 import locale from 'element-ui/lib/locale/lang/es';
-import '@/styles/index.scss'; // global css
+
 import App from './App';
 import store from './store';
 import router from './router';
+import { axios } from './api';
 import filters from './filters';
 import '@/icons';
+import '@/styles/index.scss'; // global css
 import '@/permission';
-import { axios } from './api';
 import preload from './preload';
 
 /* import sty from '!!raw-loader!./styles/reports.css';
