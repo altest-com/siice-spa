@@ -1,4 +1,4 @@
-import { Model, dateReader, dateWriter } from '../abstract/models';
+import { Model, readers, writers } from 'vrudex';
 
 class ApplicationModel extends Model {
     STATUS_CREATED = 'created'
@@ -59,8 +59,8 @@ class ApplicationModel extends Model {
             writable: true,
             api: 'date',
             type: Date,
-            reader: dateReader,
-            writer: dateWriter
+            reader: readers.dateReader,
+            writer: writers.dateWriter
         },
         createdAt: {
             writable: false,
@@ -91,6 +91,7 @@ class ApplicationModel extends Model {
 }
 
 const applicationModel = new ApplicationModel();
+Object.freeze(applicationModel);
 
 class ApplicationFilter extends Model {
     ORDER_CHOICES = {
@@ -136,15 +137,15 @@ class ApplicationFilter extends Model {
             writable: true,
             api: 'date__gte',
             type: Number,
-            reader: dateReader,
-            writer: dateWriter
+            reader: readers.dateReader,
+            writer: writers.dateWriter
         },
         maxDate: {
             writable: true,
             api: 'date__lte',
             type: Number,
-            reader: dateReader,
-            writer: dateWriter
+            reader: readers.dateReader,
+            writer: writers.dateWriter
         },
         status: {
             writable: true,
@@ -191,10 +192,9 @@ class ApplicationFilter extends Model {
 }
 
 const applicationFilter = new ApplicationFilter();
+Object.freeze(applicationFilter);
 
 export {
     applicationModel,
-    ApplicationModel,
-    applicationFilter,
-    ApplicationFilter
+    applicationFilter
 };

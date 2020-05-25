@@ -1,4 +1,4 @@
-import { Model } from '../abstract/models';
+import { Model } from 'vrudex';
 
 class FileModel extends Model {
     props = {
@@ -21,6 +21,7 @@ class FileModel extends Model {
 }
 
 const fileModel = new FileModel();
+Object.freeze(fileModel);
 
 export {
     FileModel,

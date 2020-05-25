@@ -17,7 +17,7 @@
                     :application-id="application.id"
                     :focus="application.id === focusId"
                     @click="onItemClick(application.id)"
-                ></application-row>
+                />
             </table>
         </el-card>
 
@@ -36,21 +36,18 @@
                     :application-id="application.id"
                     :focus="application.id === focusId"
                     @click="onItemClick(application.id)"                
-                ></application-card>
+                />
             </el-col>
         </el-row>
 
     </template>
 
-    <empty
+    <ab-empty
         v-else
         title="Sin elementos"
         message="No existen resultados para mostrar"
-        icon-size="3em"
-        height="383px"
-        icon="el-icon-user"
-        background="#eee"
-    ></empty> 
+        height="400px"
+    />
 
     <el-pagination 
         hide-on-single-page
@@ -61,7 +58,7 @@
         :current-page="pageNumber"
         :total="applicationsCount"
         @current-change="updatePage"
-    ></el-pagination>       
+    />
 </div>
 
 </template>
@@ -69,7 +66,6 @@
 <script>
 
 import { mapGetters } from 'vuex';
-import Empty from '@/components/Empty';
 import ApplicationRow from './ApplicationRow';
 import ApplicationCard from './ApplicationCard';
 import headers from './headers';
@@ -78,7 +74,6 @@ export default {
     name: 'ApplicationsList',
 
     components: {
-        Empty,
         ApplicationRow,
         ApplicationCard
     },

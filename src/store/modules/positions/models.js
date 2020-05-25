@@ -1,4 +1,4 @@
-import { Model, dateReader, dateWriter } from '../abstract/models';
+import { Model, readers, writers } from 'vrudex';
 
 class PositionModel extends Model {
     props = {
@@ -41,6 +41,7 @@ class PositionModel extends Model {
 }
 
 const positionModel = new PositionModel();
+Object.freeze(positionModel);
 
 class PositionFilter extends Model {
     ORDER_CHOICES = {
@@ -85,20 +86,21 @@ class PositionFilter extends Model {
             writable: false,
             api: 'min_created_at',
             type: Date,
-            reader: dateReader,
-            writer: dateWriter
+            reader: readers.dateReader,
+            writer: writers.dateWriter
         },
         maxCreatedAt: {
             writable: false,
             api: 'max_created_at',
             type: Date,
-            reader: dateReader,
-            writer: dateWriter
+            reader: readers.dateReader,
+            writer: writers.dateWriter
         }
     }
 }
 
 const positionFilter = new PositionFilter();
+Object.freeze(positionFilter);
 
 export {
     positionModel,

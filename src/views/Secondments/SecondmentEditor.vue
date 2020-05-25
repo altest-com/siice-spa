@@ -23,7 +23,7 @@
             <el-input
                 :value="secondment.name"                    
                 @input="val => onParamChange({name: val})"                    
-            ></el-input>
+            />
         </el-form-item>
 
         <el-form-item label="Corporación" prop="corporation">
@@ -32,7 +32,7 @@
                 :clearable="false"
                 :value="corporation_ || secondment.corporation"
                 @change="val => corporation_ = val"
-            ></ab-query-select>
+            />
         </el-form-item>
 
         <el-form-item label="Dependencia" prop="dependency">
@@ -42,7 +42,7 @@
                 :params="queryParams"
                 :value="secondment.dependency"
                 @change="val => onParamChange({dependency: val})"
-            ></ab-query-select>
+            />
         </el-form-item>
     </el-form>
 

@@ -1,4 +1,4 @@
-import { Model } from '../abstract/models';
+import { Model } from 'vrudex';
 
 class AlertModel extends Model {    
     SECTION_SOCIOECONOMIC = 'socioeconomic'
@@ -51,6 +51,7 @@ class AlertModel extends Model {
 }
 
 const alertModel = new AlertModel();
+Object.freeze(alertModel);
 
 class AlertFilter extends Model {
     props = {
@@ -63,6 +64,7 @@ class AlertFilter extends Model {
 }
 
 const alertFilter = new AlertFilter();
+Object.freeze(alertFilter);
 
 export {
     alertModel,

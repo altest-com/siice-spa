@@ -7,11 +7,11 @@
         size="small"
     >
         <el-form-item label="Ordenar por">
-            <order-select
+            <ab-order-select
                 :order-choices="orderChoices"
                 :value="filter.orderBy"                    
                 @change="val => onParamChange({orderBy: val})"
-            ></order-select>           
+            />
         </el-form-item>
 
         <el-form-item label="Nombre" prop="name">
@@ -19,7 +19,7 @@
                 clearable
                 :value="filter.name"                    
                 @input="val => onParamChange({name: val})"                    
-            ></el-input>
+            />
         </el-form-item>
 
         <el-form-item label="Apellidos" prop="lastName">
@@ -27,7 +27,7 @@
                 clearable
                 :value="filter.lastName"                    
                 @input="val => onParamChange({lastName: val})"                    
-            ></el-input>
+            />
         </el-form-item>
 
         <el-form-item label="CURP" prop="curp">
@@ -35,7 +35,7 @@
                 clearable
                 :value="filter.curp"                    
                 @input="val => onParamChange({curp: val})"                    
-            ></el-input>
+            />
         </el-form-item>
 
         <el-form-item label="Fecha de creación" class="range">
@@ -62,7 +62,6 @@
 
 <script>
 
-import OrderSelect from '@/components/OrderSelect';
 import { candidateFilter as filter } from '@/store/modules/candidates/models';
 
 const orderChoices = Object.keys(
@@ -76,7 +75,6 @@ export default {
     name: 'CandidatesFilter',
 
     components: {
-        OrderSelect
     },
 
     props: {

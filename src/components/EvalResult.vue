@@ -54,7 +54,7 @@
                 :rows="10"
                 :value="evalSection.result"
                 @input="val => onParamChange({result: val})"                           
-            ></el-input>
+            />
         </el-form-item>
     </el-form>
 </div>

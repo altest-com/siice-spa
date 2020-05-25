@@ -23,7 +23,7 @@
             <el-input
                 :value="dependency.name"                    
                 @input="val => onParamChange({name: val})"                    
-            ></el-input>
+            />
         </el-form-item>
 
         <el-form-item label="Corporación" prop="corporation">
@@ -32,7 +32,7 @@
                 :clearable="false"
                 :value="dependency.corporation"
                 @change="val => onParamChange({corporation: val})"
-            ></ab-query-select>
+            />
         </el-form-item>
     </el-form>
 

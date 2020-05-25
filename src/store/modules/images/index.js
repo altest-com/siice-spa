@@ -1,20 +1,18 @@
-import * as actions from './actions';
-import * as mutations from './mutations';
+import { Api, actions, mutations, getters } from 'vrudex';
+import { axios } from '@/api';
 import { imageModel } from './models';
-import { Api } from '@/api';
 
 const PAGE_SIZE = 24;
 
-const imagesApi = new Api('images/');
+const imagesApi = new Api(axios, 'images/');
+Object.freeze(imagesApi);
 
 const state = {
     MODEL: imageModel,
     API: imagesApi,
-    FILTER: null,
     items: {},
     count: 0,
     pageNumber: 0,
-    filter: null,
     pageSize: PAGE_SIZE,
     loading: false,
     getting: {}
@@ -26,3 +24,8 @@ export default {
     actions,
     mutations
 };
+
+export {
+    imagesApi
+};
+

@@ -23,7 +23,7 @@
             <el-input
                 :value="corporation.name"                    
                 @input="val => onParamChange({name: val})"                    
-            ></el-input>
+            />
         </el-form-item>      
     </el-form>
 

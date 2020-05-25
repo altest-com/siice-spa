@@ -20,14 +20,14 @@
                 icon="el-icon-edit"
                 class="mr-1"
                 @click.stop="$emit('edit')"
-            ></el-button>
+            />
             <el-button
                 v-if="item.remove"
                 size="mini"
                 icon="el-icon-delete"
                 type="danger"
                 @click.stop="$emit('remove')"
-            ></el-button>
+            />
         </div>
         <div v-else class="cell">
             <router-link v-if="item.route" :to="item.route">

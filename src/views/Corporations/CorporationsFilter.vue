@@ -7,11 +7,11 @@
         size="small"
     >
         <el-form-item label="Ordenar por">
-            <order-select
+            <ab-order-select
                 :order-choices="orderChoices"
                 :value="filter.orderBy"                    
                 @change="val => onParamChange({orderBy: val})"
-            ></order-select>           
+            />
         </el-form-item>
 
         <el-form-item label="Nombre">
@@ -19,7 +19,7 @@
                 clearable
                 :value="filter.name"                    
                 @input="val => onParamChange({name: val})"
-            ></el-input>
+            />
         </el-form-item>
 
         <el-form-item label="Fecha de creación" class="range">
@@ -44,7 +44,6 @@
 
 <script>
 
-import OrderSelect from '@/components/OrderSelect';
 import { corporationFilter } from '@/store/modules/corporations/models';
 
 const orderChoices = Object.keys(
@@ -58,7 +57,6 @@ export default {
     name: 'CorporationsFilter',
 
     components: {
-        OrderSelect
     },
 
     props: {

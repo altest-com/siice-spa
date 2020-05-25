@@ -1,12 +1,11 @@
-import * as actions from './actions';
-import * as mutations from './mutations';
-import * as getters from './getters';
+import { Api, actions, mutations, getters } from 'vrudex';
+import { axios } from '@/api';
 import { psychologicalModel } from './models';
-import { Api } from '@/api';
 
 const PAGE_SIZE = 24;
 
-const psychologicalsApi = new Api('psychologicals/');
+const psychologicalsApi = new Api(axios, 'psychologicals/');
+Object.freeze(psychologicalsApi);
 
 const state = {
     MODEL: psychologicalModel,

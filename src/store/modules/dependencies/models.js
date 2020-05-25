@@ -1,4 +1,4 @@
-import { Model } from '../abstract/models';
+import { Model } from 'vrudex';
 
 class DependencyModel extends Model {
     props = {
@@ -31,6 +31,7 @@ class DependencyModel extends Model {
 }
 
 const dependencyModel = new DependencyModel();
+Object.freeze(dependencyModel);
 
 class DependencyFilter extends Model {
     ORDER_CHOICES = {
@@ -71,6 +72,7 @@ class DependencyFilter extends Model {
 }
 
 const dependencyFilter = new DependencyFilter();
+Object.freeze(dependencyFilter);
 
 export {
     dependencyModel,

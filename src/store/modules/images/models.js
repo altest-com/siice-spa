@@ -1,4 +1,4 @@
-import { Model } from '../abstract/models';
+import { Model } from 'vrudex';
 
 class ImageModel extends Model {
     props = {
@@ -31,6 +31,7 @@ class ImageModel extends Model {
 }
 
 const imageModel = new ImageModel();
+Object.freeze(imageModel);
 
 export {
     ImageModel,

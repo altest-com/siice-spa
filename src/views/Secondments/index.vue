@@ -1,14 +1,14 @@
 <template>
 
-<split-view class="secondments-index">
+<ab-split-view class="secondments-index">
     <template v-slot:main>
-        <list-header 
+        <ab-list-header
             class="mb-4"
             :show-count="secondments.length"
             :total-count="secondmentsCount"
             add-text="Nueva Adscripción"
             @create="onCreateSecondment"
-        ></list-header>
+        />
 
         <secondments-list
             :focus-id="curSecondmentId"
@@ -46,7 +46,7 @@
     <template v-slot:side-actions>
         <template v-if="panel === 'search'">
             <div class="text-lg text-w6">Búsqueda</div>
-            <tool-button
+            <ab-tool-button
                 class="ml-1"
                 tooltip="Restablecer filtro" 
                 icon="el-icon-refresh"
@@ -57,7 +57,7 @@
         <template v-else-if="panel === 'editor'">
             <div class="text-lg text-w6">Editor</div>
             <div class="flex-row">
-                <tool-button
+                <ab-tool-button
                     class="mx-1"
                     tooltip="Cancelar edición" 
                     icon="el-icon-close"
@@ -79,7 +79,7 @@
             @confirm="onSecondmentEditorConfirm"
         ></secondment-editor>
     </template>
-</split-view>
+</ab-split-view>
 
 </template>
 
@@ -87,9 +87,6 @@
 
 import { mapGetters } from 'vuex';
 import { secondmentModel } from '@/store/modules/secondments/models';
-import ToolButton from '@/components/ToolButton';
-import ListHeader from '@/components/ListHeader';
-import SplitView from '@/layout/components/SplitView';
 import SecondmentsList from './SecondmentsList';
 import SecondmentsFilter from './SecondmentsFilter';
 import SecondmentEditor from './SecondmentEditor';
@@ -100,9 +97,6 @@ export default {
     name: 'SecondmentsIndex',
 
     components: {
-        ToolButton,
-        ListHeader,
-        SplitView,
         SecondmentsList,
         SecondmentsFilter,        
         SecondmentEditor       

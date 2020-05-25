@@ -1,57 +1,41 @@
 <template>
 
-<split-view class="candidates-index">
+<ab-split-view class="candidates-index">
     <template v-slot:main>
-        <list-header 
+        <ab-list-header
             class="mb-4"
             :show-count="candidates.length"
             :total-count="candidatesCount"
             add-text="Nuevo Candidato"
             @create="onCreateCandidate"
-        ></list-header>
+        />
 
         <candidates-list
             :view="main"
             :focus-id="curCandidateId"
             @update:focus-id="onListFocusChange"
-        ></candidates-list>
+        />
 
-        <el-dialog
-            title="Advertencia"
+        <ab-delete-dialog
+            message="¿Seguro deseas eliminar este candidato de forma
+            permanente? Se eliminará cualquier dato asociado."
             :visible.sync="showDeleteDialog"
-            width="400px"
-            center
-        >
-            <p>
-                ¿Seguro deseas eliminar esta solicitud de forma permanente? 
-                Se eliminará cualquier dato asociado.
-            </p>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="showDeleteDialog = false">
-                    Cancelar
-                </el-button>
-                <el-button 
-                    type="primary" 
-                    :disabled="loading"
-                    @click="onConfirmDelete"
-                >
-                    Confirmar
-                </el-button>
-            </span>
-        </el-dialog>
+            :disabled="loading"
+            @confirm="onConfirmDelete"
+        />
     </template>
 
     <template v-slot:side-actions>
         <template v-if="panel === 'search'">
             <div class="text-lg text-w6">Búsqueda</div>
             <div class="flex-row">
-                <tool-button
+                <ab-tool-button
                     class="ml-1"
                     tooltip="Cambiar vista principal" 
                     :icon="viewIcon"
                     @click="onChangeView"
                 />
-                <tool-button
+                <ab-tool-button
                     class="ml-1"
                     tooltip="Restablecer filtro" 
                     icon="el-icon-refresh"
@@ -63,13 +47,13 @@
         <template v-else-if="panel === 'details'">
             <div class="text-lg text-w6">Detalles</div>
             <div class="flex-row">
-                <tool-button
+                <ab-tool-button
                     class="ml-1"
                     tooltip="Editar candidato" 
                     icon="el-icon-edit"
                     @click="onCandidateEdit"
                 />
-                <tool-button
+                <ab-tool-button
                     class="ml-1"
                     tooltip="Eliminar candidate" 
                     icon="el-icon-delete"
@@ -81,7 +65,7 @@
         <template v-else-if="panel === 'editor'">
             <div class="text-lg text-w6">Editor</div>
             <div class="flex-row">
-                <tool-button
+                <ab-tool-button
                     class="mx-1"
                     tooltip="Cancelar edición" 
                     icon="el-icon-close"
@@ -94,22 +78,22 @@
     <template v-slot:side-content>
         <candidates-filter 
             v-if="panel === 'search'"
-        ></candidates-filter>
+        />
 
         <candidate-details
             v-else-if="panel === 'details'"
             class="px-2"
             :candidate-id="curCandidateId"
-        ></candidate-details>
+        />
 
         <candidate-editor
             v-else-if="panel === 'editor'"
             :edit="curCandidateId !== newCandidateId" 
             :candidate-id="curCandidateId"
             @confirm="onCandidateEditorConfirm"
-        ></candidate-editor>
+        />
     </template>
-</split-view>
+</ab-split-view>
 
 </template>
 
@@ -117,9 +101,6 @@
 
 import { mapGetters } from 'vuex';
 import { candidateModel } from '@/store/modules/candidates/models';
-import ToolButton from '@/components/ToolButton';
-import ListHeader from '@/components/ListHeader';
-import SplitView from '@/layout/components/SplitView';
 import CandidatesList from './CandidatesList';
 import CandidatesFilter from './CandidatesFilter';
 import CandidateEditor from './CandidateEditor';
@@ -131,9 +112,6 @@ export default {
     name: 'CandidatesIndex',
 
     components: {
-        ToolButton,
-        ListHeader,
-        SplitView,
         CandidatesList,
         CandidatesFilter,        
         CandidateEditor,

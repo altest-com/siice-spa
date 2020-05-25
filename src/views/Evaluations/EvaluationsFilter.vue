@@ -7,11 +7,11 @@
         size="small"
     >
         <el-form-item label="Ordenar por">
-            <order-select
+            <ab-order-select
                 :order-choices="orderChoices"
                 :value="filter.orderBy"                    
                 @change="val => onParamChange({orderBy: val})"
-            ></order-select>           
+            />
         </el-form-item>
 
         <el-form-item label="Tipo de evaluación" prop="type">
@@ -74,7 +74,7 @@
                 clearable
                 :value="filter.candidateName"                    
                 @input="val => onParamChange({candidateName: val})"
-            ></el-input>
+            />
         </el-form-item>
 
         <el-form-item label="Apellidos">
@@ -82,7 +82,7 @@
                 clearable
                 :value="filter.candidateLastName"                    
                 @input="val => onParamChange({candidateLastName: val})"
-            ></el-input>
+            />
         </el-form-item>
 
         <el-form-item label="CURP">
@@ -90,7 +90,7 @@
                 clearable
                 :value="filter.candidateCurp"                    
                 @input="val => onParamChange({candidateCurp: val})"
-            ></el-input>
+            />
         </el-form-item>
 
         <el-form-item label="Documento origen">
@@ -98,7 +98,7 @@
                 clearable
                 :value="filter.candidateDocument"                    
                 @input="val => onParamChange({candidateDocument: val})"
-            ></el-input>
+            />
         </el-form-item>
 
         <el-form-item label="Corporaciones">
@@ -106,7 +106,7 @@
                 store="corporations"
                 :value="filter.applicationCorporations"
                 @change="val => onParamChange({applicationCorporations: val})"
-            ></ab-query-select>
+            />
         </el-form-item>
 
         <el-form-item label="Dependencias">
@@ -114,7 +114,7 @@
                 store="dependencies"
                 :value="filter.applicationDependencies"
                 @change="val => onParamChange({applicationDependencies: val})"
-            ></ab-query-select>
+            />
         </el-form-item>
 
         <el-form-item label="Adscripciones">
@@ -122,7 +122,7 @@
                 store="secondments"
                 :value="filter.applicationSecondments"
                 @change="val => onParamChange({applicationSecondments: val})"
-            ></ab-query-select>
+            />
         </el-form-item>
 
         <el-form-item label="Puestos">
@@ -130,7 +130,7 @@
                 store="positions"
                 :value="filter.applicationPositions"
                 @change="val => onParamChange({applicationPositions: val})"
-            ></ab-query-select>
+            />
         </el-form-item>
     </el-form>
 </div>
@@ -139,7 +139,6 @@
 
 <script>
 
-import OrderSelect from '@/components/OrderSelect';
 import { 
     evaluationFilter, 
     evaluationModel 
@@ -163,7 +162,6 @@ export default {
     name: 'EvaluationsFilter',
 
     components: {
-        OrderSelect
     },
 
     props: {

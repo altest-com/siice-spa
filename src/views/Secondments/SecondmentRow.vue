@@ -102,7 +102,7 @@ export default {
     methods: {
     }   
 };
-</script>}
+</script>
 
 <style lang="scss">
 </style>

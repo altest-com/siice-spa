@@ -1,12 +1,11 @@
-import * as actions from './actions';
-import * as mutations from './mutations';
-import * as getters from './getters';
+import { Api, actions, mutations, getters } from 'vrudex';
+import { axios } from '@/api';
 import { secondmentModel, secondmentFilter } from './models';
-import { Api } from '@/api';
 
 const PAGE_SIZE = 24;
 
-const secondmentsApi = new Api('secondments/');
+const secondmentsApi = new Api(axios, 'secondments/');
+Object.freeze(secondmentsApi);
 
 const state = {
     MODEL: secondmentModel,

@@ -1,12 +1,12 @@
-import * as actions from './actions';
-import * as mutations from './mutations';
-import * as getters from './getters';
+import { Api, actions, mutations, getters } from 'vrudex';
+import { axios } from '@/api';
 import { corporationModel, corporationFilter } from './models';
-import { Api } from '@/api';
+import {candidatesApi} from "@/store/modules/candidates";
 
 const PAGE_SIZE = 24;
 
-const corporationsApi = new Api('corporations/');
+const corporationsApi = new Api(axios, 'corporations/');
+Object.freeze(candidatesApi);
 
 const state = {
     MODEL: corporationModel,

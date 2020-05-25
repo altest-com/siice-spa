@@ -3,35 +3,32 @@
 <div class="corporations-list">
 
     <el-card v-if="corporations.length" shadow="never" class="mt-5">
-        <table class="items-table">
-            <tr class="header">                
-                <th v-for="header in headersData" :key="header.key">
-                    <div class="cell"> {{ header.label }} </div>
+        <ab-flex-table>
+            <tr>
+                <th v-for="key in showHeaders" :key="key">
+                    {{ headers[key] }}
                 </th>
-                <th></th>
+                <th/>
             </tr>
-            <corporation-row 
-                v-for="corporation in corporations" 
+            <corporation-row
+                v-for="corporation in corporations"
                 :key="corporation.id"
-                :headers="headers"
+                :headers="showHeaders"
                 :corporation-id="corporation.id"
                 :focus="corporation.id === focusId"
                 @click="onItemClick(corporation.id)"
                 @edit="$emit('edit', corporation.id)"
                 @remove="$emit('remove', corporation.id)"
-            ></corporation-row>
-        </table>
+            />
+        </ab-flex-table>
     </el-card>
 
-    <empty
+    <ab-empty
         v-else
         title="Sin elementos"
         message="No existen resultados para mostrar"
-        icon-size="3em"
-        height="383px"
-        icon="el-icon-user"
-        background="#eee"
-    ></empty> 
+        height="400px"
+    />
 
     <el-pagination 
         hide-on-single-page
@@ -42,7 +39,7 @@
         :current-page="pageNumber"
         :total="corporationsCount"
         @current-change="updatePage"
-    ></el-pagination>       
+    />
 </div>
 
 </template>
@@ -50,7 +47,6 @@
 <script>
 
 import { mapGetters } from 'vuex';
-import Empty from '@/components/Empty';
 import CorporationRow from './CorporationRow';
 
 const headers = {
@@ -62,7 +58,6 @@ export default {
     name: 'CorporationsList',
 
     components: {
-        Empty,
         CorporationRow
     },
 
@@ -71,7 +66,7 @@ export default {
             type: [Number, String],
             default: null
         },
-        headers: {
+        showHeaders: {
             type: Array,
             default: () => [
                 'name',
@@ -82,6 +77,7 @@ export default {
 
     data() {
         return {
+            headers: headers
         };
     },
 
@@ -97,14 +93,6 @@ export default {
         },
         pageSize() {
             return this.$store.state.corporations.pageSize;
-        },
-        headersData() {
-            return this.headers.map(key => {
-                return {
-                    key: key, 
-                    label: headers[key]
-                };
-            });
         }
     },
 

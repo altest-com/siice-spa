@@ -23,15 +23,12 @@
         </table>
     </el-card>
 
-    <empty
+    <ab-empty
         v-else
         title="Sin elementos"
         message="No existen resultados para mostrar"
-        icon-size="3em"
-        height="383px"
-        icon="el-icon-user"
-        background="#eee"
-    ></empty> 
+        height="400px"
+    />
 
     <el-pagination 
         hide-on-single-page
@@ -50,7 +47,6 @@
 <script>
 
 import { mapGetters } from 'vuex';
-import Empty from '@/components/Empty';
 import PositionRow from './PositionRow';
 
 const headers = {
@@ -62,7 +58,6 @@ export default {
     name: 'PositionsList',
 
     components: {
-        Empty,
         PositionRow
     },
 

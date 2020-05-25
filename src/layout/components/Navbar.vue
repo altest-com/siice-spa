@@ -12,8 +12,8 @@
             <template v-if="device !== 'mobile'">
                 <screenfull 
                     id="screenfull" 
-                    class="right-menu-item hover-effect" 
-                ></screenfull>
+                    class="right-menu-item hover-effect"
+                />
             </template>
         </div>
     </div>

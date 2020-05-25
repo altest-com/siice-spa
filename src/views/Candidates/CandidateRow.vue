@@ -1,34 +1,24 @@
 <template>
 
-<tr v-if="candidate" :class="{'focus': focus}" @click="$emit('click')">
-    <table-cell 
-        v-for="header in headers" 
-        :key="header"
-        :type="rowData[header].type"
-        :value="rowData[header].value"
-        :styles="rowData[header].styles"
-        :route="rowData[header].route"
-    ></table-cell>
-</tr>
+<ab-table-row
+    v-if="isReady"
+    :items="items"
+    :focus="focus"
+    @click="$emit('click')"
+/>
 
 </template>
 
 <script>
 
-import TableCell from '@/components/TableCell';
+import CandidateData from './CandidateData';
 
 export default {
     name: 'CandidateRow',
 
-    components: {
-        TableCell
-    },
+    mixins: [CandidateData],
 
     props: {
-        candidateId: {
-            type: [Number, String],
-            required: true
-        },
         focus: {
             type: Boolean,
             default: false
@@ -45,37 +35,12 @@ export default {
     },
 
     computed: {
-
-        rowData() {
-            const candidate = this.candidate;
-            return {
-                name: {
-                    type: 'text',
-                    value: candidate.name
-                },
-                lastName: {
-                    type: 'text',
-                    value: candidate.lastName
-                },
-                curp: {
-                    type: 'text',
-                    value: candidate.curp
-                },
-                createdAt: {
-                    type: 'date',
-                    value: candidate.createdAt
-                }
-            };
-        },
-
-        candidate() {
-            this.$store.dispatch('candidates/getItem', this.candidateId);
-            return this.$store.state.candidates.items[this.candidateId];
+        items() {
+            return this.headers.map(key => {
+                return this.data[key] || {};
+            });
         }
-    },
-
-    methods: {
-    }   
+    }
 };
 </script>}
 

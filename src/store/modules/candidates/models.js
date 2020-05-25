@@ -1,4 +1,4 @@
-import { Model } from '../abstract/models';
+import { Model } from 'vrudex';
 
 class CandidateModel extends Model {
     props = {
@@ -41,6 +41,7 @@ class CandidateModel extends Model {
 }
 
 const candidateModel = new CandidateModel();
+Object.freeze(candidateModel);
 
 class CandidateFilter extends Model {
 
@@ -87,6 +88,7 @@ class CandidateFilter extends Model {
 }
 
 const candidateFilter = new CandidateFilter();
+Object.freeze(candidateFilter);
 
 export {
     candidateModel,

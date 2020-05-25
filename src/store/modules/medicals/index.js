@@ -1,12 +1,11 @@
-import * as actions from './actions';
-import * as mutations from './mutations';
-import * as getters from './getters';
+import { Api, actions, mutations, getters } from 'vrudex';
+import { axios } from '@/api';
 import { medicalModel } from './models';
-import { Api } from '@/api';
 
 const PAGE_SIZE = 24;
 
-const medicalsApi = new Api('medicals/');
+const medicalsApi = new Api(axios, 'medicals/');
+Object.freeze(medicalsApi);
 
 const state = {
     MODEL: medicalModel,

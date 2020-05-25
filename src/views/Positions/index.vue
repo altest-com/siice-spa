@@ -1,14 +1,14 @@
 <template>
 
-<split-view class="positions-index">
+<ab-split-view class="positions-index">
     <template v-slot:main>
-        <list-header 
+        <ab-list-header
             class="mb-4"
             :show-count="positions.length"
             :total-count="positionsCount"
             add-text="Nueva Posición"
             @create="onCreatePosition"
-        ></list-header>
+        />
 
         <positions-list
             :focus-id="curPositionId"
@@ -46,7 +46,7 @@
     <template v-slot:side-actions>
         <template v-if="panel === 'search'">
             <div class="text-lg text-w6">Búsqueda</div>
-            <tool-button
+            <ab-tool-button
                 class="ml-1"
                 tooltip="Restablecer filtro" 
                 icon="el-icon-refresh"
@@ -57,7 +57,7 @@
         <template v-else-if="panel === 'editor'">
             <div class="text-lg text-w6">Editor</div>
             <div class="flex-row">
-                <tool-button
+                <ab-tool-button
                     class="mx-1"
                     tooltip="Cancelar edición" 
                     icon="el-icon-close"
@@ -79,7 +79,7 @@
             @confirm="onPositionEditorConfirm"
         ></position-editor>
     </template>
-</split-view>
+</ab-split-view>
 
 </template>
 
@@ -87,9 +87,6 @@
 
 import { mapGetters } from 'vuex';
 import { positionModel } from '@/store/modules/positions/models';
-import ToolButton from '@/components/ToolButton';
-import ListHeader from '@/components/ListHeader';
-import SplitView from '@/layout/components/SplitView';
 import PositionsList from './PositionsList';
 import PositionsFilter from './PositionsFilter';
 import PositionEditor from './PositionEditor';
@@ -100,9 +97,6 @@ export default {
     name: 'PositionsIndex',
 
     components: {
-        ToolButton,
-        ListHeader,
-        SplitView,
         PositionsList,
         PositionsFilter,        
         PositionEditor       

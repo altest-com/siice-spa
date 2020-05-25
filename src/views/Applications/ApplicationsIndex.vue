@@ -1,8 +1,8 @@
 <template>
 
-<split-view class="applications-index">
+<ab-split-view class="applications-index">
     <template v-slot:main>
-        <list-header 
+        <ab-list-header
             class="mb-4"
             :show-count="applications.length"
             :total-count="applicationsCount"
@@ -17,7 +17,7 @@
             @update:focus-id="onListFocusChange"
         />
 
-        <delete-dialog
+        <ab-delete-dialog
             message="¿Seguro deseas eliminar esta solicitud de forma 
                 permanente? Se eliminará cualquier dato asociado."
             :visible.sync="showDeleteDialog"
@@ -50,7 +50,7 @@
                         </el-checkbox>
                     </el-checkbox-group>
 
-                    <tool-button
+                    <ab-tool-button
                         slot="reference"
                         :push="false"
                         tooltip="Seleccionar columnas" 
@@ -58,14 +58,14 @@
                     />
                 </el-popover>
 
-                <tool-button
+                <ab-tool-button
                     class="ml-1"
                     tooltip="Cambiar vista principal" 
                     :icon="viewIcon"
                     @click="onToggleMainView"
                 />
 
-                <tool-button
+                <ab-tool-button
                     class="ml-1"
                     tooltip="Restablecer filtro" 
                     icon="el-icon-refresh"
@@ -77,13 +77,13 @@
         <template v-else-if="panel === 'details'">
             <div class="text-lg text-w6">Detalles</div>
             <div class="flex-row">
-                <tool-button
+                <ab-tool-button
                     class="ml-1"
                     tooltip="Editar application" 
                     icon="el-icon-edit"
                     @click="onShowEditor"
                 />
-                <tool-button
+                <ab-tool-button
                     class="ml-1"
                     tooltip="Eliminar application" 
                     icon="el-icon-delete"
@@ -95,7 +95,7 @@
         <template v-else-if="panel === 'editor'">
             <div class="text-lg text-w6">Editor</div>
             <div class="flex-row">
-                <tool-button
+                <ab-tool-button
                     class="mx-1"
                     tooltip="Cancelar edición" 
                     icon="el-icon-close"
@@ -134,7 +134,7 @@
             />
         </template>
     </template>
-</split-view>
+</ab-split-view>
 
 </template>
 
@@ -142,10 +142,6 @@
 
 import { mapGetters } from 'vuex';
 import { applicationModel } from '@/store/modules/applications/models';
-import ToolButton from '@/components/ToolButton';
-import ListHeader from '@/components/ListHeader';
-import SplitView from '@/layout/components/SplitView';
-import DeleteDialog from '@/components/DeleteDialog';
 import ApplicationsList from './ApplicationsList';
 import ApplicationsFilter from './ApplicationsFilter';
 import ApplicationEditor from './ApplicationEditor';
@@ -173,14 +169,10 @@ export default {
     name: 'ApplicationsIndex',
 
     components: {
-        ToolButton,
-        ListHeader,
-        SplitView,
         ApplicationsList,
         ApplicationsFilter,        
         ApplicationEditor,
-        ApplicationDetails,
-        DeleteDialog      
+        ApplicationDetails
     },
 
     data() {

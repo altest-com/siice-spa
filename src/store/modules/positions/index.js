@@ -1,12 +1,11 @@
-import * as actions from './actions';
-import * as mutations from './mutations';
-import * as getters from './getters';
+import { Api, actions, mutations, getters } from 'vrudex';
+import { axios } from '@/api';
 import { positionModel, positionFilter } from './models';
-import { Api } from '@/api';
 
 const PAGE_SIZE = 24;
 
-const positionsApi = new Api('positions/');
+const positionsApi = new Api(axios, 'positions/');
+Object.freeze(positionsApi);
 
 const state = {
     MODEL: positionModel,

@@ -1,4 +1,4 @@
-import { Model, dateReader, dateWriter } from '../abstract/models';
+import { Model, readers, writers } from 'vrudex';
 import { evalSectionModel } from '../evaluations/models';
 
 class SocioeconomicModel extends Model {
@@ -29,8 +29,8 @@ class SocioeconomicModel extends Model {
             writable: true,
             api: 'digi_date',
             type: Date,
-            reader: dateReader,
-            writer: dateWriter
+            reader: readers.dateReader,
+            writer: writers.dateWriter
         },
         digiIdType: {
             writable: true,
@@ -52,6 +52,7 @@ class SocioeconomicModel extends Model {
 }
 
 const socioeconomicModel = new SocioeconomicModel();
+Object.freeze(socioeconomicModel);
 
 export {
     socioeconomicModel

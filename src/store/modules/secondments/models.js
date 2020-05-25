@@ -1,4 +1,4 @@
-import { Model } from '../abstract/models';
+import { Model } from 'vrudex';
 
 class SecondmentModel extends Model {
     props = {
@@ -36,6 +36,7 @@ class SecondmentModel extends Model {
 }
 
 const secondmentModel = new SecondmentModel();
+Object.freeze(secondmentModel);
 
 class SecondmentFilter extends Model {
     ORDER_CHOICES = {
@@ -83,6 +84,7 @@ class SecondmentFilter extends Model {
 }
 
 const secondmentFilter = new SecondmentFilter();
+Object.freeze(secondmentFilter);
 
 export {
     secondmentModel,

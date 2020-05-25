@@ -17,7 +17,7 @@
             :type="alert.type"
             show-icon
             class="mb-3"
-        ></el-alert>
+        />
 
         <el-form-item label="Corporación" prop="corporation">
             <ab-query-select
@@ -25,7 +25,7 @@
                 :clearable="false"       
                 :value="corporation_ || application.corporation"
                 @change="val => corporation_ = val"
-            ></ab-query-select>
+            />
         </el-form-item>
 
         <el-form-item label="Dependencia" prop="dependency">
@@ -35,7 +35,7 @@
                 :params="dependencyQueryParams"
                 :value="dependency_ || application.dependency"
                 @change="val => dependency_ = val"
-            ></ab-query-select>
+            />
         </el-form-item>
 
         <el-form-item label="Adscripción" prop="secondment">
@@ -45,7 +45,7 @@
                 :params="secondmentQueryParams"
                 :value="secondment_ || application.secondment"
                 @change="val => secondment_ = val"
-            ></ab-query-select>
+            />
         </el-form-item>
 
         <el-form-item label="Puesto" prop="position">
@@ -55,14 +55,14 @@
                 :params="positionQueryParams"
                 :value="application.position"
                 @change="val => onParamChange({position: val})"
-            ></ab-query-select>
+            />
         </el-form-item>  
 
         <el-form-item label="Documento origen" prop="document">
             <el-input
                 :value="application.document"                    
                 @input="val => onParamChange({document: val})"                    
-            ></el-input>
+            />
         </el-form-item>
 
         <el-form-item label="Fecha del oficio" prop="date">
@@ -135,7 +135,7 @@ const rules = {
         message: 'Por favor selecciona un puesto',
         trigger: 'blur'
     }],
-    corporación: [{
+    corporation: [{
         required: true,
         message: 'Por favor selecciona una corporación',
         trigger: 'blur'

@@ -1,6 +1,6 @@
 <template>
 
-<split-view v-if="evaluation" class="polygraphics-index">
+<ab-split-view v-if="evaluation" class="polygraphics-index">
     <template v-slot:main>
         <el-card shadow="never">
             <el-tabs v-model="section">
@@ -78,7 +78,7 @@
             </el-button>
         </span>
     </el-dialog>
-</split-view>
+</ab-split-view>
 
 </template>
 
@@ -87,13 +87,11 @@
 import CandidateInfo from '@/components/CandidateInfo';
 import AlertsTimeline from '@/components/AlertsTimeline';
 import EvalResult from '@/components/EvalResult';
-import SplitView from '@/layout/components/SplitView';
 
 export default {
     name: 'PolygraphicsIndex',
 
     components: {
-        SplitView,
         CandidateInfo,
         AlertsTimeline,
         EvalResult

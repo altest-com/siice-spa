@@ -20,31 +20,37 @@
         ></el-alert>
 
         <el-form-item label="Fotografía">
-            <image-upload 
-                :value="candidate.image"                    
+            <ab-image-uploader
+                store="images"
+                :multiple="false"
+                :upload-url="uploadUrl"
+                :upload-headers="uploadHeaders"
+                button="block"
+                display="carousel"
+                :value="candidate.image"
                 @input="val => onParamChange({image: val})"
-            ></image-upload>
+            />
         </el-form-item>
 
         <el-form-item label="Nombre" prop="name">
             <el-input
                 :value="candidate.name"                    
                 @input="val => onParamChange({name: val})"                    
-            ></el-input>
+            />
         </el-form-item>
 
         <el-form-item label="Apellidos" prop="lastName">
             <el-input
                 :value="candidate.lastName"                    
                 @input="val => onParamChange({lastName: val})"                    
-            ></el-input>
+            />
         </el-form-item>
 
         <el-form-item label="CURP" prop="curp">
             <el-input
                 :value="candidate.curp"                    
                 @input="val => onParamChange({curp: val})"                    
-            ></el-input>
+            />
         </el-form-item>        
     </el-form>
 
@@ -65,7 +71,7 @@
 
 <script>
 
-import ImageUpload from '@/components/ImageUpload';
+import { imagesApi } from "@/store/modules/images";
 
 const rules = {
     name: [{
@@ -89,7 +95,6 @@ export default {
     name: 'CandidateEditor',
 
     components: {
-        ImageUpload
     },
 
     props: {
@@ -107,7 +112,9 @@ export default {
         return {
             loading: false,
             alert: null,
-            rules: rules
+            rules: rules,
+            uploadUrl: imagesApi.getUrl(),
+            uploadHeaders: imagesApi.getHeader(),
         };
     },
 

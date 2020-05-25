@@ -7,11 +7,11 @@
         size="small"
     >
         <el-form-item label="Ordenar por">
-            <order-select
+            <ab-order-select
                 :order-choices="orderChoices"
                 :value="filter.orderBy"                    
                 @change="val => onParamChange({orderBy: val})"
-            ></order-select>           
+            />
         </el-form-item>
 
         <el-form-item label="Nombre">
@@ -19,16 +19,16 @@
                 clearable
                 :value="filter.name"                    
                 @input="val => onParamChange({name: val})"
-            ></el-input>
+            />
         </el-form-item>
 
         <el-form-item label="Corporaciones">
-            <query-select
-                :multiple="true"
+            <ab-query-select
                 store="corporations"
+                query="name__icontains"
                 :value="filter.corporations"
                 @change="val => onParamChange({corporations: val})"
-            ></query-select>
+            />
         </el-form-item>
 
         <el-form-item label="Fecha de creación" class="range">
@@ -53,8 +53,6 @@
 
 <script>
 
-import OrderSelect from '@/components/OrderSelect';
-import QuerySelect from '@/components/QuerySelect';
 import { dependencyFilter } from '@/store/modules/dependencies/models';
 
 const orderChoices = Object.keys(
@@ -68,8 +66,6 @@ export default {
     name: 'DependenciesFilter',
 
     components: {
-        OrderSelect,
-        QuerySelect
     },
 
     props: {

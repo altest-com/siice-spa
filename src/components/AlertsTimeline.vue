@@ -18,7 +18,7 @@
             type="textarea"
             :rows="4"
             class="alert-input"                           
-        ></el-input>
+        />
     </div>
 
     <div v-if="alerts.length" class="alerts">
@@ -27,7 +27,7 @@
                 v-for="alert in alerts" 
                 :key="alert.id"
             >
-                <span></span>
+                <span/>
                 <div class="info"> {{ alert.info }} </div>
                 <div class="name">
                     - Andrea Vázquez, {{ sectionLabels[alert.section] }} -

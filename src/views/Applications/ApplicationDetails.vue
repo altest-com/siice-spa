@@ -23,7 +23,7 @@
                         :key="choice.value"
                         :label="choice.label"
                         :value="choice.value"
-                    ></el-option>
+                    />
                 </el-select>
             </el-form-item>
         </div>
@@ -55,7 +55,7 @@
         </el-button>
     </div>
 
-    <delete-dialog
+    <ab-delete-dialog
         message="Por favor confirme que desea rechazar esta solicitud 
             Se eliminará cualquier dato asociado."
         :visible.sync="showRejectDialog"
@@ -72,7 +72,6 @@ import InfoList from '@/components/InfoList';
 import ApplicationData from './ApplicationData';
 import { evaluationModel } from '@/store/modules/evaluations/models';
 import CandidateInfo from '../Candidates/CandidateInfo';
-import DeleteDialog from '@/components/DeleteDialog';
 
 const typeChoices = Object.keys(
     evaluationModel.TYPE_CHOICES
@@ -96,8 +95,7 @@ export default {
 
     components: {
         InfoList,
-        CandidateInfo,
-        DeleteDialog
+        CandidateInfo
     },
 
     mixins: [ApplicationData],

@@ -1,44 +1,27 @@
 <template>
 
-<tr 
-    v-if="isReady" 
-    class="row" 
-    :class="{'focus': focus}" 
+<ab-table-row
+    v-if="isReady"
+    class="corporation-row"
+    :items="items"
+    :focus="focus"
     @click="$emit('click')"
->
-    <table-cell 
-        v-for="header in headers" 
-        :key="header"
-        :type="rowData[header].type"
-        :value="rowData[header].value"
-        :styles="rowData[header].styles"
-        :route="rowData[header].route"
-    ></table-cell>
-    <table-cell
-        type="actions"
-        @edit="$emit('edit')"
-        @remove="$emit('remove')"
-    ></table-cell>
-</tr>
+    @edit="$emit('edit')"
+    @remove="$emit('remove')"
+/>
 
 </template>
 
 <script>
 
-import TableCell from '@/components/TableCell';
+import CorporationData from './CorporationData';
 
 export default {
     name: 'CorporationRow',
 
-    components: {
-        TableCell
-    },
+    mixins: [CorporationData],
 
     props: {
-        corporationId: {
-            type: [Number, String],
-            required: true
-        },
         focus: {
             type: Boolean,
             default: false
@@ -49,40 +32,29 @@ export default {
         }
     },
 
-    data() {
-        return {
-        };
-    },
-
     computed: {
-
-        rowData() {
-            return {
-                name: {
-                    type: 'text',
-                    value: this.corporation.name
-                },
-                createdAt: {
-                    type: 'date',
-                    value: this.corporation.createdAt
-                }
-            };
-        },
-
-        isReady() {
-            return !!this.corporation;
-        },
-
-        corporation() {
-            this.$store.dispatch('corporations/getItem', this.corporationId);
-            return this.$store.state.corporations.items[this.corporationId];
+        items() {
+            const items = this.headers.map(key => {
+                return this.data[key] || {};
+            });
+            items.push({
+                type: 'actions',
+                edit: true,
+                remove: true,
+                class: 'actions'
+            });
+            return items;
         }
-    },
-
-    methods: {
-    }   
+    }
 };
-</script>}
+</script>
 
 <style lang="scss">
+
+.corporation-row {
+    .actions {
+        width: 128px;
+    }
+}
+
 </style>

@@ -1,12 +1,11 @@
-import * as actions from './actions';
-import * as mutations from './mutations';
-import * as getters from './getters';
+import { Api, actions, mutations, getters } from 'vrudex';
+import { axios } from '@/api';
 import { toxicologicalModel } from './models';
-import { Api } from '@/api';
 
 const PAGE_SIZE = 24;
 
-const toxicologicalsApi = new Api('toxicologicals/');
+const toxicologicalsApi = new Api(axios, 'toxicologicals/');
+Object.freeze(toxicologicalsApi);
 
 const state = {
     MODEL: toxicologicalModel,

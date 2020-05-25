@@ -1,12 +1,11 @@
-import * as actions from './actions';
-import * as mutations from './mutations';
-import * as getters from './getters';
+import { Api, actions, mutations, getters } from 'vrudex';
+import { axios } from '@/api';
 import { socioeconomicModel } from './models';
-import { Api } from '@/api';
 
 const PAGE_SIZE = 24;
 
-const socioeconomicsApi = new Api('socioeconomics/');
+const socioeconomicsApi = new Api(axios, 'socioeconomics/');
+Object.freeze(socioeconomicsApi);
 
 const state = {
     MODEL: socioeconomicModel,

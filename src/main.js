@@ -32,6 +32,15 @@ Vue.use(VueSchemas, {
         'SchemaEditor',
         'ItemEditor',
         'ItemPrint',
+        'AbDeleteDialog',
+        'AbEmpty',
+        'AbFlexTable',
+        'AbImageUploader',
+        'AbListHeader',
+        'AbOrderSelect',
+        'AbSplitView',
+        'AbTableRow',
+        'AbToolButton',
         'AbQuerySelect'
     ]
 });

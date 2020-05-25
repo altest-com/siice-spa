@@ -1,52 +1,35 @@
 <template>
 
-<split-view class="corporations-index">
+<ab-split-view class="corporations-index">
     <template v-slot:main>
-        <list-header 
+        <ab-list-header
             class="mb-4"
             :show-count="corporations.length"
             :total-count="corporationsCount"
             add-text="Nueva Corporación"
             @create="onCreateCorporation"
-        ></list-header>
+        />
 
         <corporations-list
             :focus-id="curCorporationId"
             @update:focus-id="onListFocusChange"
             @edit="onEditCorporation"
             @remove="onRemoveCorporation"
-        ></corporations-list>
+        />
 
-        <el-dialog
-            title="Advertencia"
+        <ab-delete-dialog
+            message="¿Seguro deseas eliminar esta corporación de forma
+                permanente? Se eliminará cualquier dato asociado."
             :visible.sync="showDeleteDialog"
-            width="400px"
-            center
-        >
-            <p>
-                ¿Seguro deseas eliminar esta corporación de forma permanente? 
-                Se eliminará cualquier dato asociado.
-            </p>
-            <div slot="footer" class="flex-row jc">
-                <el-button @click="showDeleteDialog = false">
-                    Cancelar
-                </el-button>
-                <el-button
-                    class="ml-2"
-                    type="primary" 
-                    :disabled="loading"
-                    @click="onConfirmDelete"
-                >
-                    Confirmar
-                </el-button>
-            </div>
-        </el-dialog>
+            :disabled="loading"
+            @confirm="onConfirmDelete"
+        />
     </template>
 
     <template v-slot:side-actions>
         <template v-if="panel === 'search'">
             <div class="text-lg text-w6">Búsqueda</div>
-            <tool-button
+            <ab-tool-button
                 class="ml-1"
                 tooltip="Restablecer filtro" 
                 icon="el-icon-refresh"
@@ -57,7 +40,7 @@
         <template v-else-if="panel === 'editor'">
             <div class="text-lg text-w6">Editor</div>
             <div class="flex-row">
-                <tool-button
+                <ab-tool-button
                     class="mx-1"
                     tooltip="Cancelar edición" 
                     icon="el-icon-close"
@@ -70,16 +53,16 @@
     <template v-slot:side-content>
         <corporations-filter 
             v-if="panel === 'search'"
-        ></corporations-filter>
+        />
 
         <corporation-editor
             v-else-if="panel === 'editor'"
             :edit="curCorporationId !== newCorporationId" 
             :corporation-id="curCorporationId"
             @confirm="onCorporationEditorConfirm"
-        ></corporation-editor>
+        />
     </template>
-</split-view>
+</ab-split-view>
 
 </template>
 
@@ -87,9 +70,6 @@
 
 import { mapGetters } from 'vuex';
 import { corporationModel } from '@/store/modules/corporations/models';
-import ToolButton from '@/components/ToolButton';
-import ListHeader from '@/components/ListHeader';
-import SplitView from '@/layout/components/SplitView';
 import CorporationsList from './CorporationsList';
 import CorporationsFilter from './CorporationsFilter';
 import CorporationEditor from './CorporationEditor';
@@ -100,9 +80,6 @@ export default {
     name: 'CorporationsIndex',
 
     components: {
-        ToolButton,
-        ListHeader,
-        SplitView,
         CorporationsList,
         CorporationsFilter,        
         CorporationEditor       

@@ -1,4 +1,4 @@
-import { Model, dateReader, dateWriter } from '../abstract/models';
+import { Model, readers, writers } from 'vrudex';
 import { applicationModel } from '../applications/models';
 
 class EvalSectionModel extends Model {
@@ -73,6 +73,7 @@ class EvalSectionModel extends Model {
 }
 
 const evalSectionModel = new EvalSectionModel();
+Object.freeze(evalSectionModel);
 
 class EvaluationModel extends Model {
     TYPE_ENTRANT = 'entrant'
@@ -231,6 +232,7 @@ class EvaluationModel extends Model {
 }
 
 const evaluationModel = new EvaluationModel();
+Object.freeze(evaluationModel);
 
 class EvaluationFilter extends Model {
     ORDER_CHOICES = {
@@ -300,15 +302,15 @@ class EvaluationFilter extends Model {
             writable: true,
             api: 'application__date__gte',
             type: Number,
-            reader: dateReader,
-            writer: dateWriter
+            reader: readers.dateReader,
+            writer: writers.dateWriter
         },
         applicationMaxDate: {
             writable: true,
             api: 'application__date__lte',
             type: Number,
-            reader: dateReader,
-            writer: dateWriter
+            reader: readers.dateReader,
+            writer: writers.dateWriter
         },
         applicationStatus: {
             writable: true,
@@ -345,6 +347,7 @@ class EvaluationFilter extends Model {
 }
 
 const evaluationFilter = new EvaluationFilter();
+Object.freeze(evaluationFilter);
 
 export {
     EvalSectionModel,

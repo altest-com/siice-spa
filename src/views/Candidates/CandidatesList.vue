@@ -3,22 +3,21 @@
 <div class="candidates-list">
     <template v-if="candidates.length">
         <el-card v-if="view === 'table'" shadow="never" class="mt-5">
-            <table class="items-table">
-                <tr class="header">                
-                    <th v-for="header in headersData" :key="header.key">
-                        <div class="cell"> {{ header.label }} </div>
+            <ab-flex-table>
+                <tr>
+                    <th v-for="key in showHeaders" :key="key">
+                        {{ headers[key] }}
                     </th>
                 </tr>
-                <candidate-row 
-                    v-for="candidate in candidates" 
+                <candidate-row
+                    v-for="candidate in candidates"
                     :key="candidate.id"
-                    class="row"
-                    :headers="headers"
+                    :headers="showHeaders"
                     :candidate-id="candidate.id"
                     :focus="candidate.id === focusId"
                     @click="onItemClick(candidate.id)"
-                ></candidate-row>
-            </table>
+                />
+            </ab-flex-table>
         </el-card>
 
         <el-row v-if="view === 'grid'" :gutter="8" class="mt-5">
@@ -36,20 +35,17 @@
                     :candidate-id="candidate.id"
                     :focus="candidate.id === focusId"
                     @click="onItemClick(candidate.id)"                
-                ></candidate-card>
+                />
             </el-col>
         </el-row>
     </template>
 
-    <empty
+    <ab-empty
         v-else
         title="Sin elementos"
         message="No existen resultados para mostrar"
-        icon-size="3em"
-        height="383px"
-        icon="el-icon-user"
-        background="#eee"
-    ></empty> 
+        height="400px"
+    />
 
     <el-pagination 
         hide-on-single-page
@@ -60,7 +56,7 @@
         :current-page="pageNumber"
         :total="candidatesCount"
         @current-change="updatePage"
-    ></el-pagination>       
+    />
 </div>
 
 </template>
@@ -68,7 +64,6 @@
 <script>
 
 import { mapGetters } from 'vuex';
-import Empty from '@/components/Empty';
 import CandidateCard from './CandidateCard';
 import CandidateRow from './CandidateRow';
 
@@ -83,7 +78,6 @@ export default {
     name: 'CandidatesList',
 
     components: {
-        Empty,
         CandidateCard,
         CandidateRow
     },
@@ -93,7 +87,7 @@ export default {
             type: [Number, String],
             default: null
         },
-        headers: {
+        showHeaders: {
             type: Array,
             default: () => [
                 'name',
@@ -110,6 +104,7 @@ export default {
 
     data() {
         return {
+            headers: headers
         };
     },
 
@@ -125,14 +120,6 @@ export default {
         },
         pageSize() {
             return this.$store.state.candidates.pageSize;
-        },
-        headersData() {
-            return this.headers.map(key => {
-                return {
-                    key: key, 
-                    label: headers[key]
-                };
-            });
         }
     },
 

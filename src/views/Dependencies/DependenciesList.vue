@@ -3,35 +3,32 @@
 <div class="dependencies-list">
 
     <el-card v-if="dependencies.length" shadow="never" class="mt-5">
-        <table class="items-table">
-            <tr class="header">                
-                <th v-for="header in headersData" :key="header.key">
-                    <div class="cell"> {{ header.label }} </div>
+        <ab-flex-table>
+            <tr>
+                <th v-for="key in showHeaders" :key="key">
+                    {{ headers[key] }}
                 </th>
-                <th></th>
+                <th/>
             </tr>
-            <dependency-row 
-                v-for="dependency in dependencies" 
+            <dependency-row
+                v-for="dependency in dependencies"
                 :key="dependency.id"
-                :headers="headers"
+                :headers="showHeaders"
                 :dependency-id="dependency.id"
                 :focus="dependency.id === focusId"
                 @click="onItemClick(dependency.id)"
                 @edit="$emit('edit', dependency.id)"
                 @remove="$emit('remove', dependency.id)"
-            ></dependency-row>
-        </table>
+            />
+        </ab-flex-table>
     </el-card>
 
-    <empty
+    <ab-empty
         v-else
         title="Sin elementos"
         message="No existen resultados para mostrar"
-        icon-size="3em"
-        height="383px"
-        icon="el-icon-user"
-        background="#eee"
-    ></empty> 
+        height="400px"
+    />
 
     <el-pagination 
         hide-on-single-page
@@ -42,7 +39,7 @@
         :current-page="pageNumber"
         :total="dependenciesCount"
         @current-change="updatePage"
-    ></el-pagination>       
+    />
 </div>
 
 </template>
@@ -50,7 +47,6 @@
 <script>
 
 import { mapGetters } from 'vuex';
-import Empty from '@/components/Empty';
 import DependencyRow from './DependencyRow';
 
 const headers = {
@@ -63,7 +59,6 @@ export default {
     name: 'DependenciesList',
 
     components: {
-        Empty,
         DependencyRow
     },
 
@@ -72,7 +67,7 @@ export default {
             type: [Number, String],
             default: null
         },
-        headers: {
+        showHeaders: {
             type: Array,
             default: () => [
                 'name',
@@ -84,6 +79,7 @@ export default {
 
     data() {
         return {
+            headers: headers
         };
     },
 
@@ -99,14 +95,6 @@ export default {
         },
         pageSize() {
             return this.$store.state.dependencies.pageSize;
-        },
-        headersData() {
-            return this.headers.map(key => {
-                return {
-                    key: key, 
-                    label: headers[key]
-                };
-            });
         }
     },
 

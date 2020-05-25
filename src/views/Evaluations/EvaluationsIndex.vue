@@ -1,13 +1,13 @@
 <template>
 
-<split-view class="evaluations-index">
+<ab-split-view class="evaluations-index">
     <template v-slot:main>
-        <list-header 
+        <ab-list-header
             class="mb-4"
             :show-count="evaluations.length"
             :total-count="evaluationsCount"
             :add-button="false"
-        ></list-header>
+        />
 
         <evaluations-list
             :view="mainView"
@@ -63,7 +63,7 @@
                         </el-checkbox>
                     </el-checkbox-group>
 
-                    <tool-button
+                    <ab-tool-button
                         slot="reference"
                         :push="false"
                         tooltip="Seleccionar columnas" 
@@ -71,14 +71,14 @@
                     />
                 </el-popover>
 
-                <tool-button
+                <ab-tool-button
                     class="ml-1"
                     tooltip="Cambiar vista principal" 
                     :icon="viewIcon"
                     @click="onToggleMainView"
                 />
 
-                <tool-button
+                <ab-tool-button
                     class="ml-1"
                     tooltip="Restablecer filtro" 
                     icon="el-icon-refresh"
@@ -90,13 +90,13 @@
         <template v-else-if="panel === 'details'">
             <div class="text-lg text-w6">Detalles</div>
             <div class="flex-row">
-                <tool-button
+                <ab-tool-button
                     class="ml-1"
                     tooltip="Editar evaluation" 
                     icon="el-icon-edit"
                     @click="onEvaluationEdit"
                 />
-                <tool-button
+                <ab-tool-button
                     class="ml-1"
                     tooltip="Eliminar evaluation" 
                     icon="el-icon-delete"
@@ -108,7 +108,7 @@
         <template v-else-if="panel === 'editor'">
             <div class="text-lg text-w6">Editor</div>
             <div class="flex-row">
-                <tool-button
+                <ab-tool-button
                     class="mx-1"
                     tooltip="Cancelar edición" 
                     icon="el-icon-close"
@@ -137,7 +137,7 @@
             @confirm="onEvaluationEditorConfirm"
         ></evaluation-editor>
     </template>
-</split-view>
+</ab-split-view>
 
 </template>
 
@@ -145,9 +145,6 @@
 
 import { mapGetters } from 'vuex';
 import { evaluationModel } from '@/store/modules/evaluations/models';
-import ToolButton from '@/components/ToolButton';
-import ListHeader from '@/components/ListHeader';
-import SplitView from '@/layout/components/SplitView';
 import EvaluationsList from './EvaluationsList';
 import EvaluationsFilter from './EvaluationsFilter';
 import EvaluationEditor from './EvaluationEditor';
@@ -176,9 +173,6 @@ export default {
     name: 'EvaluationsIndex',
 
     components: {
-        ToolButton,
-        ListHeader,
-        SplitView,
         EvaluationsList,
         EvaluationsFilter,        
         EvaluationEditor,

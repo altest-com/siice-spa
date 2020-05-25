@@ -1,44 +1,27 @@
 <template>
 
-<tr 
-    v-if="isReady" 
-    class="row" 
-    :class="{'focus': focus}" 
+<ab-table-row
+    v-if="isReady"
+    class="dependency-row"
+    :items="items"
+    :focus="focus"
     @click="$emit('click')"
->
-    <table-cell 
-        v-for="header in headers" 
-        :key="header"
-        :type="rowData[header].type"
-        :value="rowData[header].value"
-        :styles="rowData[header].styles"
-        :route="rowData[header].route"
-    ></table-cell>
-    <table-cell
-        type="actions"
-        @edit="$emit('edit')"
-        @remove="$emit('remove')"
-    ></table-cell>
-</tr>
+    @edit="$emit('edit')"
+    @remove="$emit('remove')"
+/>
 
 </template>
 
 <script>
 
-import TableCell from '@/components/TableCell';
+import DependencyData from './DependencyData';
 
 export default {
     name: 'DependencyRow',
 
-    components: {
-        TableCell
-    },
+    mixins: [DependencyData],
 
     props: {
-        dependencyId: {
-            type: [Number, String],
-            required: true
-        },
         focus: {
             type: Boolean,
             default: false
@@ -49,50 +32,30 @@ export default {
         }
     },
 
-    data() {
-        return {
-        };
-    },
-
     computed: {
-
-        rowData() {
-            return {
-                name: {
-                    type: 'text',
-                    value: this.dependency.name
-                },
-                corporation: {
-                    type: 'text',
-                    value: this.corporation.name
-                },
-                createdAt: {
-                    type: 'date',
-                    value: this.dependency.createdAt
-                }
-            };
-        },
-
-        isReady() {
-            return !!(this.dependency && this.corporation);
-        },
-
-        dependency() {
-            this.$store.dispatch('dependencies/getItem', this.dependencyId);
-            return this.$store.state.dependencies.items[this.dependencyId];
-        },
-
-        corporation() {
-            const corporationId = this.dependency.corporation;
-            this.$store.dispatch('corporations/getItem', corporationId);
-            return this.$store.state.corporations.items[corporationId];
+        items() {
+            const items = this.headers.map(key => {
+                return this.data[key] || {};
+            });
+            items.push({
+                type: 'actions',
+                edit: true,
+                remove: true,
+                class: 'actions'
+            });
+            return items;
         }
-    },
-
-    methods: {
-    }   
+    }
 };
-</script>}
+</script>
 
 <style lang="scss">
+
+    .dependency-row {
+        .actions {
+            width: 128px;
+        }
+    }
+
 </style>
+

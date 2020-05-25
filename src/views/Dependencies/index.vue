@@ -1,52 +1,35 @@
 <template>
 
-<split-view class="dependencies-index">
+<ab-split-view class="dependencies-index">
     <template v-slot:main>
-        <list-header 
+        <ab-list-header
             class="mb-4"
             :show-count="dependencies.length"
             :total-count="dependenciesCount"
             add-text="Nueva Dependencia"
             @create="onCreateDependency"
-        ></list-header>
+        />
 
         <dependencies-list
             :focus-id="curDependencyId"
             @update:focus-id="onListFocusChange"
             @edit="onEditDependency"
             @remove="onRemoveDependency"
-        ></dependencies-list>
+        />
 
-        <el-dialog
-            title="Advertencia"
+        <ab-delete-dialog
+            message="¿Seguro deseas eliminar esta dependencia de forma
+                permanente? Se eliminará cualquier dato asociado."
             :visible.sync="showDeleteDialog"
-            width="400px"
-            center
-        >
-            <p>
-                ¿Seguro deseas eliminar esta dependencia de forma permanente? 
-                Se eliminará cualquier dato asociado.
-            </p>
-            <div slot="footer" class="flex-row jc">
-                <el-button @click="showDeleteDialog = false">
-                    Cancelar
-                </el-button>
-                <el-button
-                    class="ml-2"
-                    type="primary" 
-                    :disabled="loading"
-                    @click="onConfirmDelete"
-                >
-                    Confirmar
-                </el-button>
-            </div>
-        </el-dialog>
+            :disabled="loading"
+            @confirm="onConfirmDelete"
+        />
     </template>
 
     <template v-slot:side-actions>
         <template v-if="panel === 'search'">
             <div class="text-lg text-w6">Búsqueda</div>
-            <tool-button
+            <ab-tool-button
                 class="ml-1"
                 tooltip="Restablecer filtro" 
                 icon="el-icon-refresh"
@@ -57,7 +40,7 @@
         <template v-else-if="panel === 'editor'">
             <div class="text-lg text-w6">Editor</div>
             <div class="flex-row">
-                <tool-button
+                <ab-tool-button
                     class="mx-1"
                     tooltip="Cancelar edición" 
                     icon="el-icon-close"
@@ -70,16 +53,15 @@
     <template v-slot:side-content>
         <dependencies-filter 
             v-if="panel === 'search'"
-        ></dependencies-filter>
-
+        />
         <dependency-editor
             v-else-if="panel === 'editor'"
             :edit="curDependencyId !== newDependencyId" 
             :dependency-id="curDependencyId"
             @confirm="onDependencyEditorConfirm"
-        ></dependency-editor>
+        />
     </template>
-</split-view>
+</ab-split-view>
 
 </template>
 
@@ -87,9 +69,6 @@
 
 import { mapGetters } from 'vuex';
 import { dependencyModel } from '@/store/modules/dependencies/models';
-import ToolButton from '@/components/ToolButton';
-import ListHeader from '@/components/ListHeader';
-import SplitView from '@/layout/components/SplitView';
 import DependenciesList from './DependenciesList';
 import DependenciesFilter from './DependenciesFilter';
 import DependencyEditor from './DependencyEditor';
@@ -100,9 +79,6 @@ export default {
     name: 'DependenciesIndex',
 
     components: {
-        ToolButton,
-        ListHeader,
-        SplitView,
         DependenciesList,
         DependenciesFilter,        
         DependencyEditor       

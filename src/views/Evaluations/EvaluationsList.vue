@@ -42,15 +42,12 @@
 
     </template>
 
-    <empty
+    <ab-empty
         v-else
         title="Sin elementos"
         message="No existen resultados para mostrar"
-        icon-size="3em"
-        height="383px"
-        icon="el-icon-user"
-        background="#eee"
-    ></empty> 
+        height="400px"
+    />
 
     <el-pagination 
         hide-on-single-page
@@ -69,7 +66,6 @@
 <script>
 
 import { mapGetters } from 'vuex';
-import Empty from '@/components/Empty';
 import EvaluationRow from './EvaluationRow';
 import EvaluationCard from './EvaluationCard';
 import headers from './headers';
@@ -78,7 +74,6 @@ export default {
     name: 'EvaluationsList',
 
     components: {
-        Empty,
         EvaluationRow,
         EvaluationCard
     },

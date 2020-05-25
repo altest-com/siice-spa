@@ -1,4 +1,4 @@
-import { Model } from '../abstract/models';
+import { Model } from 'vrudex';
 
 class CorporationModel extends Model {
     props = {
@@ -26,6 +26,7 @@ class CorporationModel extends Model {
 }
 
 const corporationModel = new CorporationModel();
+Object.freeze(corporationModel);
 
 class CorporationFilter extends Model {
     ORDER_CHOICES = {
@@ -59,6 +60,7 @@ class CorporationFilter extends Model {
 }
 
 const corporationFilter = new CorporationFilter();
+Object.freeze(corporationFilter);
 
 export {
     corporationModel,
